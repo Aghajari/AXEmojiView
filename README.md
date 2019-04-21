@@ -204,9 +204,9 @@ getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(this, title, 20));
 
 Result :
 
-<img src="./images/actionbar.jpg" width=200 title="Screen">
+<img src="./images/actionbar.jpg" width=500 title="Screen">
 
-## RecentManagers
+## RecentManagers And VariantManager
 add your custom recentManager for emojis and stickers . implements to RecentEmoji/RecentSticker
 ```java
 AXEmojiManager.setRecentEmoji(emojiRecentManager);
