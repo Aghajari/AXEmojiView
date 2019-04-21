@@ -219,7 +219,7 @@ AXEmojiManager.getInstance().disableRecentManagers();
 ```
 
 ## Emoji Loader
-you can add an custom emoji loader with AXEmojiLoader :
+you can add custom emoji loader with AXEmojiLoader :
 ```java
 AXEmojiManager.setEmojiLoader(new EmojiLoader(){
   @Override
@@ -228,6 +228,11 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
   }
 });
 ```
+
+## Download Apk
+<img src="./images/apk.jpg" width=200 title="Screen">
+
+[`Download Sample Apk`](./AXEmojiViewSample.apk)
 
 ## Author 
 Amir Hossein Aghajari
