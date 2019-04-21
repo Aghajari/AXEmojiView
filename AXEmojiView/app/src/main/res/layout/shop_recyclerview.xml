@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="142dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:id="@+id/sticker_title"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:text="Sticker Pack"
+            android:textColor="@android:color/black"
+            android:textSize="18dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="8dp" />
+        <TextView
+            android:id="@+id/sticker_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:text="00 Stickers"
+            android:textSize="14dp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="32dp"/>
+
+        <Button
+            android:id="@+id/sticker_add"
+            android:layout_width="62dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="14dp"
+            android:text="ADD"
+            android:textColor="@android:color/white"
+            android:textSize="16dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/add_button_bg"/>
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/stickers_rv"
+        android:layout_width="match_parent"
+        android:layout_height="82dp"
+        android:layout_marginTop="60dp">
+
+    </android.support.v7.widget.RecyclerView>
+</FrameLayout>

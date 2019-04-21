@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AXEmojiEditText">
+        <attr name="emojiSize_EDT" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="AXEmojiTextView">
+        <attr name="emojiSize_TV" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="AXEmojiButton">
+        <attr name="emojiSize_BTN" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="AXEmojiMultiAutoCompleteTextView">
+        <attr name="emojiSize_MEDT" format="dimension" />
+    </declare-styleable>
+</resources>

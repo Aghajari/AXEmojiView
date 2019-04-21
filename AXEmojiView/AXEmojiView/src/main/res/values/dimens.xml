@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="emoji_grid_view_column_width">46dp</dimen>
+    <dimen name="sticker_grid_view_column_width">88dp</dimen>
+</resources>

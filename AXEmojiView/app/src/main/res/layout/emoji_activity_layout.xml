@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/layout">
+
+    <com.aghajari.axemojiview.view.AXEmojiTextView
+        android:id="@+id/textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="60dp"
+        android:imeOptions="flagNoExtractUi"
+        app:emojiSize_TV="20dp"
+        android:textColor="@android:color/black"/>
+    <FrameLayout
+        android:id="@+id/edt_parent"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:elevation="10dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/imageView"
+            android:layout_width="29dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:tint="@android:color/black"
+            app:srcCompat="@drawable/ic_msg_panel_smiles" />
+
+        <com.aghajari.axemojiview.view.AXEmojiEditText
+            android:id="@+id/edt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:background="@android:color/white"
+            android:hint="enter your message ..." />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/send_emoji"
+            android:layout_width="45dp"
+            android:layout_height="63dp"
+            android:layout_gravity="right"
+            android:layout_marginLeft="8dp"
+            android:tint="@color/colorAccent"
+            app:srcCompat="@drawable/attach_send" />
+
+    </FrameLayout>
+
+</FrameLayout>
