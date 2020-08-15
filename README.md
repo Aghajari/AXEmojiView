@@ -135,6 +135,7 @@ Result :
 Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/axemoji/sticker/ShopStickers.java)
 
 Result :
+
 <img src="./images/shop_sticker.png" width=200 title="Screen">
 
 ## AXEmojiPager - Use Multiple Pages Together!
@@ -284,7 +285,7 @@ getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(this, title, 20));
 
 Result :
 
-<img src="./images/actionbar.png" width=500 title="Screen">
+<img src="./images/actionbar.jpg" width=500 title="Screen">
 
 ## RecentManagers And VariantManager
 you can add your custom recentManager for emojis and stickers . implements to RecentEmoji/RecentSticker
@@ -302,6 +303,7 @@ AXEmojiManager.getInstance().disableRecentManagers();
 you can also create your own VariantPopupView ! but you don't need to, the default one is also nice :)
 
 The Default Variant:
+
 <img src="./images/variants.png" width=200 title="Screen">
 
 
@@ -324,4 +326,22 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 ## Author 
 Amir Hossein Aghajari
 
-Telegram : @KingAmir272
+Special thanks to the Telegram! (Using latest telegram emojis update!)
+
+TelegramID : @KingAmir272
+
+License
+=======
+
+    Copyright 2020 Amir Hossein Aghajari
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
