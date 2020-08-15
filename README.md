@@ -34,13 +34,13 @@ AXEmojiManager.install(this,new AXIOSEmojiProvider());
 ```
 
 ### Custom Emoji Provider
-If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/axemojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
+If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
 
  <img src="./images/google.jpg" width=200 title="Screen"> <img src="./images/Twitter.jpg" width=200 title="Screen"> <img src="./images/one.jpg" width=200 title="Screen">
 
 ## Basic Usage
 
-Create an [`AXEmojiEditText`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/axemojiview/view/AXEmojiEditText.java) in your layout.
+Create an [`AXEmojiEditText`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/view/AXEmojiEditText.java) in your layout.
 ```xml
 <com.aghajari.axemojiview.view.AXEmojiEditText
             android:id="@+id/edt"
@@ -121,7 +121,7 @@ Result :
 ### StickerView
 StickerView :
 you have to create your StickerProvider and load all your Stickers (from Url,Res,Bitmap or anything you want!)
-see example : [`WhatsAppProvider`](./AXEmojiView/app/src/main/java/com/aghajari/axemoji/sticker/WhatsAppProvider.java)
+see example : [`WhatsAppProvider`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emojiview/sticker/WhatsAppProvider.java)
 
 ```java
 AXStickerView stickerView = new AXStickerView(this , "stickers" , new MyStickerProvider());
@@ -132,7 +132,7 @@ Result :
 <img src="./images/sticker.png" width=200 title="Screen">
 
 
-Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/axemoji/sticker/ShopStickers.java)
+Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emojiview/sticker/ShopStickers.java)
 
 Result :
 
@@ -184,7 +184,7 @@ Result :
 Create an AXEmojiBase (ViewGroup) and load your page layout
 And add your CustomPage to emojiPager
 
-Example: [`LoadingPage`](./AXEmojiView/app/src/main/java/com/aghajari/axemoji/customs/LoadingView.java)
+Example: [`LoadingPage`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emojiview/customs/LoadingView.java)
 
 ```java
 emojiPager.addPage(new LoadingView(this), R.drawable.msg_round_load_m);
