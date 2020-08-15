@@ -285,7 +285,7 @@ getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(this, title, 20));
 
 Result :
 
-<img src="./images/actionbar.png" width=500 title="Screen">
+<img src="./images/actionbar.jpg" width=500 title="Screen">
 
 ## RecentManagers And VariantManager
 you can add your custom recentManager for emojis and stickers . implements to RecentEmoji/RecentSticker
@@ -303,6 +303,7 @@ AXEmojiManager.getInstance().disableRecentManagers();
 you can also create your own VariantPopupView ! but you don't need to, the default one is also nice :)
 
 The Default Variant:
+
 <img src="./images/variants.png" width=200 title="Screen">
 
 
