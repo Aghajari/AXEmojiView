@@ -8,13 +8,6 @@
     android:id="@+id/layout"
     android:layout_margin="56dp">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        />
-
     <Switch
         android:id="@+id/emoji_view_switch"
         android:layout_width="wrap_content"
@@ -57,6 +50,14 @@
         android:text="Footer View" />
 
     <Switch
+        android:id="@+id/custom_footer_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:text="Custom Footer View" />
+
+    <Switch
         android:id="@+id/theme_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +65,15 @@
         android:checked="false"
         android:text="White Category" />
 
-    <com.aghajari.axemojiview.view.AXEmojiButton
+    <Switch
+        android:id="@+id/popup_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:checked="true"
+        android:text="As PopupLayout" />
+
+    <com.aghajari.emojiview.view.AXEmojiButton
         android:id="@+id/start_emoji_activity"
         android:text="Start Emoji Activity"
         android:textColor="@android:color/white"

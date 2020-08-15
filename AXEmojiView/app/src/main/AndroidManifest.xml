@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aghajari.axemoji">
+    package="com.aghajari.sample.emojiview">
 
     <application
         android:allowBackup="true"
@@ -12,12 +12,17 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".EmojiActivity"
+        <activity android:name=".activity.EmojiActivity"
             android:windowSoftInputMode="adjustResize|adjustUnspecified">
+        </activity>
+
+        <activity android:name=".activity.EmojiPopupViewActivity"
+            android:windowSoftInputMode="adjustResize|adjustNothing">
         </activity>
     </application>
 

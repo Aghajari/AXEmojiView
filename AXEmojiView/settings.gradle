@@ -1,1 +1,3 @@
-include ':app', ':AXEmojiView', ':AXIOSEmojiProvider', ':AXGoogleEmojiProvider', ':axoneemojiprovider', ':AXOneEmojiProvider', ':AXTwitterEmojiProvider'
+include ':AXEmojiView'
+include ':app'
+rootProject.name = "EmojiView"

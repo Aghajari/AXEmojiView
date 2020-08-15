@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:id="@+id/layout">
 
-    <com.aghajari.axemojiview.view.AXEmojiTextView
+    <com.aghajari.emojiview.view.AXEmojiTextView
         android:id="@+id/textview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,6 +19,7 @@
         android:imeOptions="flagNoExtractUi"
         app:emojiSize_TV="20dp"
         android:textColor="@android:color/black"/>
+
     <FrameLayout
         android:id="@+id/edt_parent"
         android:layout_width="match_parent"
@@ -27,15 +28,16 @@
         android:background="@android:color/white"
         android:elevation="10dp">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView"
+            android:layout_gravity="left"
             android:layout_width="29dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
             android:tint="@android:color/black"
             app:srcCompat="@drawable/ic_msg_panel_smiles" />
 
-        <com.aghajari.axemojiview.view.AXEmojiEditText
+        <com.aghajari.emojiview.view.AXEmojiEditText
             android:id="@+id/edt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,7 +46,7 @@
             android:background="@android:color/white"
             android:hint="enter your message ..." />
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/send_emoji"
             android:layout_width="45dp"
             android:layout_height="63dp"

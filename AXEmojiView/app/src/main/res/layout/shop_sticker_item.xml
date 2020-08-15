@@ -4,7 +4,7 @@
     android:layout_height="82dp"
     android:layout_width="82dp">
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/sticker_img"
         android:layout_width="66dp"
         android:layout_height="66dp"

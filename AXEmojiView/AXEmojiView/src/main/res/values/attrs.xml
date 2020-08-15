@@ -12,4 +12,7 @@
     <declare-styleable name="AXEmojiMultiAutoCompleteTextView">
         <attr name="emojiSize_MEDT" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="AXEmojiCheckbox">
+        <attr name="emojiSize_CB" format="dimension" />
+    </declare-styleable>
 </resources>

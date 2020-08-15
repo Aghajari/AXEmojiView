@@ -41,11 +41,11 @@
 
     </FrameLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/stickers_rv"
         android:layout_width="match_parent"
         android:layout_height="82dp"
         android:layout_marginTop="60dp">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>
