@@ -135,6 +135,7 @@ Result :
 Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/axemoji/sticker/ShopStickers.java)
 
 Result :
+
 <img src="./images/shop_sticker.png" width=200 title="Screen">
 
 ## AXEmojiPager - Use Multiple Pages Together!
