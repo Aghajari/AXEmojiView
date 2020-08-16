@@ -364,6 +364,10 @@ first you need to get Unicode of emoji :
 ```java
 String unicode = AXEmojiUtils.getEmojiUnicode(0x1f60d); // or Emoji.getUnicode();
 ```
+Or
+```java
+String unicode = "😍";
+```
 now set it to your view with AXEmojiUtils.replaceWithEmojis.
 
 Example: Set ActionBar Title :
