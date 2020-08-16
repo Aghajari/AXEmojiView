@@ -1,7 +1,41 @@
+<div align="center">
+  <br><b>AXEmojiView</b> is an advanced Android Library<br>which adds emoji,sticker,... support to your Android application
+  <br><a href="https://github.com/Aghajari/AXEmojiView/blob/master/README.md#download-apk">DemoAPK</a> • <a href="https://github.com/Aghajari/AXEmojiView/releases">Releases</a>
+  <br><br><img width="420" alt="picker" src="./images/header.png">
+  <br>Amir Hossein Aghajari
+</div>
+
 # AXEmojiView
-it is an advanced library which adds emoji,sticker,... support to your Android application.
+it is an advanced Android Library which adds emoji,sticker,... support to your Android application.
 
 <img src="./images/main.png" width=300 title="Screen">
+
+## Table of Contents  
+- [Installation](#installation)  
+- [Usage](#usage)
+  - [Install Emoji Provider](#install-emoji-provider)
+    - [Custom Emoji Provider](#custom-emoji-provider)
+  - [Basic Usage](#basic-usage)
+    - [EmojiView](#basic-usage)
+    - [EmojiPopup](#basic-usage)
+    - [EmojiPopupLayout](#axemojipopuplayout)
+    - [SingleEmojiView](#single-emoji-view)
+    - [StickerView](#stickerview)
+  - [EmojiPager (Use Multiple Pages Together!)](#axemojipager---use-multiple-pages-together)
+    - [Create Your Custom Pages](#create-your-custom-pages)
+  - [Customization](#customization)
+    - [Custom Theme](#customization)
+    - [Custom Footer](#custom-footer)
+    - [Dark Mode](#darkmode)
+- [Views](#views)
+- [Listeners](#listeners)
+- [Replace String With Emojis](#replace-string-with-emojis)
+- [RecentManager And VariantManager](#recentmanager-and-variantmanager)
+- [Variant View](#variant-view)
+- [Emoji Loader](#emoji-loader)
+- [Download APK](#download-apk)
+- [Author](#author)
+- [License](#license)
 
 ## Installation
 
@@ -36,7 +70,7 @@ AXEmojiManager.install(this,new AXIOSEmojiProvider());
 ### Custom Emoji Provider
 If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
 
- <img src="./images/google.jpg" width=300 title="Screen"> <img src="./images/Twitter.jpg" width=300 title="Screen"> <img src="./images/one.jpg" width=300 title="Screen">
+ <img src="./images/google.jpg" width=250 title="Screen"> <img src="./images/Twitter.jpg" width=250 title="Screen"> <img src="./images/one.jpg" width=250 title="Screen">
 
 ## Basic Usage
 
@@ -231,6 +265,64 @@ Result :
 
 <img src="./images/custom_footer_1.png" width=300 title="Screen">     <img src="./images/custom_footer_2.png" width=300 title="Screen">
 
+### DarkMode
+
++ Style 1
+```java
+AXEmojiManager.getEmojiViewTheme().setFooterEnabled(true);
+AXEmojiManager.getEmojiViewTheme().setSelectionColor(0xff82ADD9);
+AXEmojiManager.getEmojiViewTheme().setSelectedColor(0xff82ADD9);
+AXEmojiManager.getEmojiViewTheme().setFooterSelectedItemColor(0xff82ADD9);
+AXEmojiManager.getEmojiViewTheme().setBackgroundColor(0xFF1E2632);
+AXEmojiManager.getEmojiViewTheme().setCategoryColor(0xFF1E2632);
+AXEmojiManager.getEmojiViewTheme().setFooterBackgroundColor(0xFF1E2632);
+AXEmojiManager.getEmojiViewTheme().setVariantPopupBackgroundColor(0xFF232D3A);
+AXEmojiManager.getEmojiViewTheme().setVariantDividerEnabled(false);
+AXEmojiManager.getEmojiViewTheme().setDividerColor(0xFF1B242D);
+AXEmojiManager.getEmojiViewTheme().setDefaultColor(0xFF677382);
+AXEmojiManager.getEmojiViewTheme().setTitleColor(0xFF677382);
+
+AXEmojiManager.getStickerViewTheme().setSelectionColor(0xff82ADD9);
+AXEmojiManager.getStickerViewTheme().setSelectedColor(0xff82ADD9);
+AXEmojiManager.getStickerViewTheme().setBackgroundColor(0xFF1E2632);
+AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF1E2632);
+AXEmojiManager.getStickerViewTheme().setDividerColor(0xFF1B242D);
+AXEmojiManager.getStickerViewTheme().setDefaultColor(0xFF677382);
+```
+
+Result :
+
+<img src="./images/dark1.png" width=350 title="Screen">
+
++ Style 2
+```java
+AXEmojiManager.getEmojiViewTheme().setFooterEnabled(true);
+AXEmojiManager.getEmojiViewTheme().setSelectionColor(Color.TRANSPARENT);
+AXEmojiManager.getEmojiViewTheme().setSelectedColor(0xff82ADD9);
+AXEmojiManager.getEmojiViewTheme().setFooterSelectedItemColor(0xff82ADD9);
+AXEmojiManager.getEmojiViewTheme().setBackgroundColor(0xFF1E2632);
+AXEmojiManager.getEmojiViewTheme().setCategoryColor(0xFF232D3A);
+AXEmojiManager.getEmojiViewTheme().setFooterBackgroundColor(0xFF232D3A);
+AXEmojiManager.getEmojiViewTheme().setVariantPopupBackgroundColor(0xFF232D3A);
+AXEmojiManager.getEmojiViewTheme().setVariantDividerEnabled(false);
+AXEmojiManager.getEmojiViewTheme().setDividerColor(0xFF1B242D);
+AXEmojiManager.getEmojiViewTheme().setDefaultColor(0xFF677382);
+AXEmojiManager.getEmojiViewTheme().setTitleColor(0xFF677382);
+AXEmojiManager.getEmojiViewTheme().setAlwaysShowDivider(true);
+
+AXEmojiManager.getStickerViewTheme().setSelectionColor(0xff82ADD9);
+AXEmojiManager.getStickerViewTheme().setSelectedColor(0xff82ADD9);
+AXEmojiManager.getStickerViewTheme().setBackgroundColor(0xFF1E2632);
+AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF232D3A);
+AXEmojiManager.getStickerViewTheme().setDividerColor(0xFF1B242D);
+AXEmojiManager.getStickerViewTheme().setDefaultColor(0xFF677382);
+AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
+```
+
+Result :
+
+<img src="./images/dark2.png" width=350 title="Screen">
+
 ## Views
 - AXEmojiPopupLayout
 - AXEmojiBase / AXEmojiLayout
@@ -287,7 +379,7 @@ Result :
 
 <img src="./images/actionbar.jpg" width=500 title="Screen">
 
-## RecentManagers And VariantManager
+## RecentManager And VariantManager
 you can add your custom recentManager for emojis and stickers . implements to RecentEmoji/RecentSticker
 ```java
 AXEmojiManager.setRecentEmoji(emojiRecentManager);
@@ -299,8 +391,9 @@ Disable RecentManagers :
 AXEmojiManager.getInstance().disableRecentManagers();
 ```
 
-### Variant View
-you can also create your own VariantPopupView ! but you don't need to, the default one is also nice :)
+## Variant View
+you can also create your own VariantPopupView !
+but you don't need to, the default one is also nice :)
 
 The Default Variant:
 
@@ -321,14 +414,17 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
 
-[`Download Sample Apk`](./AXEmojiView1.2.0.apk)
+- Version: 1.2.0
+- LastUpdate: 15 August 2020
+
+[`Download Apk`](./AXEmojiView1.2.0.apk)
 
 ## Author 
-Amir Hossein Aghajari
+- **Amir Hossein Aghajari**
 
-Special thanks to the Telegram! (Using latest telegram emojis update!)
+*Special thanks to the Telegram! (Using latest telegram emojis update!)*
 
-TelegramID : @KingAmir272
+*TelegramID : @KingAmir272*
 
 License
 =======
