@@ -2,7 +2,6 @@
   <br><b>AXEmojiView</b> is an advanced Android Library<br>which adds emoji,sticker,... support to your Android application
   <br><a href="https://github.com/Aghajari/AXEmojiView/blob/master/README.md#download-apk">DemoAPK</a> • <a href="https://github.com/Aghajari/AXEmojiView/releases">Releases</a>
   <br><br><img width="420" alt="picker" src="./images/header.png">
-  <br>Amir Hossein Aghajari
 </div>
 
 # AXEmojiView
