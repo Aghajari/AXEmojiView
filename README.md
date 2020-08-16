@@ -4,10 +4,8 @@
   <br><br><img width="420" alt="picker" src="./images/header.png">
 </div>
 
-# AXEmojiView
-it is an advanced Android Library which adds emoji,sticker,... support to your Android application.
-
-<img src="./images/main.png" width=300 title="Screen">
+## Screenshot
+<img src="./images/main.png" width=300 title="Screen">  <img src="./images/dark.png" width=300 title="Screen">
 
 ## Table of Contents  
 - [Installation](#installation)  
