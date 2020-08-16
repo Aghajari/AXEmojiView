@@ -36,7 +36,7 @@ AXEmojiManager.install(this,new AXIOSEmojiProvider());
 ### Custom Emoji Provider
 If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
 
- <img src="./images/google.jpg" width=200 title="Screen"> <img src="./images/Twitter.jpg" width=200 title="Screen"> <img src="./images/one.jpg" width=200 title="Screen">
+ <img src="./images/google.jpg" width=300 title="Screen"> <img src="./images/Twitter.jpg" width=300 title="Screen"> <img src="./images/one.jpg" width=300 title="Screen">
 
 ## Basic Usage
 
@@ -116,7 +116,7 @@ emojiView.setEditText(edt);
 
 Result :
 
-<img src="./images/SingleEmojiView.png" width=200 title="Screen">
+<img src="./images/SingleEmojiView.png" width=350 title="Screen">
 
 ### StickerView
 StickerView :
@@ -129,14 +129,14 @@ AXStickerView stickerView = new AXStickerView(this , "stickers" , new MyStickerP
 
 Result :
 
-<img src="./images/sticker.png" width=200 title="Screen">
+<img src="./images/sticker.png" width=350 title="Screen">
 
 
 Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emojiview/sticker/ShopStickers.java)
 
 Result :
 
-<img src="./images/shop_sticker.png" width=200 title="Screen">
+<img src="./images/shop_sticker.png" width=350 title="Screen">
 
 ## AXEmojiPager - Use Multiple Pages Together!
 you can create an AXEmojiPager and add all your pages (EmojiView,StickerView,...) to the EmojiPager
@@ -178,7 +178,7 @@ emojiPager.setLeftIcon(R.drawable.ic_ab_search);
 
 Result :
 
-<img src="./images/emojipager.png" width=200 title="Screen">
+<img src="./images/emojipager.png" width=350 title="Screen">
 
 ### Create Your Custom Pages
 Create an AXEmojiBase (ViewGroup) and load your page layout
@@ -192,7 +192,7 @@ emojiPager.addPage(new LoadingView(this), R.drawable.msg_round_load_m);
 
 Result :
 
-<img src="./images/loading.png" width=200 title="Screen">
+<img src="./images/loading.png" width=350 title="Screen">
 
 ## Customization
 Customize theme with AXEmojiTheme.
@@ -214,14 +214,14 @@ AXEmojiManager.getStickerViewTheme().setBackgroundColor(Color.LTGRAY);
 
 Result :
 
-<img src="./images/theme.png" width=200 title="Screen">
+<img src="./images/theme.png" width=350 title="Screen">
 
 ### Custom Footer
 
 ```java
 // disable default footer
 AXEmojiManager.getEmojiViewTheme().setFooterEnabled(false);
-AXEmojiManager.getInstance().setBackspaceCategoryEnabled(!mCustomFooter);
+AXEmojiManager.getInstance().setBackspaceCategoryEnabled(false);
 
 // add your own footer to the AXEmojiPager
 EmojiPager.setCustomFooter(footerView,true);
@@ -229,7 +229,7 @@ EmojiPager.setCustomFooter(footerView,true);
 
 Result :
 
-<img src="./images/custom_footer_1.png" width=200 title="Screen">     <img src="./images/custom_footer_2.png" width=200 title="Screen">
+<img src="./images/custom_footer_1.png" width=300 title="Screen">     <img src="./images/custom_footer_2.png" width=300 title="Screen">
 
 ## Views
 - AXEmojiPopupLayout
@@ -270,7 +270,7 @@ PopupListener :
     void onKeyboardClosed();
 ```
 
-## Set TextViews Text with emojis
+## Replace String With Emojis
 first you need to get Unicode of emoji :
 ```java
 String unicode = AXEmojiUtils.getEmojiUnicode(0x1f60d); // or Emoji.getUnicode();
@@ -304,7 +304,7 @@ you can also create your own VariantPopupView ! but you don't need to, the defau
 
 The Default Variant:
 
-<img src="./images/variants.png" width=200 title="Screen">
+<img src="./images/variants.png" width=350 title="Screen">
 
 
 ## Emoji Loader
