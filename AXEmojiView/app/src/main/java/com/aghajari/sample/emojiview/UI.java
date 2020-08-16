@@ -14,6 +14,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.aghajari.emojiview.AXEmojiManager;
+import com.aghajari.emojiview.AXEmojiTheme;
 import com.aghajari.emojiview.listener.OnEmojiPagerPageChanged;
 import com.aghajari.emojiview.listener.OnStickerActions;
 import com.aghajari.emojiview.sticker.Sticker;
@@ -38,7 +39,14 @@ public class UI {
     public static boolean mCustomFooter;
     public static boolean mWhiteCategory;
 
+    private static boolean darkMode;
+
     public static void loadTheme(){
+        // release theme
+        darkMode = false;
+        AXEmojiManager.setEmojiViewTheme(new AXEmojiTheme());
+        AXEmojiManager.setStickerViewTheme(new AXEmojiTheme());
+
         // set EmojiView Theme
         AXEmojiManager.getEmojiViewTheme().setFooterEnabled(mFooterView&&!mCustomFooter);
         AXEmojiManager.getEmojiViewTheme().setSelectionColor(0xffFF4081);
@@ -57,7 +65,47 @@ public class UI {
             AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
         }
         AXEmojiManager.getInstance().setBackspaceCategoryEnabled(!mCustomFooter);
+    }
 
+    public static void loadDarkTheme(){
+        // release theme
+        darkMode = true;
+        AXEmojiManager.setEmojiViewTheme(new AXEmojiTheme());
+        AXEmojiManager.setStickerViewTheme(new AXEmojiTheme());
+
+        // set EmojiView Theme
+        AXEmojiManager.getEmojiViewTheme().setFooterEnabled(mFooterView&&!mCustomFooter);
+        AXEmojiManager.getEmojiViewTheme().setSelectionColor(0xff82ADD9);
+        AXEmojiManager.getEmojiViewTheme().setSelectedColor(0xff82ADD9);
+        AXEmojiManager.getEmojiViewTheme().setFooterSelectedItemColor(0xff82ADD9);
+        AXEmojiManager.getEmojiViewTheme().setBackgroundColor(0xFF1E2632);
+        AXEmojiManager.getEmojiViewTheme().setCategoryColor(0xFF1E2632);
+        AXEmojiManager.getEmojiViewTheme().setFooterBackgroundColor(0xFF1E2632);
+        AXEmojiManager.getEmojiViewTheme().setVariantPopupBackgroundColor(0xFF232D3A);
+        AXEmojiManager.getEmojiViewTheme().setVariantDividerEnabled(false);
+        AXEmojiManager.getEmojiViewTheme().setDividerColor(0xFF1B242D);
+        AXEmojiManager.getEmojiViewTheme().setDefaultColor(0xFF677382);
+        AXEmojiManager.getEmojiViewTheme().setTitleColor(0xFF677382);
+
+        AXEmojiManager.getStickerViewTheme().setSelectionColor(0xff82ADD9);
+        AXEmojiManager.getStickerViewTheme().setSelectedColor(0xff82ADD9);
+        AXEmojiManager.getStickerViewTheme().setBackgroundColor(0xFF1E2632);
+        AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF1E2632);
+        AXEmojiManager.getStickerViewTheme().setDividerColor(0xFF1B242D);
+        AXEmojiManager.getStickerViewTheme().setDefaultColor(0xFF677382);
+
+        if (mWhiteCategory) {
+            AXEmojiManager.getEmojiViewTheme().setSelectionColor(Color.TRANSPARENT);
+            AXEmojiManager.getEmojiViewTheme().setSelectedColor(0xff82ADD9);
+            AXEmojiManager.getEmojiViewTheme().setCategoryColor(0xFF232D3A);
+            AXEmojiManager.getEmojiViewTheme().setFooterBackgroundColor(0xFF232D3A);
+            AXEmojiManager.getEmojiViewTheme().setAlwaysShowDivider(true);
+
+            AXEmojiManager.getStickerViewTheme().setSelectedColor(0xff82ADD9);
+            AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF232D3A);
+            AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
+        }
+        AXEmojiManager.getInstance().setBackspaceCategoryEnabled(!mCustomFooter);
     }
 
     public static AXEmojiPager loadView(final Context context, EditText editText){
@@ -127,6 +175,7 @@ public class UI {
     private static void initCustomFooter(final Context context, AXEmojiPager emojiPager){
         final FrameLayout footer = new FrameLayout(context);
         Drawable drawable = context.getResources().getDrawable(R.drawable.circle_bg);
+        if (darkMode) DrawableCompat.setTint(DrawableCompat.wrap(drawable),0xFF1B242D);
         footer.setBackground(drawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             footer.setElevation(Utils.dp(context,4));

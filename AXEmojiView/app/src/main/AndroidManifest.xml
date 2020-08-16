@@ -24,6 +24,12 @@
         <activity android:name=".activity.EmojiPopupViewActivity"
             android:windowSoftInputMode="adjustResize|adjustNothing">
         </activity>
+
+        <activity android:name=".activity.DarkActivity"
+            android:theme="@style/DarkAppTheme"
+            android:windowSoftInputMode="adjustResize|adjustNothing">
+        </activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

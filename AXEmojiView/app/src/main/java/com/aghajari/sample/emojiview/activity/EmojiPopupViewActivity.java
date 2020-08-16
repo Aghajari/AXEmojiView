@@ -35,7 +35,14 @@ public class EmojiPopupViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.emoji_activity_layout_view);
+
+        if (getIntent().hasExtra("load")) {
+            setContentView(R.layout.emoji_activity_layout_view);
+            init(Color.BLACK);
+        }
+    }
+
+    protected void init(final int color){
         root = findViewById(R.id.root);
 
         getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(this,
@@ -114,11 +121,11 @@ public class EmojiPopupViewActivity extends AppCompatActivity {
                 isShowing = emoji;
                 if (emoji){
                     Drawable dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_kb);
-                    DrawableCompat.setTint(DrawableCompat.wrap(dr), Color.BLACK);
+                    DrawableCompat.setTint(DrawableCompat.wrap(dr), color);
                     emojiImg.setImageDrawable(dr);
                 }else {
                     Drawable dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_smiles);
-                    DrawableCompat.setTint(DrawableCompat.wrap(dr), Color.BLACK);
+                    DrawableCompat.setTint(DrawableCompat.wrap(dr), color);
                     emojiImg.setImageDrawable(dr);
                 }
             }

@@ -13,6 +13,7 @@ import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmoji;
 import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader;
 import com.aghajari.emojiview.view.AXEmojiButton;
 import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiProvider;
+import com.aghajari.sample.emojiview.activity.DarkActivity;
 import com.aghajari.sample.emojiview.activity.EmojiActivity;
 import com.aghajari.sample.emojiview.activity.EmojiPopupViewActivity;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         final Switch mCustomFooterView = findViewById(R.id.custom_footer_switch);
         final Switch mWhiteCategory = findViewById(R.id.theme_switch);
         final Switch mPopupView = findViewById(R.id.popup_view);
+        final Switch mDarkTheme = findViewById(R.id.dark_theme);
 
         final AXEmojiButton btn = findViewById(R.id.start_emoji_activity);
         AXIOSEmojiLoader.preloadEmoji(AXEmojiUtils.getEmojiUnicode(0x1f60d),
@@ -56,11 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 UI.mFooterView = mFooterView.isChecked();
                 UI.mCustomFooter = mCustomFooterView.isChecked();
                 UI.mWhiteCategory = mWhiteCategory.isChecked();
-                UI.loadTheme();
 
-                Intent intent = new Intent(MainActivity.this,
-                        (mPopupView.isChecked() ? EmojiPopupViewActivity.class : EmojiActivity.class));
-                MainActivity.this.startActivity(intent);
+                if (mDarkTheme.isChecked()){
+                    UI.loadDarkTheme();
+
+                    Intent intent = new Intent(MainActivity.this, DarkActivity.class);
+                    MainActivity.this.startActivity(intent);
+                }else {
+                    UI.loadTheme();
+
+                    Intent intent = new Intent(MainActivity.this,
+                            (mPopupView.isChecked() ? EmojiPopupViewActivity.class : EmojiActivity.class));
+                    intent.putExtra("load",true);
+                    MainActivity.this.startActivity(intent);
+                }
             }
         });
     }

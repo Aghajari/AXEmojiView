@@ -73,6 +73,14 @@
         android:checked="true"
         android:text="As PopupLayout" />
 
+    <Switch
+        android:id="@+id/dark_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:checked="false"
+        android:text="Dark Theme" />
+
     <com.aghajari.emojiview.view.AXEmojiButton
         android:id="@+id/start_emoji_activity"
         android:text="Start Emoji Activity"
