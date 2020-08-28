@@ -19,7 +19,7 @@ public final class AXEmojiImageView extends AppCompatImageView {
   private static final int VARIANT_INDICATOR_PART_AMOUNT = 6;
   private static final int VARIANT_INDICATOR_PART = 5;
 
-  public Emoji currentEmoji;
+  Emoji currentEmoji;
 
   private final Paint variantIndicatorPaint = new Paint();
   private final Path variantIndicatorPath = new Path();
@@ -33,7 +33,7 @@ public final class AXEmojiImageView extends AppCompatImageView {
   private boolean hasVariants;
   private boolean asyncLoad = AXEmojiManager.getInstance().isAsyncLoadEnabled();
 
-  public boolean showVariants = AXEmojiManager.getEmojiViewTheme().isVariantDividerEnabled();
+  boolean showVariants = AXEmojiManager.getEmojiViewTheme().isVariantDividerEnabled();
 
   OnEmojiActions actions;
   boolean fromRecent;
@@ -124,6 +124,34 @@ public final class AXEmojiImageView extends AppCompatImageView {
     }
   }
 
+  public void setEmojiAsync(final Emoji emoji){
+    if (!emoji.equals(currentEmoji)) {
+      setImageDrawable(null);
+
+      currentEmoji = emoji;
+      hasVariants = emoji.getBase().hasVariants();
+
+      if (imageLoadingTask != null) {
+        imageLoadingTask.cancel(true);
+      }
+      imageLoadingTask = new ImageLoadingTask(this);
+      imageLoadingTask.execute(emoji);
+
+      if (emoji.isLoading()){
+        postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            if (emoji.isLoading()) {
+              postDelayed(this,10);
+              return;
+            }
+            invalidate();
+          }
+        },10);
+      }
+    }
+  }
+
   public void setEmoji(@NonNull final Emoji emoji) {
     if (!emoji.equals(currentEmoji)) {
       setImageDrawable(null);
@@ -163,8 +191,7 @@ public final class AXEmojiImageView extends AppCompatImageView {
 
   /**
    * Updates the emoji image directly. This should be called only for updating the variant
-   * displayed (of the same base emoji), since it does not run asynchronously and does not update
-   * the internal listeners.
+   * displayed (of the same base emoji)
    *
    * @param emoji The new emoji variant to show.
    */
@@ -179,8 +206,23 @@ public final class AXEmojiImageView extends AppCompatImageView {
     }
   }
 
-  private void sendEmoji(Emoji emoji,boolean variants) {
+  public Emoji getEmoji() {
+    return currentEmoji;
+  }
+
+  private void sendEmoji(Emoji emoji, boolean variants) {
     if (actions!=null) actions.onClick(this,emoji,fromRecent,variants);
   }
 
+  public boolean isShowingVariants() {
+    return showVariants;
+  }
+
+  public boolean isFromRecent() {
+    return fromRecent;
+  }
+
+  public void setShowVariants(boolean showVariants) {
+    this.showVariants = showVariants;
+  }
 }

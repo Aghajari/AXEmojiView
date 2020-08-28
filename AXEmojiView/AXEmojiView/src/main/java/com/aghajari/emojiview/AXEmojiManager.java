@@ -49,6 +49,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ * @author Amir Hossein Aghajari
+ * @version 1.2.1
+ *
+ */
 public class AXEmojiManager {
 
     static boolean ripple = true;
@@ -585,6 +591,11 @@ public class AXEmojiManager {
 
     public static void setBackspaceCategoryEnabled(boolean enabled){
         backspaceCategoryEnabled = enabled;
+    }
+
+    public static void resetTheme(){
+        setEmojiViewTheme(new AXEmojiTheme());
+        setStickerViewTheme(new AXEmojiTheme());
     }
 
 }

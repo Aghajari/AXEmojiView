@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 new AXIOSEmojiLoader.EmojiLoaderListener() {
                     @Override
                     public void onEmojiLoaded(AXIOSEmoji emoji) {
+                        Log.d("emoji",emoji.getUnicode());
                         getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(MainActivity.this,
                                 "AXEmojiView "+emoji , 20));
 

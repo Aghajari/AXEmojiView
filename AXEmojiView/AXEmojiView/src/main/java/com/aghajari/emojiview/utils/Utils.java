@@ -10,6 +10,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Build;
 import android.util.DisplayMetrics;
@@ -295,6 +298,41 @@ public class Utils {
                 .edit().putInt("keyboard_height_"+orientation(context),value).apply();
     }
 
+    public static RecyclerView.ItemDecoration getRVLastRowBottomMarginDecoration(final int bottomMargin){
+        return new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                if (view == null || outRect == null || parent == null) return;
+                int position = parent.getChildAdapterPosition(view);
+                int max = parent.getAdapter().getItemCount();
+                int spanCount = 1;
+                if (parent.getLayoutManager() instanceof GridLayoutManager) {
+                    spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
+
+                    if (max % spanCount == 0) {
+                        if ((parent.getAdapter().getItemCount() - position) > spanCount) {
+                            outRect.bottom = 0;
+                        } else {
+                            outRect.bottom = bottomMargin;
+                        }
+                    } else if (max % spanCount >= max - position) {
+                        if ((parent.getAdapter().getItemCount() - position) > spanCount) {
+                            outRect.bottom = 0;
+                        } else {
+                            outRect.bottom = bottomMargin;
+                        }
+                    }
+                } else if (parent.getLayoutManager() instanceof LinearLayoutManager){
+                    if (position == max-1){
+                        outRect.bottom = bottomMargin;
+                    }else{
+                        outRect.bottom = 0;
+                    }
+                }
+            }
+        };
+    }
 
     public static void enableBackspaceTouch(View backspaceView,EditText editText){
         backspaceView.setOnTouchListener(new BackspaceTouchListener(backspaceView,editText));

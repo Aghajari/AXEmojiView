@@ -51,9 +51,9 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
 
 
         if (!AXEmojiManager.getInstance().isRecentVariantEnabled()) {
-            emojiView.showVariants=false;
+            emojiView.setShowVariants(false);
         }else{
-            emojiView.showVariants = AXEmojiManager.getTheme().isVariantDividerEnabled();
+            emojiView.setShowVariants(AXEmojiManager.getTheme().isVariantDividerEnabled());
         }
     }
 

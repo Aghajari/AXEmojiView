@@ -22,6 +22,7 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
+import android.util.Log;
 
 import com.aghajari.emojiview.emoji.EmojiData;
 import com.aghajari.emojiview.utils.Utils;
@@ -759,6 +760,9 @@ public class AXIOSEmojiLoader {
                 if (size == 0) {
                     size = Utils.dp(context,20);
                 }
+            }
+            if (s>0){
+                size = s;
             }
         }
 

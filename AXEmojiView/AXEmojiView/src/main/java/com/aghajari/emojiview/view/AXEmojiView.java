@@ -87,7 +87,7 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
                 if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider()) {
                     if (!isShowing) {
                         isShowing = true;
-                        categoryViews.Divider.setVisibility(GONE);
+                        if (categoryViews!=null) categoryViews.Divider.setVisibility(GONE);
                     }
                 }
                 return;
@@ -104,12 +104,12 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
                 if ((visibleItemCount > 0 && (firstVisibleItemPosition) == 0)) {
                     if (!isShowing) {
                         isShowing = true;
-                        categoryViews.Divider.setVisibility(GONE);
+                        if (categoryViews!=null) categoryViews.Divider.setVisibility(GONE);
                     }
                 } else {
                     if (isShowing) {
                         isShowing = false;
-                        categoryViews.Divider.setVisibility(VISIBLE);
+                        if (categoryViews!=null) categoryViews.Divider.setVisibility(VISIBLE);
                     }
                 }
             }
@@ -135,16 +135,24 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
             variant = new VariantEmojiManager(getContext());
         }
 
-        vp = new ViewPager(getContext());
-        this.addView(vp,new AXEmojiLayout.LayoutParams(0, Utils.dpToPx(getContext(),39),-1,-1));
-        vp.setAdapter(new AXEmojiViewPagerAdapter(events,scrollListener,recent,variant,this));
-        vp.setPadding(0,0,0,Utils.dpToPx(getContext(),39));
+        int top = 0;
+        if (AXEmojiManager.getEmojiViewTheme().isCategoryEnabled())
+            top = Utils.dpToPx(getContext(),39);
 
-        categoryViews = new AXCategoryViews(getContext(),this,recent);
-        this.addView(categoryViews,new AXEmojiLayout.LayoutParams(0,0,-1,Utils.dpToPx(getContext(),39)));
+        vp = new ViewPager(getContext());
+        this.addView(vp,new AXEmojiLayout.LayoutParams(0, top,-1,-1));
+        vp.setAdapter(new AXEmojiViewPagerAdapter(events,scrollListener,recent,variant,this));
+        vp.setPadding(0,0,0,top);
+
+        if (AXEmojiManager.getEmojiViewTheme().isCategoryEnabled()) {
+            categoryViews = new AXCategoryViews(getContext(), this, recent);
+            this.addView(categoryViews, new AXEmojiLayout.LayoutParams(0, 0, -1, top));
+        }else{
+            categoryViews = null;
+        }
 
         this.setBackgroundColor(AXEmojiManager.getEmojiViewTheme().getBackgroundColor());
-        categoryViews.setBackgroundColor(AXEmojiManager.getEmojiViewTheme().getBackgroundColor());
+        if (categoryViews!=null) categoryViews.setBackgroundColor(AXEmojiManager.getEmojiViewTheme().getBackgroundColor());
 
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -160,7 +168,7 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
                 }else{
                     scrollListener.onScrolled(null,0,1);
                 }
-                categoryViews.setPageIndex(i);
+                if (categoryViews!=null) categoryViews.setPageIndex(i);
                 if (pagerListener2!=null) pagerListener2.onPageSelected(i);
             }
 
@@ -184,7 +192,7 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
                 scrollListener.onScrolled(null, 0, 1);
             }
         }
-        categoryViews.setPageIndex(index);
+        if (categoryViews!=null) categoryViews.setPageIndex(index);
     }
 
     @Override
@@ -223,12 +231,14 @@ public class AXEmojiView extends  AXEmojiLayout implements FindVariantListener {
     @Override
     protected void refresh(){
         super.refresh();
-        categoryViews.removeAllViews();
-        categoryViews.init();
+        if (categoryViews!=null) {
+            categoryViews.removeAllViews();
+            categoryViews.init();
+        }
         vp.getAdapter().notifyDataSetChanged();
         vp.setCurrentItem(0,false);
         if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider())scrollListener.onScrolled(null,0,1);
-        categoryViews.setPageIndex(0);
+        if (categoryViews!=null) categoryViews.setPageIndex(0);
     }
 
     @Override

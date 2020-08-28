@@ -20,6 +20,7 @@ public class AXEmojiTheme {
     int titleColor = Color.DKGRAY;
     Typeface titleTypeface = Typeface.DEFAULT_BOLD;
     boolean alwaysShowDivider=false;
+    boolean categoryEnabled = true;
 
     public int getBackgroundColor() {
         return backgroundColor;
@@ -147,5 +148,13 @@ public class AXEmojiTheme {
 
     public boolean shouldShowAlwaysDivider(){
         return alwaysShowDivider;
+    }
+
+    public boolean isCategoryEnabled() {
+        return categoryEnabled;
+    }
+
+    public void setCategoryEnabled(boolean categoryEnabled) {
+        this.categoryEnabled = categoryEnabled;
     }
 }

@@ -14,7 +14,6 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.aghajari.emojiview.AXEmojiManager;
-import com.aghajari.emojiview.AXEmojiTheme;
 import com.aghajari.emojiview.listener.OnEmojiPagerPageChanged;
 import com.aghajari.emojiview.listener.OnStickerActions;
 import com.aghajari.emojiview.sticker.Sticker;
@@ -44,8 +43,7 @@ public class UI {
     public static void loadTheme(){
         // release theme
         darkMode = false;
-        AXEmojiManager.setEmojiViewTheme(new AXEmojiTheme());
-        AXEmojiManager.setStickerViewTheme(new AXEmojiTheme());
+        AXEmojiManager.resetTheme();
 
         // set EmojiView Theme
         AXEmojiManager.getEmojiViewTheme().setFooterEnabled(mFooterView&&!mCustomFooter);
@@ -70,8 +68,7 @@ public class UI {
     public static void loadDarkTheme(){
         // release theme
         darkMode = true;
-        AXEmojiManager.setEmojiViewTheme(new AXEmojiTheme());
-        AXEmojiManager.setStickerViewTheme(new AXEmojiTheme());
+        AXEmojiManager.resetTheme();
 
         // set EmojiView Theme
         AXEmojiManager.getEmojiViewTheme().setFooterEnabled(mFooterView&&!mCustomFooter);
@@ -96,12 +93,10 @@ public class UI {
 
         if (mWhiteCategory) {
             AXEmojiManager.getEmojiViewTheme().setSelectionColor(Color.TRANSPARENT);
-            AXEmojiManager.getEmojiViewTheme().setSelectedColor(0xff82ADD9);
             AXEmojiManager.getEmojiViewTheme().setCategoryColor(0xFF232D3A);
             AXEmojiManager.getEmojiViewTheme().setFooterBackgroundColor(0xFF232D3A);
             AXEmojiManager.getEmojiViewTheme().setAlwaysShowDivider(true);
 
-            AXEmojiManager.getStickerViewTheme().setSelectedColor(0xff82ADD9);
             AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF232D3A);
             AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
         }

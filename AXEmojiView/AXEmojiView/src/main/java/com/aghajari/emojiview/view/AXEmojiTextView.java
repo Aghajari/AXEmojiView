@@ -9,6 +9,7 @@ import androidx.annotation.Px;
 import androidx.appcompat.widget.AppCompatTextView;
 import android.text.SpannableStringBuilder;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.R;

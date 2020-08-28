@@ -12,6 +12,7 @@ import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader.SpanLocation;
 import android.content.Context;
 import android.graphics.Paint;
 import android.text.Spannable;
+import android.util.Log;
 
 
 public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
@@ -39,7 +40,7 @@ public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
            final EmojiRange location = findAllEmojis.get(i);
 
            if (!existingSpanPositions.contains(location.start)) {
-        	   List<SpanLocation> list = AXIOSEmojiLoader.replaceEmoji2(location.emoji.getUnicode(), fontMetrics, size, false, null);
+        	   List<SpanLocation> list = AXIOSEmojiLoader.replaceEmoji2(location.emoji.getUnicode(), fontMetrics,(int) emojiSize, false, null);
                for (SpanLocation l : list) {
             	   l.start = location.start+l.start;
             	   l.end = location.start+l.end;

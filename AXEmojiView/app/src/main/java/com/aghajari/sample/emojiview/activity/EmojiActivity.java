@@ -64,7 +64,7 @@ public class EmojiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (edt.getText().length()>0){
-                    textView.setText(edt.getText());
+                    textView.setText(edt.getText().toString());
                     edt.setText("");
                 }
             }

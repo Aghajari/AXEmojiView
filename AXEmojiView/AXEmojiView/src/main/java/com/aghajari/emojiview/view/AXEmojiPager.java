@@ -1,21 +1,16 @@
 package com.aghajari.emojiview.view;
 
 import android.content.Context;
-import android.graphics.Rect;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.OnEmojiPagerPageChanged;
@@ -239,39 +234,7 @@ public class AXEmojiPager extends AXEmojiLayout {
             }
 
             for (int i = 0; i < pages.size(); i++) {
-                pages.get(i).base.addItemDecoration(new RecyclerView.ItemDecoration() {
-                    @Override
-                    public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                        super.getItemOffsets(outRect, view, parent, state);
-                        if (view == null || outRect == null || parent == null) return;
-                        int position = parent.getChildAdapterPosition(view);
-                        int max = parent.getAdapter().getItemCount();
-                        int spanCount = 1;
-                        if (parent.getLayoutManager() instanceof GridLayoutManager) {
-                            spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
-
-                            if (max % spanCount == 0) {
-                                if ((parent.getAdapter().getItemCount() - position) > spanCount) {
-                                    outRect.bottom = 0;
-                                } else {
-                                    outRect.bottom = footerHeight;
-                                }
-                            } else if (max % spanCount >= max - position) {
-                                if ((parent.getAdapter().getItemCount() - position) > spanCount) {
-                                    outRect.bottom = 0;
-                                } else {
-                                    outRect.bottom = footerHeight;
-                                }
-                            }
-                        } else if (parent.getLayoutManager() instanceof LinearLayoutManager){
-                            if (position == max-1){
-                                outRect.bottom = footerHeight;
-                            }else{
-                                outRect.bottom = 0;
-                            }
-                        }
-                    }
-                });
+                pages.get(i).base.addItemDecoration(Utils.getRVLastRowBottomMarginDecoration(footerHeight));
             }
         }
     }
