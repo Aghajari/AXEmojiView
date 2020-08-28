@@ -1,7 +1,7 @@
 <div align="center">
   <br><b>AXEmojiView</b> is an advanced Android Library<br>which adds emoji,sticker,... support to your Android application
   <br><a href="https://github.com/Aghajari/AXEmojiView/blob/master/README.md#download-apk">DemoAPK</a> • <a href="https://github.com/Aghajari/AXEmojiView/releases">Releases</a>
-  <br><br><img width="420" alt="picker" src="./images/header.png">
+  <br><br><img width="40" alt="LCoders | AmirHosseinAghajari" src="https://user-images.githubusercontent.com/30867537/90538314-a0a79200-e193-11ea-8d90-0a3576e28a18.png"><br><img width="420" alt="picker" src="./images/header.png">
 </div>
 
 ## Screenshot
@@ -38,9 +38,11 @@
 
 AXEmojiView is available in the JCenter, so you just need to add it as a dependency (Module gradle)
 
+**LastVersion : 1.2.1**
+
 Gradle
 ```gradle
-implementation 'com.aghajari.emojiview:AXEmojiView:1.2.0'
+implementation 'com.aghajari.emojiview:AXEmojiView:1.2.1'
 ```
 
 Maven
@@ -48,7 +50,7 @@ Maven
 <dependency>
   <groupId>com.aghajari.emojiview</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -442,3 +444,10 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+
+<br><br>
+<div align="center">
+  <img width="64" alt="LCoders | AmirHosseinAghajari" src="https://user-images.githubusercontent.com/30867537/90538314-a0a79200-e193-11ea-8d90-0a3576e28a18.png">
+  <br><a>Amir Hossein Aghajari</a> • <a href="mailto:amirhossein.aghajari.82@gmail.com">Email</a> • <a href="https://github.com/Aghajari">GitHub</a>
+</div>
