@@ -137,8 +137,8 @@ public class UI {
                 }
 
                 @Override
-                public void onLongClick(View view, Sticker sticker, boolean fromRecent) {
-
+                public boolean onLongClick(View view, Sticker sticker, boolean fromRecent) {
+                    return false;
                 }
             });
         }

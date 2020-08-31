@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package com.aghajari.emojiview.utils;
 
 import android.annotation.TargetApi;
@@ -6,8 +24,10 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -33,6 +53,7 @@ import com.aghajari.emojiview.R;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
@@ -41,9 +62,9 @@ public class Utils {
     public static void setClickEffect(View View, boolean Borderless) {
         int[] attrs;
         if (Borderless) {
-            attrs = new int[] { android.R.attr.selectableItemBackgroundBorderless };
+            attrs = new int[]{android.R.attr.selectableItemBackgroundBorderless};
         } else {
-            attrs = new int[] { android.R.attr.selectableItemBackground };
+            attrs = new int[]{android.R.attr.selectableItemBackground};
         }
         TypedArray typedArray = View.getContext().obtainStyledAttributes(attrs);
         int backgroundResource = typedArray.getResourceId(0, 0);
@@ -53,9 +74,9 @@ public class Utils {
     public static void setForegroundClickEffect(View View, boolean Borderless) {
         int[] attrs;
         if (Borderless) {
-            attrs = new int[] { android.R.attr.selectableItemBackgroundBorderless };
+            attrs = new int[]{android.R.attr.selectableItemBackgroundBorderless};
         } else {
-            attrs = new int[] { android.R.attr.selectableItemBackground };
+            attrs = new int[]{android.R.attr.selectableItemBackground};
         }
         TypedArray typedArray = View.getContext().obtainStyledAttributes(attrs);
         int backgroundResource = typedArray.getResourceId(0, 0);
@@ -64,56 +85,57 @@ public class Utils {
         }
     }
 
-    public static int getGridCount(Context context){
-      int w = context.getResources().getDisplayMetrics().widthPixels;
-      int c_w = getColumnWidth(context);
-      return  (int) w/c_w;
+    public static int getGridCount(Context context) {
+        int w = context.getResources().getDisplayMetrics().widthPixels;
+        int c_w = getColumnWidth(context);
+        return (int) w / c_w;
     }
 
-    public static int getColumnWidth(Context context){
+    public static int getColumnWidth(Context context) {
         return (int) context.getResources().getDimension(R.dimen.emoji_grid_view_column_width);
     }
 
-    public static int getStickerGridCount(Context context){
+    public static int getStickerGridCount(Context context) {
         int w = context.getResources().getDisplayMetrics().widthPixels;
         int c_w = getStickerColumnWidth(context);
-        return  (int) w/c_w;
+        return (int) w / c_w;
     }
 
-    public static int getStickerColumnWidth(Context context){
+    public static int getStickerColumnWidth(Context context) {
         return (int) context.getResources().getDimension(R.dimen.sticker_grid_view_column_width);
     }
 
     static final int DONT_UPDATE_FLAG = -1;
+
     public static int dpToPx(@NonNull final Context context, final float dp) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
                 context.getResources().getDisplayMetrics()) + 0.5f);
     }
 
-    public  static int getOrientation(final Context context) {
+    public static int getOrientation(final Context context) {
         return context.getResources().getConfiguration().orientation;
     }
-    
-    public  static int getProperHeight(final Activity activity) {
+
+    public static int getProperHeight(final Activity activity) {
         return Utils.windowVisibleDisplayFrame(activity).bottom;
     }
 
-   public static int getProperWidth(final Activity activity) {
+    public static int getProperWidth(final Activity activity) {
         final Rect rect = Utils.windowVisibleDisplayFrame(activity);
         return Utils.getOrientation(activity) == Configuration.ORIENTATION_PORTRAIT ? rect.right : getScreenWidth(activity);
-      }
+    }
 
-    
-  public  static boolean shouldOverrideRegularCondition(@NonNull final Context context, final EditText editText) {
+
+    public static boolean shouldOverrideRegularCondition(@NonNull final Context context, final EditText editText) {
         if ((editText.getImeOptions() & EditorInfo.IME_FLAG_NO_EXTRACT_UI) == 0) {
-          return getOrientation(context) == Configuration.ORIENTATION_LANDSCAPE;
+            return getOrientation(context) == Configuration.ORIENTATION_LANDSCAPE;
         }
 
         return false;
-      }
+    }
 
 
-   public static int getInputMethodHeight(final Context context, final View rootView) {
+    public static int getInputMethodHeight(final Context context, final View rootView) {
         try {
             final InputMethodManager imm = (InputMethodManager) context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             final Class<?> inputMethodManagerClass = imm.getClass();
@@ -131,7 +153,8 @@ public class Utils {
         return alternativeInputMethodHeight(rootView);
     }
 
-    public @TargetApi(LOLLIPOP) static int getViewBottomInset(final View rootView) {
+    public @TargetApi(LOLLIPOP)
+    static int getViewBottomInset(final View rootView) {
         try {
             final Field attachInfoField = View.class.getDeclaredField("mAttachInfo");
             attachInfoField.setAccessible(true);
@@ -165,24 +188,26 @@ public class Utils {
     public static int getScreenWidth(@NonNull final Activity context) {
         return dpToPx(context, context.getResources().getConfiguration().screenWidthDp);
     }
-    
+
     public static int getScreenHeight(@NonNull final Activity context) {
         return dpToPx(context, context.getResources().getConfiguration().screenHeightDp);
     }
-    
+
     public static void hideKeyboard(View v) {
-        InputMethodManager imm = (InputMethodManager)v.getContext().getApplicationContext().getSystemService("input_method");
+        InputMethodManager imm = (InputMethodManager) v.getContext().getApplicationContext().getSystemService("input_method");
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-      }
+    }
 
 
-    public @NonNull static Point locationOnScreen(@NonNull final View view) {
+    public @NonNull
+    static Point locationOnScreen(@NonNull final View view) {
         final int[] location = new int[2];
         view.getLocationOnScreen(location);
         return new Point(location[0], location[1]);
     }
 
-    public @NonNull static Rect windowVisibleDisplayFrame(@NonNull final Activity context) {
+    public @NonNull
+    static Rect windowVisibleDisplayFrame(@NonNull final Activity context) {
         final Rect result = new Rect();
         context.getWindow().getDecorView().getWindowVisibleDisplayFrame(result);
         return result;
@@ -204,7 +229,8 @@ public class Utils {
 
     public static void fixPopupLocation(@NonNull final PopupWindow popupWindow, @NonNull final Point desiredLocation) {
         popupWindow.getContentView().post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 final Point actualLocation = locationOnScreen(popupWindow.getContentView());
 
                 if (!(actualLocation.x == desiredLocation.x && actualLocation.y == desiredLocation.y)) {
@@ -233,28 +259,27 @@ public class Utils {
     }
 
 
-
-    public static int dp(Context context,float value){
-        if (value==0) return 0;
-        return (int) Math.ceil(context.getResources().getDisplayMetrics().density*value);
+    public static int dp(Context context, float value) {
+        if (value == 0) return 0;
+        return (int) Math.ceil(context.getResources().getDisplayMetrics().density * value);
     }
 
-    public static float dpf2(Context context,float value){
-        if (value==0) return 0;
-        return (context.getResources().getDisplayMetrics().density*value);
+    public static float dpf2(Context context, float value) {
+        if (value == 0) return 0;
+        return (context.getResources().getDisplayMetrics().density * value);
     }
 
-    public static float getPixelsInCM(Context context,float cm, boolean isX) {
+    public static float getPixelsInCM(Context context, float cm, boolean isX) {
         return (cm / 2.54f) * (isX ? context.getResources().getDisplayMetrics().xdpi : context.getResources().getDisplayMetrics().ydpi);
     }
 
-    public static boolean isTablet(){
+    public static boolean isTablet() {
         return false;
     }
 
     static Point displaySize = new Point();
 
-    public static void checkDisplaySize(Context context ) {
+    public static void checkDisplaySize(Context context) {
         try {
             float density = context.getResources().getDisplayMetrics().density;
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -285,20 +310,21 @@ public class Utils {
         }
     }
 
-    private static String orientation(Context context){
-        return (context.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE ?"landscape" : "portrait");
+    private static String orientation(Context context) {
+        return (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? "landscape" : "portrait");
     }
-    public static int getKeyboardHeight(Context context,int def){
+
+    public static int getKeyboardHeight(Context context, int def) {
         return context.getSharedPreferences("emoji-preference-manager", Context.MODE_PRIVATE)
-                .getInt("keyboard_height_"+orientation(context),def);
+                .getInt("keyboard_height_" + orientation(context), def);
     }
 
-    public static void updateKeyboardHeight(Context context,int value){
+    public static void updateKeyboardHeight(Context context, int value) {
         context.getSharedPreferences("emoji-preference-manager", Context.MODE_PRIVATE)
-                .edit().putInt("keyboard_height_"+orientation(context),value).apply();
+                .edit().putInt("keyboard_height_" + orientation(context), value).apply();
     }
 
-    public static RecyclerView.ItemDecoration getRVLastRowBottomMarginDecoration(final int bottomMargin){
+    public static RecyclerView.ItemDecoration getRVLastRowBottomMarginDecoration(final int bottomMargin) {
         return new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -323,10 +349,10 @@ public class Utils {
                             outRect.bottom = bottomMargin;
                         }
                     }
-                } else if (parent.getLayoutManager() instanceof LinearLayoutManager){
-                    if (position == max-1){
+                } else if (parent.getLayoutManager() instanceof LinearLayoutManager) {
+                    if (position == max - 1) {
                         outRect.bottom = bottomMargin;
-                    }else{
+                    } else {
                         outRect.bottom = 0;
                     }
                 }
@@ -334,17 +360,17 @@ public class Utils {
         };
     }
 
-    public static void enableBackspaceTouch(View backspaceView,EditText editText){
-        backspaceView.setOnTouchListener(new BackspaceTouchListener(backspaceView,editText));
+    public static void enableBackspaceTouch(View backspaceView, EditText editText) {
+        backspaceView.setOnTouchListener(new BackspaceTouchListener(backspaceView, editText));
     }
 
-    static class BackspaceTouchListener implements View.OnTouchListener{
+    static class BackspaceTouchListener implements View.OnTouchListener {
         private boolean backspacePressed;
         private boolean backspaceOnce;
         private View backSpace;
         private EditText editText;
 
-        BackspaceTouchListener (View backspaceView,EditText editText){
+        BackspaceTouchListener(View backspaceView, EditText editText) {
             this.backSpace = backspaceView;
             this.editText = editText;
         }
@@ -379,6 +405,9 @@ public class Utils {
                 }
             }, time);
         }
+    }
 
+    public static float getDefaultEmojiSize(Paint.FontMetrics fontMetrics){
+        return fontMetrics.descent - fontMetrics.ascent;
     }
 }

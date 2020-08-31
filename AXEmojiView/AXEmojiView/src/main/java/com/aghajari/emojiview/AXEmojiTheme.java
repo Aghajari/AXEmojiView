@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.aghajari.emojiview;
 
 import android.graphics.Color;
@@ -19,7 +36,7 @@ public class AXEmojiTheme {
     int categoryColor = 0xffebeff2;
     int titleColor = Color.DKGRAY;
     Typeface titleTypeface = Typeface.DEFAULT_BOLD;
-    boolean alwaysShowDivider=false;
+    boolean alwaysShowDivider = false;
     boolean categoryEnabled = true;
 
     public int getBackgroundColor() {
@@ -142,11 +159,11 @@ public class AXEmojiTheme {
         return this.categoryColor;
     }
 
-    public void setAlwaysShowDivider(boolean value){
+    public void setAlwaysShowDivider(boolean value) {
         alwaysShowDivider = value;
     }
 
-    public boolean shouldShowAlwaysDivider(){
+    public boolean shouldShowAlwaysDivider() {
         return alwaysShowDivider;
     }
 

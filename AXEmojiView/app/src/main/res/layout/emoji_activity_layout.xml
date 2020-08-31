@@ -17,7 +17,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="60dp"
         android:imeOptions="flagNoExtractUi"
-        app:emojiSize_TV="20dp"
+        app:emojiSize="20dp"
         android:textColor="@android:color/black"/>
 
     <FrameLayout

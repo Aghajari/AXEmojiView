@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package com.aghajari.emojiview.emoji.iosprovider;
 
 import java.io.InputStream;
@@ -24,6 +42,8 @@ import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.aghajari.emojiview.emoji.EmojiData;
 import com.aghajari.emojiview.utils.Utils;
 
@@ -42,10 +62,10 @@ public class AXIOSEmojiLoader {
     public static volatile DispatchQueue globalQueue = new DispatchQueue("globalQueue");
     private static Handler uiThread;
 
-    static void init(Context context){
+    static void init(Context context) {
         AXIOSEmojiLoader.context = context;
-        drawImgSize = Utils.dp(context,20);
-        bigImgSize = Utils.dp(context,isTablet ? 40 : 34);
+        drawImgSize = Utils.dp(context, 20);
+        bigImgSize = Utils.dp(context, isTablet ? 40 : 34);
     }
 
     static {
@@ -70,21 +90,21 @@ public class AXIOSEmojiLoader {
     public static void preloadEmoji(CharSequence code) {
         final DrawableInfo info = getDrawableInfo(code);
         if (info != null) {
-            loadEmoji(info.page, info.page2,null);
+            loadEmoji(info.page, info.page2, null);
         }
     }
 
     /**
      * try to load emoji before showing EmojiView
      */
-    public static void preloadEmoji(String code,EmojiLoaderListener listener) {
+    public static void preloadEmoji(String code, EmojiLoaderListener listener) {
         final DrawableInfo info = getDrawableInfo(code);
         if (info != null) {
-            loadEmoji(code,info.page, info.page2,listener);
+            loadEmoji(code, info.page, info.page2, listener);
         }
     }
 
-    private static void loadEmoji(final byte page, final short page2,final EmojiDrawable drawable) {
+    private static void loadEmoji(final byte page, final short page2, final EmojiDrawable drawable) {
         if (emojiBmp[page][page2] == null) {
             if (loadingEmoji[page][page2]) {
                 return;
@@ -98,7 +118,7 @@ public class AXIOSEmojiLoader {
                     uiThread.post(new Runnable() {
                         @Override
                         public void run() {
-                            if (drawable!=null) drawable.invalidateSelf();
+                            if (drawable != null) drawable.invalidateSelf();
                         }
                     });
                 }
@@ -110,10 +130,11 @@ public class AXIOSEmojiLoader {
         void onEmojiLoaded(AXIOSEmoji emoji);
     }
 
-    private static class ListenerData{
+    private static class ListenerData {
         EmojiLoaderListener listener;
         String code;
-        ListenerData(EmojiLoaderListener listener,String code){
+
+        ListenerData(EmojiLoaderListener listener, String code) {
             this.listener = listener;
             this.code = code;
         }
@@ -121,12 +142,12 @@ public class AXIOSEmojiLoader {
 
     private static List<ListenerData> loadingListeners = null;
 
-    private static void loadEmoji(final String code,final byte page, final short page2,final EmojiLoaderListener listener) {
+    private static void loadEmoji(final String code, final byte page, final short page2, final EmojiLoaderListener listener) {
         if (emojiBmp[page][page2] == null) {
             if (loadingEmoji[page][page2]) {
-                if (listener==null) return;
-                if (loadingListeners==null) loadingListeners = new ArrayList<>();
-                loadingListeners.add(new ListenerData(listener,code));
+                if (listener == null) return;
+                if (loadingListeners == null) loadingListeners = new ArrayList<>();
+                loadingListeners.add(new ListenerData(listener, code));
                 return;
             }
             loadingEmoji[page][page2] = true;
@@ -138,28 +159,28 @@ public class AXIOSEmojiLoader {
                     uiThread.post(new Runnable() {
                         @Override
                         public void run() {
-                            callListeners(code,listener);
-                            if (listener!=null) listener.onEmojiLoaded(new AXIOSEmoji(code));
+                            callListeners(code, listener);
+                            if (listener != null) listener.onEmojiLoaded(new AXIOSEmoji(code));
                         }
                     });
                 }
             });
-        }else{
-            if (listener!=null) listener.onEmojiLoaded(new AXIOSEmoji(code));
+        } else {
+            if (listener != null) listener.onEmojiLoaded(new AXIOSEmoji(code));
         }
     }
 
-    private static void callListeners(String code,EmojiLoaderListener listener){
-        if (loadingListeners!=null && loadingListeners.size()>0){
+    private static void callListeners(String code, EmojiLoaderListener listener) {
+        if (loadingListeners != null && loadingListeners.size() > 0) {
             List<ListenerData> remove = new ArrayList<>();
-            for (ListenerData data : loadingListeners){
-                if (data.code.equals(code) && data.listener!=null &&data.listener!=listener){
+            for (ListenerData data : loadingListeners) {
+                if (data.code.equals(code) && data.listener != null && data.listener != listener) {
                     data.listener.onEmojiLoaded(new AXIOSEmoji(code));
                     remove.add(data);
                 }
             }
-            if (remove.size()>0){
-                for (ListenerData removeData : remove){
+            if (remove.size() > 0) {
+                for (ListenerData removeData : remove) {
                     loadingListeners.remove(removeData);
                 }
             }
@@ -175,7 +196,7 @@ public class AXIOSEmojiLoader {
 
             Bitmap bitmap = null;
             try {
-                InputStream is = context.getAssets().open(emojiFolderName+ "/" + String.format(Locale.US, "%d_%d.png", page, page2));
+                InputStream is = context.getAssets().open(emojiFolderName + "/" + String.format(Locale.US, "%d_%d.png", page, page2));
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inJustDecodeBounds = false;
                 opts.inSampleSize = imageResize;
@@ -229,7 +250,7 @@ public class AXIOSEmojiLoader {
     public static EmojiDrawable getEmojiDrawable(CharSequence code) {
         DrawableInfo info = getDrawableInfo(code);
         if (info == null) {
-              //No drawable for emoji + code
+            //No drawable for emoji + code
             return null;
         }
         EmojiDrawable ed = new EmojiDrawable(info);
@@ -240,9 +261,9 @@ public class AXIOSEmojiLoader {
     /**
      * @return emoji bitmap or null if emoji hasn't loaded yet (or it's invalid).
      */
-    public static Bitmap getEmojiBitmap(CharSequence code){
+    public static Bitmap getEmojiBitmap(CharSequence code) {
         DrawableInfo info = getDrawableInfo(code);
-        if (info==null) return null;
+        if (info == null) return null;
         return emojiBmp[info.page][info.page2];
     }
 
@@ -293,7 +314,7 @@ public class AXIOSEmojiLoader {
     /**
      * @return emoji drawable with custom bounds
      */
-    public static Drawable getEmojiDrawable(String code,int size,boolean fullSize) {
+    public static Drawable getEmojiDrawable(String code, int size, boolean fullSize) {
         EmojiDrawable ed = getEmojiDrawable(code);
         if (ed == null) {
             CharSequence newCode = EmojiData.emojiAliasMap.get(code);
@@ -312,7 +333,7 @@ public class AXIOSEmojiLoader {
     private static class CustomEmojiDrawable extends EmojiDrawable {
         int size;
 
-        public CustomEmojiDrawable(DrawableInfo i,int size) {
+        public CustomEmojiDrawable(DrawableInfo i, int size) {
             super(i);
             this.size = size;
         }
@@ -338,14 +359,14 @@ public class AXIOSEmojiLoader {
             return info;
         }
 
-        public int getSize(){
+        public int getSize() {
             return (fullSize ? bigImgSize : drawImgSize);
         }
 
         public Rect getDrawRect() {
             Rect original = getBounds();
             int cX = original.centerX(), cY = original.centerY();
-            rect.left = cX -  getSize() / 2;
+            rect.left = cX - getSize() / 2;
             rect.right = cX + getSize() / 2;
             rect.top = cY - getSize() / 2;
             rect.bottom = cY + getSize() / 2;
@@ -354,13 +375,13 @@ public class AXIOSEmojiLoader {
 
         @Override
         public void draw(Canvas canvas) {
-            /*if (MessagesController.getInstance().useSystemEmoji) {
+            /*if (useSystemEmoji) {
                 //textPaint.setTextSize(getBounds().width());
                 canvas.drawText(EmojiData.data[info.page][info.emojiIndex], getBounds().left, getBounds().bottom, textPaint);
                 return;
             }*/
             if (emojiBmp[info.page][info.page2] == null) {
-                loadEmoji(info.page, info.page2,this);
+                loadEmoji(info.page, info.page2, this);
                 canvas.drawRect(getBounds(), placeholderPaint);
                 return;
             }
@@ -403,15 +424,6 @@ public class AXIOSEmojiLoader {
             page2 = p2;
             emojiIndex = index;
         }
-    }
-
-    private static boolean inArray(char c, char[] a) {
-        for (char cc : a) {
-            if (cc == c) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public static CharSequence replaceEmoji(CharSequence cs, Paint.FontMetrics fontMetrics, int size, boolean createNew) {
@@ -736,12 +748,12 @@ public class AXIOSEmojiLoader {
         return spans;
     }
 
-    static class SpanLocation{
+    static class SpanLocation {
         public EmojiSpan span;
         public int start;
         public int end;
 
-        public SpanLocation (EmojiSpan s, int start, int end) {
+        public SpanLocation(EmojiSpan s, int start, int end) {
             span = s;
             this.start = start;
             this.end = end;
@@ -750,7 +762,7 @@ public class AXIOSEmojiLoader {
 
     static class EmojiSpan extends ImageSpan {
         private Paint.FontMetrics fontMetrics;
-        private int size = Utils.dp(context,20);
+        private int size = Utils.dp(context, 20);
 
         public EmojiSpan(EmojiDrawable d, int verticalAlignment, int s, Paint.FontMetrics original) {
             super(d, verticalAlignment);
@@ -758,10 +770,10 @@ public class AXIOSEmojiLoader {
             if (original != null) {
                 size = (int) (Math.abs(fontMetrics.descent) + Math.abs(fontMetrics.ascent));
                 if (size == 0) {
-                    size = Utils.dp(context,20);
+                    size = Utils.dp(context, 20);
                 }
             }
-            if (s>0){
+            if (s > 0) {
                 size = s;
             }
         }
@@ -780,8 +792,8 @@ public class AXIOSEmojiLoader {
             if (fontMetrics == null) {
                 int sz = super.getSize(paint, text, start, end, fm);
 
-                int offset = Utils.dp(context,8);
-                int w = Utils.dp(context,10);
+                int offset = Utils.dp(context, 8);
+                int w = Utils.dp(context, 10);
                 fm.top = -w - offset;
                 fm.bottom = w - offset;
                 fm.ascent = -w - offset;

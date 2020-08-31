@@ -1,7 +1,26 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package com.aghajari.emojiview.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -19,10 +38,10 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
     OnEmojiActions events;
     VariantEmoji variantEmoji;
 
-    public AXRecentEmojiRecyclerAdapter(RecentEmoji recentEmoji, OnEmojiActions events, VariantEmoji variantEmoji){
+    public AXRecentEmojiRecyclerAdapter(RecentEmoji recentEmoji, OnEmojiActions events, VariantEmoji variantEmoji) {
         this.recentEmoji = recentEmoji;
         this.events = events;
-        this.variantEmoji =variantEmoji;
+        this.variantEmoji = variantEmoji;
     }
 
     @NonNull
@@ -31,11 +50,11 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
         FrameLayout frameLayout = new FrameLayout(viewGroup.getContext());
         AXEmojiImageView emojiView = new AXEmojiImageView(viewGroup.getContext());
         int cw = Utils.getColumnWidth(viewGroup.getContext());
-        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(cw,cw));
+        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(cw, cw));
         frameLayout.addView(emojiView);
 
-        int dp6=Utils.dpToPx(viewGroup.getContext(),6);
-        emojiView.setPadding(dp6,dp6,dp6,dp6);
+        int dp6 = Utils.dpToPx(viewGroup.getContext(), 6);
+        emojiView.setPadding(dp6, dp6, dp6, dp6);
 
         return new ViewHolder(frameLayout);
     }
@@ -47,12 +66,12 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
 
         Emoji emoji = variantEmoji.getVariant((Emoji) recentEmoji.getRecentEmojis().toArray()[i]);
         emojiView.setEmoji(emoji);
-        emojiView.setOnEmojiActions(events,true);
+        emojiView.setOnEmojiActions(events, true);
 
 
         if (!AXEmojiManager.getInstance().isRecentVariantEnabled()) {
             emojiView.setShowVariants(false);
-        }else{
+        } else {
             emojiView.setShowVariants(AXEmojiManager.getTheme().isVariantDividerEnabled());
         }
     }
@@ -62,7 +81,7 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
         return recentEmoji.getRecentEmojis().size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

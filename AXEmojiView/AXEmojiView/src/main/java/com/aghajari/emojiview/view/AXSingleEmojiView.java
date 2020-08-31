@@ -1,8 +1,27 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 package com.aghajari.emojiview.view;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,7 +38,7 @@ import com.aghajari.emojiview.shared.VariantEmojiManager;
 import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.variant.AXEmojiVariantPopup;
 
-public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantListener {
+public class AXSingleEmojiView extends AXEmojiLayout implements FindVariantListener {
     public AXSingleEmojiView(Context context) {
         super(context);
         init();
@@ -33,42 +52,45 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
 
     OnEmojiActions events = new OnEmojiActions() {
         @Override
-        public void onClick(View view,Emoji emoji,boolean fromRecent,boolean fromVariant) {
-            if (!fromVariant && variantPopup!=null && variantPopup.isShowing()) return;
+        public void onClick(View view, Emoji emoji, boolean fromRecent, boolean fromVariant) {
+            if (!fromVariant && variantPopup != null && variantPopup.isShowing()) return;
             if (!fromVariant) recent.addEmoji(emoji);
-            if (editText!=null) AXEmojiUtils.input(editText,emoji);
+            if (editText != null) AXEmojiUtils.input(editText, emoji);
 
             variant.addVariant(emoji);
-            if (variantPopup!=null) variantPopup.dismiss();
+            if (variantPopup != null) variantPopup.dismiss();
 
-            if (emojiActions!=null) emojiActions.onClick(view,emoji,fromRecent,fromVariant);
+            if (emojiActions != null) emojiActions.onClick(view, emoji, fromRecent, fromVariant);
         }
 
         @Override
-        public void onLongClick(View view, Emoji emoji, boolean fromRecent, boolean fromVariant) {
+        public boolean onLongClick(View view, Emoji emoji, boolean fromRecent, boolean fromVariant) {
 
-            if ((!fromRecent || AXEmojiManager.getInstance().isRecentVariantEnabled()) && variantPopup!=null) {
+            if ((!fromRecent || AXEmojiManager.getInstance().isRecentVariantEnabled()) && variantPopup != null) {
                 if (emoji.getBase().hasVariants())
-                    variantPopup.show((AXEmojiImageView) view, emoji,fromRecent);
+                    variantPopup.show((AXEmojiImageView) view, emoji, fromRecent);
             }
 
-            if (emojiActions!=null) emojiActions.onLongClick(view,emoji,fromRecent,fromVariant);
+            if (emojiActions != null)
+                return emojiActions.onLongClick(view, emoji, fromRecent, fromVariant);
+            return false;
         }
     };
 
-    OnEmojiActions emojiActions=null;
+    OnEmojiActions emojiActions = null;
 
     /**
      * add emoji click and longClick listener
+     *
      * @param listener
      */
-    public void setOnEmojiActionsListener(OnEmojiActions listener){
+    public void setOnEmojiActionsListener(OnEmojiActions listener) {
         emojiActions = listener;
     }
-    public void removeOnEmojiActionsListener(){
+
+    public void removeOnEmojiActionsListener() {
         emojiActions = null;
     }
-
 
 
     RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
@@ -78,7 +100,7 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            if (recyclerView==null){
+            if (recyclerView == null) {
                 if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider()) {
                     if (!isShowing) {
                         isShowing = true;
@@ -87,8 +109,8 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
                 }
                 return;
             }
-            if (dy==0) return;
-            if (dy==1) dy=0;
+            if (dy == 0) return;
+            if (dy == 1) dy = 0;
             super.onScrolled(recyclerView, dx, dy);
 
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
@@ -113,29 +135,30 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
                     }
                 }
             }
-                AXSingleEmojiPageAdapter adapter = (AXSingleEmojiPageAdapter) recyclerView.getAdapter();
-                int[] firstCPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(firstCPositions);
-                int firstCVisibleItemPosition = findMin(firstCPositions);
-                for (int i = 0; i < adapter.titlesPosition.size(); i++) {
-                    int index = adapter.titlesPosition.get(i);
-                    if (firstCVisibleItemPosition >= index) {
-                        if (adapter.titlesPosition.size() > i + 1 && firstCVisibleItemPosition < adapter.titlesPosition.get(i + 1)) {
-                            categoryViews.setPageIndex(i + 1);
-                            break;
-                        } else if (adapter.titlesPosition.size() <= i + 1) {
-                            categoryViews.setPageIndex(adapter.titlesPosition.size());
-                            break;
-                        }
-                    } else if (i - 1 >= 0 && firstCVisibleItemPosition < index && firstCVisibleItemPosition > adapter.titlesPosition.get(i - 1)) {
-                        categoryViews.setPageIndex(i - 1);
+            AXSingleEmojiPageAdapter adapter = (AXSingleEmojiPageAdapter) recyclerView.getAdapter();
+            int[] firstCPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+            staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(firstCPositions);
+            int firstCVisibleItemPosition = findMin(firstCPositions);
+            for (int i = 0; i < adapter.titlesPosition.size(); i++) {
+                int index = adapter.titlesPosition.get(i);
+                if (firstCVisibleItemPosition >= index) {
+                    if (adapter.titlesPosition.size() > i + 1 && firstCVisibleItemPosition < adapter.titlesPosition.get(i + 1)) {
+                        categoryViews.setPageIndex(i + 1);
                         break;
-                    } else if (i - 1 == 0 && firstCVisibleItemPosition < index) {
-                        categoryViews.setPageIndex(0);
+                    } else if (adapter.titlesPosition.size() <= i + 1) {
+                        categoryViews.setPageIndex(adapter.titlesPosition.size());
                         break;
                     }
+                } else if (i - 1 >= 0 && firstCVisibleItemPosition < index && firstCVisibleItemPosition > adapter.titlesPosition.get(i - 1)) {
+                    categoryViews.setPageIndex(i - 1);
+                    break;
+                } else if (i - 1 == 0 && firstCVisibleItemPosition < index) {
+                    categoryViews.setPageIndex(0);
+                    break;
                 }
+            }
         }
+
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
@@ -154,32 +177,32 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
     AXFooterParallax scrollListener2;
 
 
-    private void init(){
-        if (AXEmojiManager.getInstance().getRecentEmoji()!=null){
+    private void init() {
+        if (AXEmojiManager.getInstance().getRecentEmoji() != null) {
             recent = AXEmojiManager.getInstance().getRecentEmoji();
-        }else {
+        } else {
             recent = new RecentEmojiManager(getContext());
         }
-        if (AXEmojiManager.getInstance().getVariantEmoji()!=null){
+        if (AXEmojiManager.getInstance().getVariantEmoji() != null) {
             variant = AXEmojiManager.getInstance().getVariantEmoji();
-        }else {
+        } else {
             variant = new VariantEmojiManager(getContext());
         }
 
         variant = new VariantEmojiManager(getContext());
 
-        recyclerView = new AXEmojiSingleRecyclerView(getContext(),this);
+        recyclerView = new AXEmojiSingleRecyclerView(getContext(), this);
         recyclerView.setItemAnimator(null);
-        this.addView(recyclerView,new LayoutParams(0, 0,-1,-1));
-        recyclerView.setAdapter(new AXSingleEmojiPageAdapter(AXEmojiManager.getInstance().getCategories(),events,recent,variant));
+        this.addView(recyclerView, new LayoutParams(0, 0, -1, -1));
+        recyclerView.setAdapter(new AXSingleEmojiPageAdapter(AXEmojiManager.getInstance().getCategories(), events, recent, variant));
         recyclerView.addOnScrollListener(scrollListener);
 
-        categoryViews = new AXCategoryViews(getContext(),this,recent);
-        this.addView(categoryViews,new LayoutParams(0,0,-1,Utils.dpToPx(getContext(),39)));
+        categoryViews = new AXCategoryViews(getContext(), this, recent);
+        this.addView(categoryViews, new LayoutParams(0, 0, -1, Utils.dpToPx(getContext(), 39)));
 
         this.setBackgroundColor(AXEmojiManager.getEmojiViewTheme().getBackgroundColor());
 
-        scrollListener2 = new AXFooterParallax(categoryViews, -Utils.dpToPx(getContext(), 38),50);
+        scrollListener2 = new AXFooterParallax(categoryViews, -Utils.dpToPx(getContext(), 38), 50);
         scrollListener2.setDuration(Utils.dpToPx(getContext(), 38));
         scrollListener2.setIDLEHideSize(scrollListener2.getDuration() / 2);
         scrollListener2.setMinComputeScrollOffset(Utils.dpToPx(getContext(), 38));
@@ -189,12 +212,12 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
 
     }
 
-    public void setPageIndex (int index){
-        if (index ==0 && categoryViews.recent==false){
+    public void setPageIndex(int index) {
+        if (index == 0 && categoryViews.recent == false) {
             recyclerView.scrollToPosition(0);
             if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider())
                 categoryViews.Divider.setVisibility(GONE);
-        }else {
+        } else {
             int index2 = index - 1;
             if (categoryViews.recent) index2 = index;
             categoryViews.Divider.setVisibility(VISIBLE);
@@ -213,38 +236,39 @@ public class AXSingleEmojiView extends  AXEmojiLayout implements FindVariantList
     }
 
     @Override
-    public void dismiss(){
-        if (variantPopup!=null) variantPopup.dismiss();
+    public void dismiss() {
+        if (variantPopup != null) variantPopup.dismiss();
         recent.persist();
         variant.persist();
     }
 
     @Override
-    public void setEditText (EditText editText){
+    public void setEditText(EditText editText) {
         super.setEditText(editText);
-        variantPopup = AXEmojiManager.getInstance().getEmojiVariantCreatorListener().create(editText.getRootView(),events);
+        variantPopup = AXEmojiManager.getInstance().getEmojiVariantCreatorListener().create(editText.getRootView(), events);
     }
 
     @Override
-    protected void setScrollListener(RecyclerView.OnScrollListener listener){
+    protected void setScrollListener(RecyclerView.OnScrollListener listener) {
         super.setScrollListener(listener);
         recyclerView.addOnScrollListener(listener);
     }
 
     @Override
-    protected void refresh(){
+    protected void refresh() {
         super.refresh();
         categoryViews.removeAllViews();
         categoryViews.init();
-        ((AXSingleEmojiPageAdapter)recyclerView.getAdapter()).refresh();
+        ((AXSingleEmojiPageAdapter) recyclerView.getAdapter()).refresh();
         recyclerView.scrollToPosition(0);
         scrollListener2.show();
-        if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider()) categoryViews.Divider.setVisibility(GONE);
+        if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider())
+            categoryViews.Divider.setVisibility(GONE);
         categoryViews.setPageIndex(0);
     }
 
     @Override
-    public int getPageIndex(){
+    public int getPageIndex() {
         return categoryViews.index;
     }
 

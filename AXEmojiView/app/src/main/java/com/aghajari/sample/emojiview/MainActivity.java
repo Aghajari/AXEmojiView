@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final Switch mDarkTheme = findViewById(R.id.dark_theme);
 
         final AXEmojiButton btn = findViewById(R.id.start_emoji_activity);
+
         AXIOSEmojiLoader.preloadEmoji(AXEmojiUtils.getEmojiUnicode(0x1f60d),
                 new AXIOSEmojiLoader.EmojiLoaderListener() {
                     @Override

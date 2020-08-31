@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package com.aghajari.emojiview.shared;
 
 import android.content.Context;
@@ -17,15 +35,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class RecentEmojiManager implements RecentEmoji {
-   static  String PREFERENCE_NAME = "emoji-recent-manager";
-   static  String RECENT_EMOJIS = "recent-saved-emojis";
-   public static  boolean FILL_DEFAULT_HISTORY = true;
-   public static int MAX_RECENT = -1;
+    static String PREFERENCE_NAME = "emoji-recent-manager";
+    static String RECENT_EMOJIS = "recent-saved-emojis";
+    public static boolean FILL_DEFAULT_HISTORY = true;
+    public static int MAX_RECENT = -1;
 
-   private static HashMap<String, Integer> emojiUseHistory = new HashMap<>();
-   private static ArrayList<Emoji> recentEmoji = new ArrayList<>();
+    private static HashMap<String, Integer> emojiUseHistory = new HashMap<>();
+    private static ArrayList<Emoji> recentEmoji = new ArrayList<>();
 
-   public static String[] FILL_DEFAULT_RECENT_DATA = new String[]{
+    public static String[] FILL_DEFAULT_RECENT_DATA = new String[]{
             "\uD83D\uDE02", "\uD83D\uDE18", "\u2764", "\uD83D\uDE0D", "\uD83D\uDE0A", "\uD83D\uDE01",
             "\uD83D\uDC4D", "\u263A", "\uD83D\uDE14", "\uD83D\uDE04", "\uD83D\uDE2D", "\uD83D\uDC8B",
             "\uD83D\uDE12", "\uD83D\uDE33", "\uD83D\uDE1C", "\uD83D\uDE48", "\uD83D\uDE09", "\uD83D\uDE03",
@@ -33,61 +51,62 @@ public final class RecentEmojiManager implements RecentEmoji {
             "\uD83D\uDE05", "\uD83D\uDE1A", "\uD83D\uDE4A", "\uD83D\uDE0C", "\uD83D\uDE00", "\uD83D\uDE0B",
             "\uD83D\uDE06", "\uD83D\uDC4C", "\uD83D\uDE10", "\uD83D\uDE15"};
 
-    @NonNull private final Context context;
+    @NonNull
+    private final Context context;
 
-  public static boolean isEmpty(Context context){
-    return emojiUseHistory.isEmpty();
-  }
-
-  @Override
-  public boolean isEmpty(){
-    if (!emojiUseHistory.isEmpty()) return  false;
-    if (AXEmojiManager.getInstance().isShowingEmptyRecentEnabled()==false) {
-      return true;
+    public static boolean isEmpty(Context context) {
+        return emojiUseHistory.isEmpty();
     }
-    return  false;
-  }
 
-  public RecentEmojiManager(@NonNull final Context context) {
-    this.context = context.getApplicationContext();
-    reload();
-  }
+    @Override
+    public boolean isEmpty() {
+        if (!emojiUseHistory.isEmpty()) return false;
+        if (AXEmojiManager.getInstance().isShowingEmptyRecentEnabled() == false) {
+            return true;
+        }
+        return false;
+    }
 
-  @Override
-  public Collection<Emoji> getRecentEmojis() {
-      return recentEmoji;
-  }
+    public RecentEmojiManager(@NonNull final Context context) {
+        this.context = context.getApplicationContext();
+        reload();
+    }
 
-  @Override
-  public void reload() {
-      loadRecentEmoji();
-  }
+    @Override
+    public Collection<Emoji> getRecentEmojis() {
+        return recentEmoji;
+    }
 
-  @Override
-  public void addEmoji(@NonNull final Emoji emoji) {
-      addRecentEmoji(emoji.getBase());
-  }
+    @Override
+    public void reload() {
+        loadRecentEmoji();
+    }
 
-  @Override
-  public void persist() {
-    saveRecentEmoji();
-  }
-  
-  private SharedPreferences getPreferences() {
-    return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-  }
+    @Override
+    public void addEmoji(@NonNull final Emoji emoji) {
+        addRecentEmoji(emoji.getBase());
+    }
+
+    @Override
+    public void persist() {
+        saveRecentEmoji();
+    }
+
+    private SharedPreferences getPreferences() {
+        return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+    }
 
     public void addRecentEmoji(Emoji emoji) {
         Integer count = emojiUseHistory.get(emoji.getBase().getUnicode());
         if (count == null) {
             count = 0;
         }
-        if (MAX_RECENT<=0) MAX_RECENT = 48;
+        if (MAX_RECENT <= 0) MAX_RECENT = 48;
         if (count == 0 && emojiUseHistory.size() >= MAX_RECENT) {
             Emoji mEmoji = recentEmoji.get(recentEmoji.size() - 1);
             emojiUseHistory.remove(mEmoji.getBase().getUnicode());
             recentEmoji.set(recentEmoji.size() - 1, emoji.getBase());
-        }else{
+        } else {
             if (!emojiUseHistory.containsKey(emoji.getBase().getUnicode()))
                 recentEmoji.add(emoji.getBase());
         }
@@ -100,25 +119,25 @@ public final class RecentEmojiManager implements RecentEmoji {
             recentEmoji.add(AXEmojiManager.getInstance().findEmoji(entry.getKey()));
         }
         Collections.sort(recentEmoji, new Comparator<Emoji>() {
-                    @Override
-                    public int compare(Emoji lhs, Emoji rhs) {
-                        Integer count1 = emojiUseHistory.get(lhs.getBase().getUnicode());
-                        Integer count2 = emojiUseHistory.get(rhs.getBase().getUnicode());
-                        if (count1 == null) {
-                            count1 = 0;
-                        }
-                        if (count2 == null) {
-                            count2 = 0;
-                        }
-                        if (count1 > count2) {
-                            return -1;
-                        } else if (count1 < count2) {
-                            return 1;
-                        }
-                        return 0;
-                    }
+            @Override
+            public int compare(Emoji lhs, Emoji rhs) {
+                Integer count1 = emojiUseHistory.get(lhs.getBase().getUnicode());
+                Integer count2 = emojiUseHistory.get(rhs.getBase().getUnicode());
+                if (count1 == null) {
+                    count1 = 0;
+                }
+                if (count2 == null) {
+                    count2 = 0;
+                }
+                if (count1 > count2) {
+                    return -1;
+                } else if (count1 < count2) {
+                    return 1;
+                }
+                return 0;
+            }
         });
-        if (MAX_RECENT<=0) MAX_RECENT = 48;
+        if (MAX_RECENT <= 0) MAX_RECENT = 48;
         while (recentEmoji.size() > MAX_RECENT) {
             recentEmoji.remove(recentEmoji.size() - 1);
         }
@@ -161,7 +180,7 @@ public final class RecentEmojiManager implements RecentEmoji {
                 }
             }
             if (emojiUseHistory.isEmpty() && FILL_DEFAULT_HISTORY) {
-                if (FILL_DEFAULT_RECENT_DATA!=null && FILL_DEFAULT_RECENT_DATA.length!=0) {
+                if (FILL_DEFAULT_RECENT_DATA != null && FILL_DEFAULT_RECENT_DATA.length != 0) {
                     for (int i = 0; i < FILL_DEFAULT_RECENT_DATA.length; i++) {
                         emojiUseHistory.put(FILL_DEFAULT_RECENT_DATA[i], FILL_DEFAULT_RECENT_DATA.length - i);
                     }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2020 - Amir Hossein Aghajari
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+
 package com.aghajari.emojiview.view;
 
 import android.app.Activity;
@@ -46,17 +64,21 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
     final EmojiResultReceiver emojiResultReceiver = new EmojiResultReceiver(new Handler(Looper.getMainLooper()));
 
     final ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override @SuppressWarnings("PMD.CyclomaticComplexity") public void onGlobalLayout() {
+        @Override
+        @SuppressWarnings("PMD.CyclomaticComplexity")
+        public void onGlobalLayout() {
             updateKeyboardState();
         }
     };
 
     final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() {
-        @Override public void onViewAttachedToWindow(final View v) {
+        @Override
+        public void onViewAttachedToWindow(final View v) {
             start();
         }
 
-        @Override public void onViewDetachedFromWindow(final View v) {
+        @Override
+        public void onViewDetachedFromWindow(final View v) {
             stop();
 
             popupWindow.setOnDismissListener(null);
@@ -69,9 +91,9 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
         }
     };
 
-    PopupListener listener= null;
+    PopupListener listener = null;
 
-    public void setPopupListener(PopupListener listener){
+    public void setPopupListener(PopupListener listener) {
         this.listener = listener;
     }
 
@@ -80,19 +102,20 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
         this.rootView = content.getEditText().getRootView();
         this.editText = content.getEditText();
         this.content = content;
-        this.keyboardHeight = Utils.getKeyboardHeight(context,0);
+        this.keyboardHeight = Utils.getKeyboardHeight(context, 0);
         popupWindow = new PopupWindow(context);
 
         popupWindow.setContentView(content);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null)); // To avoid borders and overdraw.
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override public void onDismiss() {
-                if (listener!=null) listener.onDismiss();
+            @Override
+            public void onDismiss() {
+                if (listener != null) listener.onDismiss();
             }
         });
 
-        if (content instanceof AXEmojiPager){
+        if (content instanceof AXEmojiPager) {
             if (!((AXEmojiPager) content).isShowing) ((AXEmojiPager) content).show();
         }
 
@@ -100,12 +123,12 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
 
         rootView.addOnAttachStateChangeListener(onAttachStateChangeListener);
 
-        if (keyboardHeight>=MIN_KEYBOARD_HEIGHT){
+        if (keyboardHeight >= MIN_KEYBOARD_HEIGHT) {
             popupWindow.setHeight(keyboardHeight);
         }
     }
 
-    public PopupWindow getPopupWindow(){
+    public PopupWindow getPopupWindow() {
         return popupWindow;
     }
 
@@ -125,7 +148,8 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
             context.getWindow().getDecorView().setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
                 int previousOffset;
 
-                @Override public WindowInsets onApplyWindowInsets(final View v, final WindowInsets insets) {
+                @Override
+                public WindowInsets onApplyWindowInsets(final View v, final WindowInsets insets) {
                     final int offset;
 
                     if (insets.getSystemWindowInsetBottom() < insets.getStableInsetBottom()) {
@@ -162,11 +186,11 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
     }
 
     void updateKeyboardStateOpened(final int keyboardHeight) {
-        if (popupWindowHeight<=0){
+        if (popupWindowHeight <= 0) {
             popupWindowHeight = keyboardHeight;
         }
 
-        if ( popupWindow.getHeight() != popupWindowHeight) {
+        if (popupWindow.getHeight() != popupWindowHeight) {
             popupWindow.setHeight(popupWindowHeight);
         }
 
@@ -176,7 +200,7 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
             popupWindow.setWidth(properWidth);
         }
 
-        Utils.updateKeyboardHeight(context,keyboardHeight);
+        Utils.updateKeyboardHeight(context, keyboardHeight);
         if (!isKeyboardOpen) {
             isKeyboardOpen = true;
             if (listener != null) {
@@ -229,7 +253,6 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
     }
 
 
-
     private void showAtBottomPending() {
         isPendingOpen = true;
 
@@ -279,7 +302,7 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
     void showAtBottom() {
         isPendingOpen = false;
         if (popupWindow.isShowing()) return;
-        popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0,0);
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
         if (listener != null) listener.onShow();
     }
 

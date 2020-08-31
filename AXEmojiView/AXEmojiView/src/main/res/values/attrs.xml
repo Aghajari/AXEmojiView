@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="emojiSize" format="dimension" />
+
     <declare-styleable name="AXEmojiEditText">
-        <attr name="emojiSize_EDT" format="dimension" />
+        <attr name="emojiSize"/>
     </declare-styleable>
+
     <declare-styleable name="AXEmojiTextView">
-        <attr name="emojiSize_TV" format="dimension" />
+        <attr name="emojiSize"/>
     </declare-styleable>
+
     <declare-styleable name="AXEmojiButton">
-        <attr name="emojiSize_BTN" format="dimension" />
+        <attr name="emojiSize"/>
     </declare-styleable>
+
     <declare-styleable name="AXEmojiMultiAutoCompleteTextView">
-        <attr name="emojiSize_MEDT" format="dimension" />
+        <attr name="emojiSize"/>
     </declare-styleable>
+
     <declare-styleable name="AXEmojiCheckbox">
-        <attr name="emojiSize_CB" format="dimension" />
+        <attr name="emojiSize"/>
     </declare-styleable>
+
+    <declare-styleable name="AXEmojiRadioButton">
+        <attr name="emojiSize"/>
+    </declare-styleable>
+
 </resources>

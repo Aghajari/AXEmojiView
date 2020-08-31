@@ -23,7 +23,7 @@
                 android:imeOptions="flagNoExtractUi"
                 android:textColor="@android:color/black"
                 android:textSize="18dp"
-                app:emojiSize_TV="20dp" />
+                app:emojiSize="20dp" />
 
             <FrameLayout
         android:id="@+id/edt_parent"
