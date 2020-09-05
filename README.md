@@ -30,7 +30,7 @@
 - [RecentManager And VariantManager](#recentmanager-and-variantmanager)
 - [Variant View](#variant-view)
 - [Emoji Loader](#emoji-loader)
-- [AnimatedStickers (AXrLottie)](#AnimatedStickers)
+- [AnimatedStickers (AXrLottie)](#animatedstickers-axrlottie)
 - [Download APK](#download-apk)
 - [Author](#author)
 - [License](#license)
