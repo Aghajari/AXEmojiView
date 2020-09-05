@@ -30,6 +30,7 @@
 - [RecentManager And VariantManager](#recentmanager-and-variantmanager)
 - [Variant View](#variant-view)
 - [Emoji Loader](#emoji-loader)
+- [AnimatedStickers (AXrLottie)](#AnimatedStickers)
 - [Download APK](#download-apk)
 - [Author](#author)
 - [License](#license)
@@ -414,6 +415,12 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
   }
 });
 ```
+
+## AnimatedStickers (AXrLottie)
+[See AXrLottie](https://github.com/Aghajari/AXrLottie#animatedsticker---axemojiview)
+
+<img src="https://github.com/Aghajari/AXrLottie/blob/master/images/screen.png" width=350 title="Screen">
+
 
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
