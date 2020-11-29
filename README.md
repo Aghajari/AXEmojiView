@@ -31,6 +31,7 @@
 - [Variant View](#variant-view)
 - [Emoji Loader](#emoji-loader)
 - [AnimatedStickers (AXrLottie)](#animatedstickers-axrlottie)
+- [AXMemojiView](#axmemojiview)
 - [Download APK](#download-apk)
 - [Author](#author)
 - [License](#license)
@@ -421,6 +422,12 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 
 <img src="https://github.com/Aghajari/AXrLottie/blob/master/images/screen.png" width=350 title="Screen">
 
+## [AXMemojiView](https://github.com/Aghajari/AXMemojiView)
+[AXMemojiView](https://github.com/Aghajari/AXMemojiView) is a page for AXEmojiView which shows memoji just like stickers
+
+<img width="550" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551530-6cfdfd00-3296-11eb-8963-026ba0641d44.png">
+ 
+<img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551778-2a3d2480-3298-11eb-915d-a0b7ab9ef763.png"> <img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551817-6f615680-3298-11eb-8f56-c5e8e6adc23c.png"> <img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551853-a172b880-3298-11eb-87a0-7bcbc0bc7687.png">
 
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
