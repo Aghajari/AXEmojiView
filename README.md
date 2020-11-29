@@ -30,6 +30,7 @@
 - [RecentManager And VariantManager](#recentmanager-and-variantmanager)
 - [Variant View](#variant-view)
 - [Emoji Loader](#emoji-loader)
+- [AnimatedStickers (AXrLottie)](#animatedstickers-axrlottie)
 - [Download APK](#download-apk)
 - [Author](#author)
 - [License](#license)
@@ -38,11 +39,11 @@
 
 AXEmojiView is available in the JCenter, so you just need to add it as a dependency (Module gradle)
 
-**LastVersion : 1.2.1**
+**LastVersion : 1.2.2**
 
 Gradle
 ```gradle
-implementation 'com.aghajari.emojiview:AXEmojiView:1.2.1'
+implementation 'com.aghajari.emojiview:AXEmojiView:1.2.2'
 ```
 
 Maven
@@ -50,7 +51,7 @@ Maven
 <dependency>
   <groupId>com.aghajari.emojiview</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -334,6 +335,7 @@ Result :
 - AXEmojiImageView
 - AXEmojiTextView
 - AXEmojiCheckBox
+- AXEmojiRadioButton
 
 ## Listeners
 onEmojiActions :
@@ -414,13 +416,19 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 });
 ```
 
+## AnimatedStickers (AXrLottie)
+[See AXrLottie](https://github.com/Aghajari/AXrLottie#animatedsticker---axemojiview)
+
+<img src="https://github.com/Aghajari/AXrLottie/blob/master/images/screen.png" width=350 title="Screen">
+
+
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
 
-- Version: 1.2.0
-- LastUpdate: 15 August 2020
+- Version: 1.2.2
+- LastUpdate: 31 August 2020
 
-[`Download Apk`](./AXEmojiView1.2.0.apk)
+[`Download Apk`](./AXEmojiView1.2.2.apk)
 
 ## Author 
 - **Amir Hossein Aghajari**
