@@ -137,7 +137,6 @@ public class EmojiPopupViewActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     public void onBackPressed() {
         if (!layout.onBackPressed())

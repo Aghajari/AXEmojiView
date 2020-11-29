@@ -41,12 +41,19 @@ import com.aghajari.emojiview.view.AXEmojiLayout;
 public class AXCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     AXEmojiLayout pager;
     StickerProvider provider;
+    RecentSticker recentSticker;
     boolean recent;
 
     public AXCategoryAdapter(AXEmojiLayout pager, StickerProvider provider, RecentSticker RecentStickerManager) {
         recent = !RecentStickerManager.isEmpty() && provider.isRecentEnabled();
+        this.recentSticker = RecentStickerManager;
         this.pager = pager;
         this.provider = provider;
+    }
+
+    public void update() {
+        recent = !recentSticker.isEmpty() && provider.isRecentEnabled();;
+        notifyDataSetChanged();
     }
 
     @NonNull

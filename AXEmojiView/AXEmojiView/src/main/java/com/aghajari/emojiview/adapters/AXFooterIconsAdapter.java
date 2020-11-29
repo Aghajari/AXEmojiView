@@ -59,15 +59,19 @@ public class AXFooterIconsAdapter extends RecyclerView.Adapter<RecyclerView.View
         AXEmojiLayout layout = (AXEmojiLayout) viewHolder.itemView;
         AppCompatImageView icon = (AppCompatImageView) layout.getChildAt(0);
 
-
-        Drawable dr = ContextCompat.getDrawable(icon.getContext().getApplicationContext(), pager.getPageIcon(i));
-        if (selected) {
-            DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getEmojiViewTheme().getFooterSelectedItemColor());
+        if (pager.getPageBinder(i) != null) {
+            pager.getPageBinder(i).onBindFooterItem(icon, i, selected);
         } else {
-            DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getEmojiViewTheme().getFooterItemColor());
+            Drawable dr = ContextCompat.getDrawable(icon.getContext().getApplicationContext(), pager.getPageIcon(i));
+            if (selected) {
+                DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getEmojiViewTheme().getFooterSelectedItemColor());
+            } else {
+                DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getEmojiViewTheme().getFooterItemColor());
+            }
+            icon.setImageDrawable(dr);
         }
-        icon.setImageDrawable(dr);
         Utils.setClickEffect(icon, true);
+
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

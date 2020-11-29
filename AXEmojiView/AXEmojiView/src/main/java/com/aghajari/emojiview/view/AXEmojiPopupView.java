@@ -64,21 +64,6 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         return isKeyboardOpen;
     }
 
-    private ViewTreeObserver.OnGlobalLayoutListener keyboardLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        public void onGlobalLayout() {
-            final int keyboardHeight = Utils.getInputMethodHeight(context, rootView);
-            if (keyboardHeight > Utils.dpToPx(context, MIN_KEYBOARD_HEIGHT)) {
-                updateKeyboardStateOpened(keyboardHeight);
-                if (listener != null) listener.onKeyboardOpened(keyboardHeight);
-            } else {
-                updateKeyboardStateClosed();
-                if (listener != null) listener.onKeyboardClosed();
-            }
-        }
-    };
-
-
     PopupListener listener = null;
 
     public void setPopupListener(PopupListener listener) {
@@ -99,8 +84,6 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         this.rootView = content.getEditText().getRootView();
         this.editText = content.getEditText();
         this.content = content;
-
-        rootView.getViewTreeObserver().addOnGlobalLayoutListener(keyboardLayoutListener);
 
         this.addView(content, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
@@ -160,6 +143,14 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         } else {
             //disable anim
             //dismiss();
+        }
+    }
+
+    void updateKeyboardState(int keyboardHeight){
+        if (keyboardHeight > Utils.dpToPx(context, MIN_KEYBOARD_HEIGHT)) {
+            updateKeyboardStateOpened(keyboardHeight);
+        } else {
+            updateKeyboardStateClosed();
         }
     }
 

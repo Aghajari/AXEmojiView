@@ -71,7 +71,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Amir Hossein Aghajari
- * @version 1.2.2
+ * @version 1.2.4
  */
 public class AXEmojiManager {
 

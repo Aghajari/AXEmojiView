@@ -82,7 +82,7 @@ class AXCategoryRecycler extends AXEmojiLayout {
     }
 
     public void setPageIndex(int index) {
-        icons.getAdapter().notifyDataSetChanged();
+        ((AXCategoryAdapter)icons.getAdapter()).update();
     }
 
 }

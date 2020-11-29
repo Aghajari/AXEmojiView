@@ -122,6 +122,11 @@ public class AXEmojiPager extends AXEmojiLayout {
         pages.add(new AXPage(parent, iconRes));
     }
 
+    public void addPage(AXEmojiBase parent, OnFooterItemBinder binder) {
+        if (vp.getAdapter() != null) return;
+        pages.add(new AXPage(parent, binder));
+    }
+
     public void removePage(int index) {
         pages.remove(index);
     }
@@ -130,8 +135,7 @@ public class AXEmojiPager extends AXEmojiLayout {
         return pages.get(index).base;
     }
 
-    public @DrawableRes
-    int getPageIcon(int index) {
+    public @DrawableRes int getPageIcon(int index) {
         return pages.get(index).icon;
     }
 
@@ -139,14 +143,32 @@ public class AXEmojiPager extends AXEmojiLayout {
         return pages.size();
     }
 
+    public void setPageBinder(int index, OnFooterItemBinder binder) {
+        pages.get(index).setBinder(binder);
+    }
+
+    public OnFooterItemBinder getPageBinder(int index) {
+        return pages.get(index).binder;
+    }
+
 
     private class AXPage {
         AXEmojiBase base;
         int icon;
+        OnFooterItemBinder binder;
 
         public AXPage(AXEmojiBase base, @DrawableRes int icon) {
             this.base = base;
             this.icon = icon;
+        }
+
+        public AXPage(AXEmojiBase base, OnFooterItemBinder binder) {
+            this.base = base;
+            this.binder = binder;
+        }
+
+        public void setBinder(OnFooterItemBinder binder) {
+            this.binder = binder;
         }
     }
 
@@ -213,7 +235,7 @@ public class AXEmojiPager extends AXEmojiLayout {
             footerView.setEditText(editText);
             this.addView(footerView, new AXEmojiLayout.LayoutParams(0, 0, -1, Utils.dpToPx(getContext(), 44)));
         } else if (customFooter != null) {
-            if (customFooter != null && customFooter.getParent() != null) {
+            if (customFooter.getParent() != null) {
                 ((ViewGroup) customFooter.getParent()).removeView(customFooter);
             }
             this.addView(customFooter, customFooter.getLayoutParams());
@@ -320,6 +342,10 @@ public class AXEmojiPager extends AXEmojiLayout {
      */
     public void setOnFooterItemClicked(OnFooterItemClicked listener) {
         this.listener = listener;
+    }
+
+    public interface OnFooterItemBinder {
+        void onBindFooterItem(AppCompatImageView view, int index, boolean selected);
     }
 
     public interface OnFooterItemClicked {
