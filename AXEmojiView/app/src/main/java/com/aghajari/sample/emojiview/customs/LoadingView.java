@@ -1,6 +1,7 @@
 package com.aghajari.sample.emojiview.customs;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.ProgressBar;
 
 import com.aghajari.emojiview.utils.Utils;
@@ -12,15 +13,10 @@ public class LoadingView extends AXEmojiLayout {
     public LoadingView(Context context) {
         super(context);
         progressBar = new ProgressBar(context);
-        this.addView(progressBar,new LayoutParams(0,0, Utils.dpToPx(getContext(),44),Utils.dpToPx(getContext(),44)));
+        LayoutParams lp = new LayoutParams(Utils.dpToPx(getContext(),44),Utils.dpToPx(getContext(),44));
+        lp.gravity = Gravity.CENTER;
+        lp.bottomMargin = lp.width/2;
+        this.addView(progressBar,lp);
         progressBar.setIndeterminate(true);
-    }
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        ((LayoutParams)progressBar.getLayoutParams()).left = w/2-Utils.dpToPx(getContext(),22);
-        ((LayoutParams)progressBar.getLayoutParams()).top = h/2-Utils.dpToPx(getContext(),44);
-        this.requestLayout();
     }
 }

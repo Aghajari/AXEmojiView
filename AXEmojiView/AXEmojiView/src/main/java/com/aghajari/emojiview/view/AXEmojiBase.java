@@ -23,36 +23,55 @@ import android.content.Context;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
-public class AXEmojiBase extends ViewGroup {
+import com.aghajari.emojiview.utils.Utils;
+
+public class AXEmojiBase extends FrameLayout {
 
     public AXEmojiBase(Context context) {
         super(context);
+        Utils.forceLTR(this);
     }
 
     public AXEmojiBase(Context context, AttributeSet attrs) {
         super(context, attrs);
+        Utils.forceLTR(this);
     }
 
     public AXEmojiBase(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-    }
-
-    @Override
-    protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
+        Utils.forceLTR(this);
     }
 
     EditText editText;
+    AXPopupInterface popupInterface;
 
     public void setEditText(EditText editText) {
         this.editText = editText;
+
+        if (popupInterface!=null && editText instanceof AXEmojiEditText){
+            ((AXEmojiEditText) editText).popupInterface = popupInterface;
+        }
     }
 
     public EditText getEditText() {
         return editText;
+    }
+
+    public void setPopupInterface(AXPopupInterface popupInterface) {
+        this.popupInterface = popupInterface;
+
+        if (editText!=null && editText instanceof AXEmojiEditText){
+            ((AXEmojiEditText) editText).popupInterface = popupInterface;
+        }
+    }
+
+    public AXPopupInterface getPopupInterface() {
+        return popupInterface;
     }
 
     public void dismiss() {
@@ -79,4 +98,5 @@ public class AXEmojiBase extends ViewGroup {
 
     protected void onShow() {
     }
+
 }

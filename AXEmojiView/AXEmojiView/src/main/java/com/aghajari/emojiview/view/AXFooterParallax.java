@@ -32,14 +32,11 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     ObjectAnimator anim;
     private boolean menabled;
     private boolean monIdle;
-    public OnScrollListener OnScrollListener;
     private long AnimTime;
     private int mComputeScrollOffset;
     private long Accept;
     private long scrollspeed;
     int minDy = -1;
-
-    boolean isShowing = true;
 
     AXFooterParallax(View Toolbar, int ParalaxSize, int minDy) {
         this.minDy = minDy;
@@ -56,7 +53,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         super.onScrollStateChanged(recyclerView, newState);
         RecyclerView = recyclerView;
         if (menabled) {
-            if (monIdle && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (monIdle && newState == androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE) {
                 IDLE();
             }
         }
@@ -69,6 +66,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         if (anim.getDuration() == anim.getCurrentPlayTime()) {
             if (minDy > Math.abs(dy)) {
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager == null) return;
                 int firstVisibleItemPosition = 0;
                 int visibleItemCount = layoutManager.getChildCount();
                 if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
@@ -100,7 +98,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         return min;
     }
 
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return menabled;
     }
 
@@ -108,21 +106,8 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         this.menabled = enabled;
     }
 
-    public boolean getChangeOnIDLEState() {
-        return monIdle;
-    }
-
     public void setChangeOnIDLEState(boolean enabled) {
         this.monIdle = enabled;
-    }
-
-    public long getCurrentPlayTime() {
-        return anim.getCurrentPlayTime();
-    }
-
-    public void setCurrentPlayTime(long time) {
-        AnimTime = time;
-        anim.setCurrentPlayTime(time);
     }
 
     public long getDuration() {
@@ -133,49 +118,18 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         anim.setDuration(duration);
     }
 
-    public int getMinComputeScrollOffset() {
-        return mComputeScrollOffset;
-    }
-
     public void setMinComputeScrollOffset(int ComputeScrollOffset) {
         mComputeScrollOffset = ComputeScrollOffset;
-    }
-
-    public long getScrollSpeed() {
-        return this.scrollspeed;
     }
 
     public void setScrollSpeed(long s) {
         scrollspeed = s;
     }
 
-
-    public long getIDLEHideSize() {
-        return this.Accept;
-    }
-
-
     public void setIDLEHideSize(long s) {
         this.Accept = s;
     }
 
-    /**
-     * Get Object Animator
-     */
-    public ObjectAnimator getObjectAnimator() {
-        return anim;
-    }
-
-    /**
-     * Set Toolbar Parallax with scroll offset
-     */
-    public void onScroll(int Dy) {
-        SCROLL(Dy);
-    }
-
-    /**
-     * Start
-     */
     public void onIDLE(boolean WithAnimation) {
         if (WithAnimation) {
             IDLE();
@@ -204,7 +158,6 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
                     starts(true);
                 } else {
                     starts(false);
-
                 }
             }
         } else {
@@ -245,20 +198,16 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
             } else {
                 AnimTime = AnimTime - Math.abs(dy / scrollspeed);
             }
-            if (AnimTime > anim.getDuration()) {
+            if (AnimTime > anim.getDuration())
                 AnimTime = anim.getDuration();
-            }
-            if (AnimTime < 0) {
+            if (AnimTime < 0)
                 AnimTime = 0;
-            }
             anim.setCurrentPlayTime(AnimTime);
         } else {
-            if (AnimTime > anim.getDuration()) {
+            if (AnimTime > anim.getDuration())
                 AnimTime = anim.getDuration();
-            }
-            if (AnimTime < 0) {
+            if (AnimTime < 0)
                 AnimTime = 0;
-            }
         }
     }
 }

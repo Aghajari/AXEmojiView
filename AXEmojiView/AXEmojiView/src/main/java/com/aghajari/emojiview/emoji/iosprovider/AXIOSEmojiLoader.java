@@ -43,6 +43,7 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.aghajari.emojiview.emoji.EmojiData;
 import com.aghajari.emojiview.utils.Utils;
@@ -247,7 +248,7 @@ public class AXIOSEmojiLoader {
     /**
      * @return emoji drawable
      */
-    public static EmojiDrawable getEmojiDrawable(CharSequence code) {
+    public static @Nullable EmojiDrawable getEmojiDrawable(CharSequence code) {
         DrawableInfo info = getDrawableInfo(code);
         if (info == null) {
             //No drawable for emoji + code
@@ -261,7 +262,7 @@ public class AXIOSEmojiLoader {
     /**
      * @return emoji bitmap or null if emoji hasn't loaded yet (or it's invalid).
      */
-    public static Bitmap getEmojiBitmap(CharSequence code) {
+    public static @Nullable Bitmap getEmojiBitmap(CharSequence code) {
         DrawableInfo info = getDrawableInfo(code);
         if (info == null) return null;
         return emojiBmp[info.page][info.page2];
@@ -328,21 +329,6 @@ public class AXIOSEmojiLoader {
         ed.setBounds(0, 0, size, size);
         ed.fullSize = fullSize;
         return ed;
-    }
-
-    private static class CustomEmojiDrawable extends EmojiDrawable {
-        int size;
-
-        public CustomEmojiDrawable(DrawableInfo i, int size) {
-            super(i);
-            this.size = size;
-        }
-
-        @Override
-        public int getSize() {
-            return size;
-        }
-
     }
 
     private static class EmojiDrawable extends Drawable {
@@ -739,7 +725,7 @@ public class AXIOSEmojiLoader {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return new ArrayList<>();
         }
         if (emojiOnly != null && emojiCode.length() != 0) {

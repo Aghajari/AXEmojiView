@@ -26,6 +26,7 @@ import com.aghajari.emojiview.utils.EmojiRange;
 import com.aghajari.emojiview.utils.EmojiReplacer;
 import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader.EmojiSpan;
 import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader.SpanLocation;
+import com.aghajari.emojiview.view.AXEmojiEditText;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -56,7 +57,7 @@ public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
             AXIOSEmojiLoader.replaceEmoji(text, fontMetrics, (int) emojiSize, false);
         } else {
             findAllEmojis = emojiManager.findAllEmojis(text);
-            //noinspection ForLoopReplaceableByForEach
+
             for (int i = 0; i < findAllEmojis.size(); i++) {
                 final EmojiRange location = findAllEmojis.get(i);
 
@@ -66,6 +67,7 @@ public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
                         l.start = location.start + l.start;
                         l.end = location.start + l.end;
                         if (!existingSpanPositions.contains(l.start)) {
+                            if (l.start == l.end) continue;
                             text.setSpan(l.span, l.start, l.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
                     }
@@ -87,7 +89,18 @@ public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
                     if (!checkEmojisState(emojis)) {
                         view.postDelayed(this, 20);
                     } else {
-                        view.postInvalidate();
+                        if (view instanceof AXEmojiEditText){
+                            try {
+                                int start = ((AXEmojiEditText) view).getSelectionStart();
+                                int end = ((AXEmojiEditText) view).getSelectionEnd();
+                                ((AXEmojiEditText) view).setText(((AXEmojiEditText) view).getText());
+                                ((AXEmojiEditText) view).setSelection(start,end);
+                            }catch (Exception ignore){
+                                view.invalidate();
+                            }
+                        } else {
+                            view.postInvalidate();
+                        }
                     }
                 }
             }, 20);

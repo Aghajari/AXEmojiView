@@ -61,7 +61,7 @@ public final class RecentEmojiManager implements RecentEmoji {
     @Override
     public boolean isEmpty() {
         if (!emojiUseHistory.isEmpty()) return false;
-        if (AXEmojiManager.getInstance().isShowingEmptyRecentEnabled() == false) {
+        if (!AXEmojiManager.isShowingEmptyRecentEnabled()) {
             return true;
         }
         return false;
@@ -72,6 +72,7 @@ public final class RecentEmojiManager implements RecentEmoji {
         reload();
     }
 
+    @NonNull
     @Override
     public Collection<Emoji> getRecentEmojis() {
         return recentEmoji;
@@ -205,7 +206,6 @@ public final class RecentEmojiManager implements RecentEmoji {
                 val = Integer.parseInt(num);
             }
         } catch (Exception ignore) {
-
         }
         return val;
     }

@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 
 import com.aghajari.emojiview.AXEmojiManager;
@@ -94,7 +93,7 @@ public class AXStickerView extends AXEmojiLayout {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             if (recyclerView == null) {
-                if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider()) {
+                if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled()) {
                     if (!isShowing) {
                         isShowing = true;
                         if (categoryViews != null) categoryViews.Divider.setVisibility(GONE);
@@ -107,8 +106,9 @@ public class AXStickerView extends AXEmojiLayout {
             super.onScrolled(recyclerView, dx, dy);
             if (scrollListener2 != null) scrollListener2.onScrolled(recyclerView, dx, dy);
 
-            if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider()) {
+            if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled()) {
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager == null) return;
                 int firstVisibleItemPosition = 1;
                 if (layoutManager instanceof GridLayoutManager) {
                     firstVisibleItemPosition = ((GridLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
@@ -155,7 +155,7 @@ public class AXStickerView extends AXEmojiLayout {
         vp = new ViewPager(getContext());
         this.addView(vp, new LayoutParams(0, top, -1, -1));
         vp.setAdapter(new AXStickerViewPagerAdapter(events, scrollListener, stickerProvider, recent));
-        vp.setPadding(0, 0, 0, top);
+        //vp.setPadding(0, 0, 0, top);
 
         if (AXEmojiManager.getStickerViewTheme().isCategoryEnabled()) {
             categoryViews = new AXCategoryRecycler(getContext(), this, stickerProvider, recent);
@@ -177,7 +177,7 @@ public class AXStickerView extends AXEmojiLayout {
             @Override
             public void onPageSelected(int i) {
                 vp.setCurrentItem(i, true);
-                if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider()) {
+                if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled()) {
                     if (((AXStickerViewPagerAdapter) vp.getAdapter()).recyclerViews.size() > i) {
                         View view = ((AXStickerViewPagerAdapter) vp.getAdapter()).recyclerViews.get(i);
                         if (view instanceof RecyclerView)
@@ -203,7 +203,7 @@ public class AXStickerView extends AXEmojiLayout {
     @Override
     public void setPageIndex(int index) {
         vp.setCurrentItem(index, true);
-        if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider()) {
+        if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled()) {
             if (((AXStickerViewPagerAdapter) vp.getAdapter()).recyclerViews.size() > index) {
                 View view = ((AXStickerViewPagerAdapter) vp.getAdapter()).recyclerViews.get(index);
                 if (view instanceof RecyclerView)
@@ -262,11 +262,11 @@ public class AXStickerView extends AXEmojiLayout {
                 if (view instanceof RecyclerView)
                     ((RecyclerView) view).getAdapter().notifyDataSetChanged();
             }
-            if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider())
+            if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled())
                 scrollListener.onScrolled(null, 0, 1);
             if (categoryViews != null) categoryViews.setPageIndex(0);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -285,11 +285,11 @@ public class AXStickerView extends AXEmojiLayout {
                 categoryViews.init(stickerProvider);
             }
             vp.setCurrentItem(stp, false);
-            if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider())
+            if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled())
                 scrollListener.onScrolled(null, 0, 1);
             if (categoryViews != null) categoryViews.setPageIndex(0);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

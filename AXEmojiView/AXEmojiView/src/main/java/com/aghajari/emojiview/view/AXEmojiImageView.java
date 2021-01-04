@@ -187,8 +187,8 @@ public final class AXEmojiImageView extends AppCompatImageView {
                 imageLoadingTask.cancel(true);
             }
 
-            if (AXEmojiManager.getInstance().getEmojiLoader() != null) {
-                AXEmojiManager.getInstance().getEmojiLoader().loadEmoji(this, emoji);
+            if (AXEmojiManager.getEmojiLoader() != null) {
+                AXEmojiManager.getEmojiLoader().loadEmoji(this, emoji);
             } else {
                 if (asyncLoad) {
                     imageLoadingTask = new ImageLoadingTask(this);
@@ -223,8 +223,8 @@ public final class AXEmojiImageView extends AppCompatImageView {
     public void updateEmoji(@NonNull final Emoji emoji) {
         if (!emoji.equals(currentEmoji)) {
             currentEmoji = emoji;
-            if (AXEmojiManager.getInstance().getEmojiLoader() != null) {
-                AXEmojiManager.getInstance().getEmojiLoader().loadEmoji(this, emoji);
+            if (AXEmojiManager.getEmojiLoader() != null) {
+                AXEmojiManager.getEmojiLoader().loadEmoji(this, emoji);
             } else {
                 setImageDrawable(emoji.getDrawable(this));
             }

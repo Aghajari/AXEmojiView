@@ -1,76 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root"
-    tools:context=".activity.DarkActivity">
+    tools:context=".activity.DarkActivity"
+    android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/content_layout">
-
-            <com.aghajari.emojiview.view.AXEmojiTextView
-                android:id="@+id/textview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="60dp"
-                android:imeOptions="flagNoExtractUi"
-                android:textColor="@android:color/white"
-                android:textSize="18dp"
-                app:emojiSize="20dp" />
-
-            <FrameLayout
-        android:id="@+id/edt_parent"
+    <com.aghajari.emojiview.view.AXEmojiTextView
+        android:id="@+id/textview"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_gravity="bottom"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="60dp"
+        android:imeOptions="flagNoExtractUi"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:emojiSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:background="@color/darkPrimary"
         android:elevation="10dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imageView"
-            android:layout_gravity="left"
-            android:layout_width="29dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="8dp"
-            android:tint="#677382"
-            app:srcCompat="@drawable/ic_msg_panel_smiles" />
+        <FrameLayout
+            android:id="@+id/edt_parent"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_gravity="top"
+            android:background="@color/darkPrimary">
 
-                <com.aghajari.sample.emojiview.customs.CustomEditText
-                    android:id="@+id/edt"
-                    android:layout_width="321dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="48dp"
-                    android:layout_marginRight="48dp"
-                    android:textColor="@android:color/white"
-                    android:textColorHint="@android:color/tertiary_text_light"
-                    android:background="@color/darkPrimary"
-                    android:hint="enter your message ..." />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageView"
+                android:layout_gravity="left"
+                android:layout_width="29dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:tint="#677382"
+                app:srcCompat="@drawable/ic_msg_panel_smiles" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/send_emoji"
-            android:layout_width="45dp"
-            android:layout_height="63dp"
-            android:layout_gravity="right"
-            android:layout_marginLeft="8dp"
-            android:tint="@color/darkAccent"
-            app:srcCompat="@drawable/attach_send" />
+            <com.aghajari.emojiview.view.AXEmojiEditText
+                android:id="@+id/edt"
+                android:layout_width="321dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="48dp"
+                android:layout_marginRight="48dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/tertiary_text_light"
+                android:background="@color/darkPrimary"
+                android:hint="enter your message ..." />
 
-             </FrameLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/send_emoji"
+                android:layout_width="45dp"
+                android:layout_height="63dp"
+                android:layout_gravity="right"
+                android:layout_marginLeft="8dp"
+                android:tint="@color/darkAccent"
+                app:srcCompat="@drawable/attach_send" />
 
         </FrameLayout>
 
+        <com.aghajari.emojiview.view.AXEmojiPopupLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:id="@+id/layout"/>
 
-    <com.aghajari.emojiview.view.AXEmojiPopupLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:id="@+id/layout"/>
+    </LinearLayout>
 
-</FrameLayout>
+
+</LinearLayout>

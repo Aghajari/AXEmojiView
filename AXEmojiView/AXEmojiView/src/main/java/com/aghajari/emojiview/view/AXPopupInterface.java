@@ -25,4 +25,8 @@ public interface AXPopupInterface {
     void dismiss();
 
     boolean isShowing();
+
+    boolean onBackPressed();
+
+    void reload();
 }

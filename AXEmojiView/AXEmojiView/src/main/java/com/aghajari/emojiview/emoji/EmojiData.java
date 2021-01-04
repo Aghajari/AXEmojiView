@@ -18,6 +18,8 @@
 
 package com.aghajari.emojiview.emoji;
 
+import androidx.annotation.IntRange;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -1133,8 +1135,14 @@ public class EmojiData {
         }
     }
 
+    private EmojiData(){}
+
     public static boolean isHeartEmoji(String emoji) {
         return "❤".equals(emoji) || "🧡".equals(emoji) || "💛".equals(emoji) || "💚".equals(emoji) || "💙".equals(emoji) || "💜".equals(emoji) || "🖤".equals(emoji) || "🤍".equals(emoji) || "🤎".equals(emoji);
+    }
+
+    public static String[] getHeartEmojis(){
+        return new String[]{"❤" , "🧡" , "💛" , "💚" , "💙" , "💜" , "🖤" , "🤍" , "🤎" , "♥" , "💔" , "❣" , "💕" , "💞" , "💓" , "💗" , "💖" , "💘" ,"💝"};
     }
 
     public static boolean isPeachEmoji(String emoji) {
@@ -1156,30 +1164,30 @@ public class EmojiData {
         String color = null;
 
         String toCheck = code.replace("\uD83C\uDFFB", "");
-        if (toCheck != code) {
+        if (!toCheck.equals(code)) {
             color = "\uD83C\uDFFB";
         }
         if (color == null) {
             toCheck = code.replace("\uD83C\uDFFC", "");
-            if (toCheck != code) {
+            if (!toCheck.equals(code)) {
                 color = "\uD83C\uDFFC";
             }
         }
         if (color == null) {
             toCheck = code.replace("\uD83C\uDFFD", "");
-            if (toCheck != code) {
+            if (!toCheck.equals(code)) {
                 color = "\uD83C\uDFFD";
             }
         }
         if (color == null) {
             toCheck = code.replace("\uD83C\uDFFE", "");
-            if (toCheck != code) {
+            if (!toCheck.equals(code)) {
                 color = "\uD83C\uDFFE";
             }
         }
         if (color == null) {
             toCheck = code.replace("\uD83C\uDFFF", "");
-            if (toCheck != code) {
+            if (!toCheck.equals(code)) {
                 color = "\uD83C\uDFFF";
             }
         }
@@ -1187,12 +1195,11 @@ public class EmojiData {
     }
 
     public static String getBaseEmoji(String code) {
-        String base = code.replace("\uD83C\uDFFB", "")
+        return code.replace("\uD83C\uDFFB", "")
                 .replace("\uD83C\uDFFC", "")
                 .replace("\uD83C\uDFFD", "")
                 .replace("\uD83C\uDFFE", "")
                 .replace("\uD83C\uDFFF", "");
-        return base;
     }
 
     public static boolean isColoredEmoji(String code) {
@@ -1215,6 +1222,22 @@ public class EmojiData {
             code += end;
         }
         return code;
+    }
+
+    public static String getColorCode (@IntRange(from = 1,to = 5) int index){
+        switch (index) {
+            case 1:
+                return "\uD83C\uDFFB";
+            case 2:
+                return "\uD83C\uDFFC";
+            case 3:
+                return "\uD83C\uDFFD";
+            case 4:
+                return "\uD83C\uDFFE";
+            case 5:
+                return "\uD83C\uDFFF";
+        }
+        return "";
     }
 
 }

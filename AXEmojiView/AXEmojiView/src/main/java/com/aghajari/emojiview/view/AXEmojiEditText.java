@@ -28,6 +28,8 @@ import androidx.annotation.Px;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.AXEmojiUtils;
@@ -37,6 +39,7 @@ import com.aghajari.emojiview.utils.Utils;
 
 public class AXEmojiEditText extends AppCompatEditText {
     private float emojiSize;
+    AXPopupInterface popupInterface;
 
     public AXEmojiEditText(final Context context) {
         this(context, null);
@@ -84,9 +87,25 @@ public class AXEmojiEditText extends AppCompatEditText {
         if (listener != null) listener.onInput(this, emoji);
     }
 
-    onInputEmojiListener listener;
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        try {
+            if (popupInterface != null && keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN && hasFocus()) {
+                InputMethodManager mgr = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (popupInterface.isShowing()) {
+                    mgr.hideSoftInputFromWindow(this.getWindowToken(), 0);
+                    popupInterface.onBackPressed();
+                    return true;
+                }
+            }
+        }catch (Exception ignore){}
 
-    public void setOnInputEmojiListener(onInputEmojiListener listener) {
+        return super.onKeyPreIme(keyCode,event);
+    }
+
+    OnInputEmojiListener listener;
+
+    public void setOnInputEmojiListener(OnInputEmojiListener listener) {
         this.listener = listener;
     }
 
@@ -94,7 +113,7 @@ public class AXEmojiEditText extends AppCompatEditText {
         this.listener = null;
     }
 
-    public interface onInputEmojiListener {
+    public interface OnInputEmojiListener {
         void onInput(AXEmojiEditText editText, Emoji emoji);
     }
 

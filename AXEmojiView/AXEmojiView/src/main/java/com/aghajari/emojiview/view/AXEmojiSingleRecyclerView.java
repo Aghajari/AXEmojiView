@@ -18,8 +18,8 @@
 
 package com.aghajari.emojiview.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.aghajari.emojiview.listener.FindVariantListener;
 import com.aghajari.emojiview.utils.Utils;
 
+@SuppressLint("ViewConstructor")
 public class AXEmojiSingleRecyclerView extends RecyclerView {
     FindVariantListener variantListener;
 
@@ -37,7 +38,7 @@ public class AXEmojiSingleRecyclerView extends RecyclerView {
         this.variantListener = variantListener;
         StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(Utils.getGridCount(context), StaggeredGridLayoutManager.VERTICAL);
         this.setLayoutManager(lm);
-
+        Utils.forceLTR(this);
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 

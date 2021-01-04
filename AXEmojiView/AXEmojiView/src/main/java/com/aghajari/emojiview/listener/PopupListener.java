@@ -26,4 +26,6 @@ public interface PopupListener {
     void onKeyboardOpened(int height);
 
     void onKeyboardClosed();
+
+    void onViewHeightChanged (int height);
 }

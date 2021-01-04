@@ -81,20 +81,6 @@ public class AXEmojiButton extends AppCompatButton {
         }
     }
 
-    public void setText2(final CharSequence rawText) {
-        if (AXEmojiManager.isInstalled()) {
-            final CharSequence text = rawText == null ? "" : rawText;
-            final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-            final Paint.FontMetrics fontMetrics = getPaint().getFontMetrics();
-            //final float defaultEmojiSize = fontMetrics.descent - fontMetrics.ascent;
-            AXEmojiManager.getInstance().replaceWithImages(getContext(), this, spannableStringBuilder,
-                    emojiSize>0 ? emojiSize : Utils.getDefaultEmojiSize(fontMetrics), fontMetrics);
-            super.setText(spannableStringBuilder);
-        }else{
-            super.setText(rawText);
-        }
-    }
-
     /**
      * sets the emoji size in pixels and automatically invalidates the text and renders it with the new size
      */
@@ -109,7 +95,7 @@ public class AXEmojiButton extends AppCompatButton {
         emojiSize = pixels;
 
         if (shouldInvalidate) {
-            setText2(getText().toString());
+            setText(getText().toString());
         }
     }
 

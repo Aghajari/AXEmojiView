@@ -27,10 +27,12 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.OnEmojiPagerPageChanged;
@@ -233,12 +235,16 @@ public class AXEmojiPager extends AXEmojiLayout {
             }
             footerView = new AXFooterView(getContext(), this, Left);
             footerView.setEditText(editText);
-            this.addView(footerView, new AXEmojiLayout.LayoutParams(0, 0, -1, Utils.dpToPx(getContext(), 44)));
+            this.addView(footerView, new AXEmojiLayout.LayoutParams( -1, Utils.dpToPx(getContext(), 44)));
         } else if (customFooter != null) {
             if (customFooter.getParent() != null) {
                 ((ViewGroup) customFooter.getParent()).removeView(customFooter);
             }
             this.addView(customFooter, customFooter.getLayoutParams());
+        }
+
+        if (footerView!=null) {
+            ((FrameLayout.LayoutParams) footerView.getLayoutParams()).gravity = Gravity.BOTTOM;
         }
 
         if (footer || (customFooter != null && parallax)) {
@@ -309,6 +315,15 @@ public class AXEmojiPager extends AXEmojiLayout {
     }
 
     @Override
+    public void setPopupInterface(AXPopupInterface popupInterface) {
+        super.setPopupInterface(popupInterface);
+        if (footerView != null) footerView.setPopupInterface(popupInterface);
+        for (int i = 0; i < pages.size(); i++) {
+            pages.get(i).base.setPopupInterface(popupInterface);
+        }
+    }
+
+    @Override
     protected void refresh() {
         super.refresh();
         if (footer) {
@@ -324,13 +339,6 @@ public class AXEmojiPager extends AXEmojiLayout {
      */
     public ViewPager getViewPager() {
         return vp;
-    }
-
-    @Override
-    public void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        if (footer)
-            ((LayoutParams) footerView.getLayoutParams()).top = h - ((LayoutParams) footerView.getLayoutParams()).height;
     }
 
     OnFooterItemClicked listener = null;

@@ -10,13 +10,16 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.SimplePopupAdapter;
+import com.aghajari.emojiview.search.AXEmojiSearchView;
 import com.aghajari.emojiview.view.AXEmojiPopup;
 
 import com.aghajari.emojiview.AXEmojiUtils;
 import com.aghajari.emojiview.view.AXEmojiEditText;
 import com.aghajari.emojiview.view.AXEmojiPager;
 import com.aghajari.emojiview.view.AXEmojiTextView;
+import com.aghajari.emojiview.view.AXEmojiView;
 import com.aghajari.sample.emojiview.R;
 import com.aghajari.sample.emojiview.UI;
 
@@ -85,6 +88,16 @@ public class EmojiActivity extends AppCompatActivity {
                 emojiImg.setImageDrawable(dr);
             }
         });
+
+        if (AXEmojiManager.isAXEmojiView(emojiPager.getPage(0))) {
+            popup.setSearchView(new AXEmojiSearchView(this, emojiPager.getPage(0)));
+            emojiPager.setOnFooterItemClicked(new AXEmojiPager.OnFooterItemClicked() {
+                @Override
+                public void onClick(View view, boolean leftIcon) {
+                    if (leftIcon) popup.showSearchView();
+                }
+            });
+        }
 
     }
 

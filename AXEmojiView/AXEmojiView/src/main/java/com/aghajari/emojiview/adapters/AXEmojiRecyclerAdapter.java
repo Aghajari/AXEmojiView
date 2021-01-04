@@ -78,7 +78,7 @@ public class AXEmojiRecyclerAdapter extends RecyclerView.Adapter<AXEmojiRecycler
         return count;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

@@ -18,6 +18,7 @@
 
 package com.aghajari.emojiview.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +33,7 @@ import com.aghajari.emojiview.sticker.RecentSticker;
 import com.aghajari.emojiview.sticker.StickerProvider;
 import com.aghajari.emojiview.utils.Utils;
 
+@SuppressLint("ViewConstructor")
 class AXCategoryRecycler extends AXEmojiLayout {
 
     RecentSticker recentStickerManager;
@@ -56,6 +58,7 @@ class AXCategoryRecycler extends AXEmojiLayout {
         LinearLayoutManager lm = new LinearLayoutManager(getContext());
         lm.setOrientation(LinearLayoutManager.HORIZONTAL);
         icons.setLayoutManager(lm);
+        Utils.forceLTR(icons);
 
         icons.setItemAnimator(null);
 
@@ -76,7 +79,7 @@ class AXCategoryRecycler extends AXEmojiLayout {
         Divider = new View(getContext());
         this.addView(Divider, new LayoutParams(
                 0, Utils.dpToPx(getContext(), 38), getContext().getResources().getDisplayMetrics().widthPixels, Utils.dpToPx(getContext(), 1)));
-        if (!AXEmojiManager.getStickerViewTheme().shouldShowAlwaysDivider())
+        if (!AXEmojiManager.getStickerViewTheme().isAlwaysShowDividerEnabled())
             Divider.setVisibility(GONE);
         Divider.setBackgroundColor(AXEmojiManager.getStickerViewTheme().getDividerColor());
     }

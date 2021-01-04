@@ -18,18 +18,21 @@
 
 package com.aghajari.emojiview.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.ResultReceiver;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowInsets;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.view.autofill.AutofillManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -38,13 +41,14 @@ import android.widget.FrameLayout;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.PopupListener;
+import com.aghajari.emojiview.search.AXEmojiSearchView;
 import com.aghajari.emojiview.utils.Utils;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.os.Build.VERSION_CODES.O;
 
-class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
+@SuppressLint("ViewConstructor")
+public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
     static final int MIN_KEYBOARD_HEIGHT = 50;
 
     final View rootView;
@@ -59,6 +63,7 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
 
     int keyboardHeight = 0;
     int originalImeOptions = -1;
+    AXEmojiSearchView searchView = null;
 
     public boolean isKeyboardOpen() {
         return isKeyboardOpen;
@@ -73,8 +78,9 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
     ViewGroup ap;
     FrameLayout.LayoutParams lp;
 
-    AXEmojiPopupView(ViewGroup view, final AXEmojiBase content) {
+    public AXEmojiPopupView(ViewGroup view, final AXEmojiBase content) {
         super(content.getContext());
+        Utils.forceLTR(view);
         popupWindowHeight = Utils.getKeyboardHeight(content.getContext(), 0);
         lp = new FrameLayout.LayoutParams(-1, popupWindowHeight);
         lp.gravity = Gravity.BOTTOM;
@@ -123,9 +129,8 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
             popupWindowHeight = keyboardHeight;
             Utils.updateKeyboardHeight(context, keyboardHeight);
         }
-        if (listener != null) listener.onKeyboardOpened(keyboardHeight);
-
-        lp.height = popupWindowHeight;
+        lp.height = findHeight(popupWindowHeight);
+        if (listener != null) listener.onKeyboardOpened(findHeightWithSearchView(popupWindowHeight));
 
         if (needToOpen) {
             this.setLayoutParams(lp);
@@ -156,6 +161,7 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
 
     void updateKeyboardStateClosed() {
         isKeyboardOpen = false;
+        isShowing = getParent()!=null && lp.height > MIN_KEYBOARD_HEIGHT;
 
         if (listener != null) {
             listener.onKeyboardClosed();
@@ -169,8 +175,12 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
     int popupWindowHeight = 0;
     boolean needToOpen = false;
 
+    private int animFrom;
+
     public void toggle() {
         AXEmojiManager.setUsingPopupWindow(false);
+        hideSearchView(false);
+
         //if (isAnimRunning) return;
         if (!isShowing) {
             if (this.getParent() != null) {
@@ -179,7 +189,7 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
             // this is needed because something might have cleared the insets listener
             if (popupWindowHeight > 0) {
                 needToOpen = false;
-                lp.height = popupWindowHeight;
+                lp.height = findHeight(popupWindowHeight);
                 ap.addView(this, lp);
                 show();
             } else {
@@ -202,6 +212,10 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
 
     public void show() {
         AXEmojiManager.setUsingPopupWindow(false);
+        hideSearchView(false);
+
+        animFrom = lp.height;
+
         //if (isAnimRunning) return;
         if (popupWindowHeight == 0) {
             needToOpen = true;
@@ -222,7 +236,7 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         }
         if (getParent() == null) {
             needToOpen = false;
-            lp.height = popupWindowHeight;
+            lp.height = findHeight(popupWindowHeight);
             ap.addView(this, lp);
             content.refresh();
         }
@@ -237,7 +251,27 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         return isShowing;
     }
 
+    @Override
+    public boolean onBackPressed() {
+        if (isShowingSearchView()){
+            show();
+            return true;
+        }
+        if (isShowing()) {
+            dismiss();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void reload() {
+        hideSearchView(true);
+    }
+
     public void dismiss() {
+        hideSearchView(false);
+        animFrom = lp.height;
         //if (isAnimRunning) return;
         anim(false);
 
@@ -266,10 +300,12 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
 
     public void onlyHide() {
         ignoreCall = true;
+        animFrom = lp.height;
         anim(false);
 
         isShowing = false;
         content.dismiss();
+        hideSearchView(false);
         if (listener != null) listener.onDismiss();
     }
 
@@ -283,10 +319,12 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
 
     void anim(final boolean e) {
         if (e) {
-            lp.height = popupWindowHeight;
+            lp.height = findHeight(popupWindowHeight);
             this.setLayoutParams(lp);
+            loadAnimation(animFrom - lp.height,0,false);
         } else {
             remove();
+            loadAnimation(0,-lp.height,true);
         }
     }
 
@@ -299,10 +337,208 @@ class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         content.dismiss();
         //this.isAnimRunning = false;
         this.isShowing = false;
-        lp.height = 0;
-        if (this.getParent() != null) ap.removeView(this);
+
+        //lp.height = 0;
+        //if (this.getParent() != null) ap.removeView(this);
+
         if (listener != null) listener.onDismiss();
     }
 
+    int maxHeight = -1,minHeight = -1;
 
+    private int findHeight(int keyboardHeight){
+        if (searchView!=null && searchView.isShowing()) return keyboardHeight;
+        int h = keyboardHeight;
+        if (minHeight!=-1) h = Math.max(minHeight,h);
+        if (maxHeight!=-1) h = Math.min(maxHeight,h);
+        //if (searchView!=null && searchView.isShowing()) h += searchView.getSearchViewHeight();
+        return h;
+    }
+
+    public void setMaxHeight(int maxHeight) {
+        this.maxHeight = maxHeight;
+    }
+
+    public int getMaxHeight() {
+        return maxHeight;
+    }
+
+    public void setMinHeight(int minHeight) {
+        this.minHeight = minHeight;
+    }
+
+    public int getMinHeight() {
+        return minHeight;
+    }
+
+    private int findHeightWithSearchView(int height) {
+        int h;
+        if (searchView!=null && searchView.isShowing()) {
+            h = height + searchView.getSearchViewHeight();
+        }else {
+            h = findHeight(height);
+        }
+        return h;
+    }
+
+    public AXEmojiSearchView getSearchView() {
+        return searchView;
+    }
+
+    public void setSearchView(AXEmojiSearchView searchView) {
+        hideSearchView(true);
+        this.searchView = searchView;
+    }
+
+    public void hideSearchView(boolean l){
+        if (searchView == null || !searchView.isShowing() || (searchViewValueAnimator!=null && searchViewValueAnimator.isRunning())) return;
+        loadSearchViewAnimation(0,searchView.getSearchViewHeight(),true,l, (LayoutParams) searchView.getView().getLayoutParams());
+    }
+
+    private void removeSearchView(boolean l){
+        try {
+            if (searchView.getParent() != null)
+                ap.removeView(searchView);
+        }catch (Exception ignore){
+        }
+        searchView.hide();
+        this.lp.topMargin = 0;
+        if (lp.height!=0) lp.height = findHeight(popupWindowHeight);
+        isShowing = lp.height>0;
+
+        if (l && listener!=null) {
+            if (isKeyboardOpen) {
+                listener.onKeyboardOpened(popupWindowHeight);
+            }else {
+                if (!isShowing) {
+                    listener.onDismiss();
+                } else {
+                    listener.onShow();
+                }
+            }
+        }
+        ap.requestLayout();
+    }
+
+    public void showSearchView(){
+        if (searchView == null || searchView.isShowing() || searchView.getParent()!=null) return;
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1,searchView.getSearchViewHeight());
+        lp.gravity = Gravity.TOP;
+        this.lp.height = popupWindowHeight;
+        this.lp.topMargin = lp.height;
+        ap.addView(searchView,ap.indexOfChild(this),lp);
+        loadSearchViewAnimation(searchView.getSearchViewHeight(),0,false,false, (LayoutParams) searchView.getView().getLayoutParams());
+        searchView.show();
+        ap.requestLayout();
+
+        //if (listener!=null)
+        //    listener.onViewHeightChanged(this.lp.height + lp.height);
+
+        searchView.getSearchTextField().setFocusable(true);
+        searchView.getSearchTextField().requestFocus();
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchView.getSearchTextField(), InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public boolean isShowingSearchView(){
+        return searchView!=null && searchView.isShowing();
+    }
+
+
+    ValueAnimator valueAnimator = null;
+    boolean animationEnabled = true;
+    long animationDuration = 250;
+
+    void loadAnimation(int from, int to, final boolean remove){
+        try {
+            if (valueAnimator != null && valueAnimator.isRunning()) {
+                valueAnimator.end();
+            }
+        }catch (Exception ignore){}
+
+        if (!animationEnabled || isKeyboardOpen) {
+            lp.bottomMargin = to;
+            if (remove) {
+                lp.height = 0;
+                ap.removeView(AXEmojiPopupView.this);
+            }
+            ap.requestLayout();
+            return;
+        }
+
+        valueAnimator = ValueAnimator.ofInt(from,to);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
+                    lp.bottomMargin = (int) valueAnimator.getAnimatedValue();
+                    ap.requestLayout();
+                }
+            }
+        });
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (remove) {
+                    try {
+                        lp.height = 0;
+                        ap.removeView(AXEmojiPopupView.this);
+                    }catch (Exception ignore){}
+                }
+            }
+        });
+        valueAnimator.setDuration(animationDuration);
+        valueAnimator.start();
+    }
+
+    ValueAnimator searchViewValueAnimator = null;
+    boolean searchViewAnimationEnabled = true;
+    long searchViewAnimationDuration = animationDuration;
+
+    void loadSearchViewAnimation(int from, int to, final boolean remove,final boolean l,final FrameLayout.LayoutParams lp){
+        try {
+            if (valueAnimator != null && valueAnimator.isRunning()) {
+                valueAnimator.end();
+            }
+            if (searchViewValueAnimator != null && searchViewValueAnimator.isRunning()) {
+                searchViewValueAnimator.end();
+            }
+        }catch (Exception ignore){}
+
+        if (!searchViewAnimationEnabled) {
+            lp.topMargin = to;
+            AXEmojiPopupView.this.lp.topMargin = lp.height - lp.topMargin;
+            if (remove) {
+                removeSearchView(l);
+            }
+            ap.requestLayout();
+            return;
+        }
+
+        searchViewValueAnimator = ValueAnimator.ofInt(from,to);
+        searchViewValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
+                    lp.topMargin = (int) valueAnimator.getAnimatedValue();
+                    AXEmojiPopupView.this.lp.topMargin = lp.height - lp.topMargin;
+                    ap.requestLayout();
+                }
+            }
+        });
+        searchViewValueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (remove) {
+                    try {
+                       removeSearchView(l);
+                    }catch (Exception ignore){}
+                }
+            }
+        });
+        searchViewValueAnimator.setDuration(searchViewAnimationDuration);
+        searchViewValueAnimator.start();
+    }
 }

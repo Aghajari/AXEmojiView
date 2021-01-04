@@ -57,7 +57,7 @@ public final class RecentStickerManager implements RecentSticker {
         final String savedRecentEmojis = context.getApplicationContext()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(RECENT_STICKER, "");
         if (savedRecentEmojis.length() > 0) return false;
-        if (AXEmojiManager.getInstance().isShowingEmptyRecentEnabled() == false) {
+        if (AXEmojiManager.isShowingEmptyRecentEnabled() == false) {
             return true;
         }
         return false;

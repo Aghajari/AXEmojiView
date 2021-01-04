@@ -5,6 +5,8 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import com.aghajari.sample.emojiview.R;
 import com.aghajari.emojiview.sticker.Sticker;
 import com.aghajari.emojiview.sticker.StickerCategory;
+import com.aghajari.sample.emojiview.UI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -142,6 +145,8 @@ public class ShopStickers implements StickerCategory<Integer> {
                 this.subTitle = subTitle;
                 this.add = add;
                 this.stickers = stickers;
+
+                if (UI.darkMode) title.setTextColor(Color.WHITE);
             }
         }
     }

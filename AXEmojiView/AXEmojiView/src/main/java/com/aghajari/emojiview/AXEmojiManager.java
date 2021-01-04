@@ -18,6 +18,7 @@
 
 package com.aghajari.emojiview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Paint;
 
@@ -71,7 +72,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Amir Hossein Aghajari
- * @version 1.2.4
+ * @version 1.3.0
  */
 public class AXEmojiManager {
 
@@ -141,7 +142,6 @@ public class AXEmojiManager {
 
             final List<EmojiRange> findAllEmojis = emojiManager.findAllEmojis(text);
 
-            //noinspection ForLoopReplaceableByForEach
             for (int i = 0; i < findAllEmojis.size(); i++) {
                 final EmojiRange location = findAllEmojis.get(i);
 
@@ -160,7 +160,10 @@ public class AXEmojiManager {
 
     private EmojiReplacer emojiReplacer;
 
+    @SuppressLint("StaticFieldLeak")
     static AXEmojiManager INSTANCE = null;
+    @SuppressLint("StaticFieldLeak")
+    private static Context context;
 
     public static AXEmojiManager getInstance() {
         return INSTANCE;
@@ -171,7 +174,7 @@ public class AXEmojiManager {
     }
 
     private EmojiProvider provider;
-    private static Context context;
+
 
     /**
      * Installs the given EmojiProvider.
@@ -179,7 +182,7 @@ public class AXEmojiManager {
      * @param provider the provider that should be installed.
      */
     public static void install(Context context, final EmojiProvider provider) {
-        AXEmojiManager.context = context;
+        AXEmojiManager.context = context.getApplicationContext();
         if (INSTANCE!=null) destroy();
         INSTANCE = new AXEmojiManager();
         if (mEmojiTheme==null) mEmojiTheme = new AXEmojiTheme();
@@ -706,5 +709,4 @@ public class AXEmojiManager {
         setEmojiViewTheme(new AXEmojiTheme());
         setStickerViewTheme(new AXEmojiTheme());
     }
-
 }

@@ -329,7 +329,6 @@ public class Utils {
             @Override
             public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                if (view == null || outRect == null || parent == null) return;
                 int position = parent.getChildAdapterPosition(view);
                 int max = parent.getAdapter().getItemCount();
                 int spanCount = 1;
@@ -409,5 +408,10 @@ public class Utils {
 
     public static float getDefaultEmojiSize(Paint.FontMetrics fontMetrics){
         return fontMetrics.descent - fontMetrics.ascent;
+    }
+
+    public static void forceLTR(View view){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
     }
 }

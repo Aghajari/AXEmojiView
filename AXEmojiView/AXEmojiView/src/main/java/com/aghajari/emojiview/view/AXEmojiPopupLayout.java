@@ -22,28 +22,24 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
-
 import com.aghajari.emojiview.listener.PopupListener;
+import com.aghajari.emojiview.search.AXEmojiSearchView;
 import com.aghajari.emojiview.utils.Utils;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
 public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface {
 
 
     AXEmojiPopupView popupView;
-
+    private View keyboard;
+    protected boolean changeHeightWithKeyboard = true;
     protected KeyboardHeightProvider heightProvider = null;
 
     public AXEmojiPopupLayout(Context context) {
@@ -56,16 +52,16 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
 
     public AXEmojiPopupLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        Utils.forceLTR(this);
         initKeyboardHeightProvider();
     }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
-        //this.setOrientation(LinearLayout.VERTICAL);
-    }
-
     public void initPopupView(AXEmojiBase content) {
+        if (keyboard == null) {
+            keyboard = new View(getContext());
+            this.addView(keyboard,new FrameLayout.LayoutParams(-1,0));
+        }
+        content.setPopupInterface(this);
         popupView = new AXEmojiPopupView(this, content);
         popupView.setFocusableInTouchMode(true);
         popupView.setFocusable(true);
@@ -86,20 +82,25 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
         }
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        if (popupView!=null && popupView.listener!=null)
+            popupView.listener.onViewHeightChanged(h);
+    }
+
     public boolean onBackPressed() {
-        if (popupView != null && popupView.isShowing) {
-            popupView.dismiss();
-            return true;
-        }
-        return false;
+        if (popupView == null) return false;
+        return popupView.onBackPressed();
+    }
+
+    @Override
+    public void reload() {
+        if (popupView!=null) popupView.reload();
     }
 
     public boolean isKeyboardOpen() {
-        return ((popupView != null && popupView.isKeyboardOpen) ? true : false);
-    }
-
-    public void removePopupView() {
-        if (popupView != null) popupView.remove();
+        return (popupView != null && popupView.isKeyboardOpen);
     }
 
     public void hidePopupView() {
@@ -109,7 +110,6 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
     public int getPopupHeight() {
         return ((popupView != null) ? popupView.getPopupHeight() : 0);
     }
-
 
     @Override
     public void toggle() {
@@ -128,8 +128,7 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
 
     @Override
     public boolean isShowing() {
-        if (popupView != null) return popupView.isShowing();
-        return false;
+        return popupView != null && popupView.isShowing;
     }
 
     public void setPopupListener(PopupListener listener) {
@@ -145,6 +144,7 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
     }
 
     public void openKeyboard() {
+        popupView.hideSearchView(true);
         popupView.editText.setFocusable(true);
         popupView.editText.requestFocus();
         InputMethodManager imm = (InputMethodManager) popupView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -173,11 +173,79 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
         if (heightProvider != null) heightProvider.close();
     }
 
+    public void setMaxHeight(int maxHeight) {
+        if (popupView!=null) popupView.setMaxHeight(maxHeight);
+    }
+
+    public int getMaxHeight() {
+        return popupView!=null ? popupView.getMaxHeight() : -1;
+    }
+
+    public void setMinHeight(int minHeight) {
+        if (popupView!=null) popupView.setMinHeight(minHeight);
+    }
+
+    public int getMinHeight() {
+        return popupView!=null ? popupView.getMinHeight() : -1;
+    }
+
+    public void setPopupAnimationEnabled(boolean enabled){
+        if (popupView!=null) popupView.animationEnabled = enabled;
+    }
+
+    public boolean isPopupAnimationEnabled(){
+        return popupView == null || popupView.animationEnabled;
+    }
+
+    public void setPopupAnimationDuration(long duration){
+        if (popupView!=null) popupView.animationDuration = duration;
+    }
+
+    public long getPopupAnimationDuration(){
+        return popupView!=null ? popupView.animationDuration : 250;
+    }
+
+    public AXEmojiSearchView getSearchView() {
+        return popupView.getSearchView();
+    }
+
+    public void setSearchView(AXEmojiSearchView searchView) {
+        popupView.setSearchView(searchView);
+    }
+
+    public void hideSearchView(){
+        popupView.hideSearchView(true);
+    }
+
+    public void showSearchView(){
+        popupView.showSearchView();
+    }
+
+    public boolean isShowingSearchView(){
+        return popupView!=null && popupView.isShowingSearchView();
+    }
+
+    public void setSearchViewAnimationEnabled(boolean enabled){
+        popupView.searchViewAnimationEnabled = enabled;
+    }
+
+    public boolean isSearchViewAnimationEnabled(){
+        return popupView == null || popupView.searchViewAnimationEnabled;
+    }
+
+    public void setSearchViewAnimationDuration(long duration){
+        if (popupView!=null) popupView.searchViewAnimationDuration = duration;
+    }
+
+    public long getSearchViewAnimationDuration(){
+        return popupView!=null ? popupView.searchViewAnimationDuration : 250;
+    }
+
     /**
      * The keyboard height provider, this class uses a PopupWindow
      * to calculate the window height when the floating keyboard is opened and closed.
      */
-    class KeyboardHeightProvider extends PopupWindow {
+    protected static class KeyboardHeightProvider extends PopupWindow {
 
         /**
          * The view that is used to calculate the keyboard height
@@ -263,9 +331,13 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
          * from the activity window height.
          */
         private void handleOnGlobalLayout() {
-            if (layout.popupView == null && layout.popupView.getVisibility() != GONE) return;
+            if (layout.popupView == null || layout.popupView.getVisibility() == GONE) return;
             final int keyboardHeight = Utils.getInputMethodHeight(popupView.getContext(), layout.popupView.rootView);
             layout.popupView.updateKeyboardState(keyboardHeight);
+            if (layout.changeHeightWithKeyboard) {
+                layout.keyboard.getLayoutParams().height = keyboardHeight;
+                layout.requestLayout();
+            }
         }
     }
 }

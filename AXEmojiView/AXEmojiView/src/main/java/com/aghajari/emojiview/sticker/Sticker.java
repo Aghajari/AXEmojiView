@@ -22,6 +22,8 @@ import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,6 +48,7 @@ public class Sticker<T> implements Serializable {
         this.data = data;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return data.toString();
@@ -53,7 +56,8 @@ public class Sticker<T> implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        return getData().toString().equals(o.toString());
+        if (!(o instanceof Sticker)) return false;
+        return getData().equals(((Sticker) o).getData());
     }
 
     @SuppressWarnings("unchecked")

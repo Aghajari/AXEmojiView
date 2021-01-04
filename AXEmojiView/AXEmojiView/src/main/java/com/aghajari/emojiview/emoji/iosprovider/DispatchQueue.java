@@ -20,7 +20,6 @@ package com.aghajari.emojiview.emoji.iosprovider;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Message;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -34,23 +33,11 @@ class DispatchQueue extends Thread {
         start();
     }
 
-    public void sendMessage(Message msg, int delay) {
-        try {
-            syncLatch.await();
-            if (delay <= 0) {
-                handler.sendMessage(msg);
-            } else {
-                handler.sendMessageDelayed(msg, delay);
-            }
-        } catch (Exception e) {
-        }
-    }
-
     public void cancelRunnable(Runnable runnable) {
         try {
             syncLatch.await();
             handler.removeCallbacks(runnable);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
 
         }
     }
@@ -62,7 +49,7 @@ class DispatchQueue extends Thread {
     public void postRunnable(Runnable runnable, long delay) {
         try {
             syncLatch.await();
-        } catch (Exception e) {
+        } catch (Exception ignore) {
 
         }
         if (delay <= 0) {
@@ -76,13 +63,9 @@ class DispatchQueue extends Thread {
         try {
             syncLatch.await();
             handler.removeCallbacksAndMessages(null);
-        } catch (Exception e) {
+        } catch (Exception ignore) {
 
         }
-    }
-
-    public void handleMessage(Message inputMessage) {
-
     }
 
     public void recycle() {
@@ -92,12 +75,7 @@ class DispatchQueue extends Thread {
     @Override
     public void run() {
         Looper.prepare();
-        handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                DispatchQueue.this.handleMessage(msg);
-            }
-        };
+        handler = new Handler();
         syncLatch.countDown();
         Looper.loop();
     }

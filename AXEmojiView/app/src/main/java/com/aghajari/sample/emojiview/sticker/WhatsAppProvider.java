@@ -46,15 +46,15 @@ public class WhatsAppProvider implements StickerProvider {
                       Drawable dr0 = AppCompatResources.getDrawable(view.getContext(), (Integer) stickerCategory.getCategoryData());
                       Drawable dr = dr0.getConstantState().newDrawable();
                       if (selected) {
-                          DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getInstance().getTheme().getSelectedColor());
+                          DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getStickerViewTheme().getSelectedColor());
                       }else{
-                          DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getInstance().getTheme().getDefaultColor());
+                          DrawableCompat.setTint(DrawableCompat.wrap(dr), AXEmojiManager.getStickerViewTheme().getDefaultColor());
                       }
                       ((AppCompatImageView)view).setImageDrawable(dr);
                   } else {
                       Glide.with(view).load(Integer.valueOf(stickerCategory.getCategoryData().toString())).apply(RequestOptions.fitCenterTransform()).into((AppCompatImageView)view);
                   }
-              }catch (Exception e){
+              }catch (Exception ignore){
               }
             }
         };

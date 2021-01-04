@@ -1,0 +1,7 @@
+siteUrl = https://github.com/Aghajari/AXEmojiView
+gitUrl = https://github.com/Aghajari/AXEmojiView.git
+version = 1.3.0
+groupId = com.aghajari.emojiview
+licenses = ['Apache-2.0']
+id = AXEmojiView
+name = AXEmojiView

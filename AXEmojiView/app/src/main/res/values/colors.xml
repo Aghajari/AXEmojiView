@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="darkBackground">#161D26</color>
+    <color name="darkWindow">#1E2632</color>
     <color name="darkPrimary">#232D3A</color>
     <color name="darkPrimaryDark">#1B242D</color>
     <color name="darkAccent">#82ADD9</color>

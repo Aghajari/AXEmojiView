@@ -34,4 +34,8 @@ public abstract class SimplePopupAdapter implements PopupListener {
     @Override
     public void onKeyboardClosed() {
     }
+
+    @Override
+    public void onViewHeightChanged(int height) {
+    }
 }

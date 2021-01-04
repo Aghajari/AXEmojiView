@@ -1,5 +1,6 @@
 package com.aghajari.emojiview.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressLint("ViewConstructor")
 class AXCategoryViews extends AXEmojiLayout {
     public AXCategoryViews(Context context, AXEmojiBase view, RecentEmoji recentEmoji) {
         super(context);
@@ -48,8 +50,7 @@ class AXCategoryViews extends AXEmojiLayout {
         icons = new ArrayList<>();
 
         int left = 0;
-        List<EmojiCategory> categories = new ArrayList<EmojiCategory>();
-        categories.addAll(Arrays.asList(AXEmojiManager.getInstance().getCategories()));
+        List<EmojiCategory> categories = new ArrayList<>(Arrays.asList(AXEmojiManager.getInstance().getCategories()));
         recent = recentEmoji.isEmpty();
         if (!recent) {
             categories.add(0, new EmojiCategory() {
@@ -72,7 +73,7 @@ class AXCategoryViews extends AXEmojiLayout {
         }
 
         boolean backspace = false;
-        if (!AXEmojiManager.getEmojiViewTheme().isFooterEnabled() && AXEmojiManager.getInstance().isBackspaceCategoryEnabled()) {
+        if (!AXEmojiManager.getEmojiViewTheme().isFooterEnabled() && AXEmojiManager.isBackspaceCategoryEnabled()) {
             backspace = true;
             categories.add(new EmojiCategory() {
                 @NonNull
@@ -136,7 +137,7 @@ class AXCategoryViews extends AXEmojiLayout {
         Divider = new View(getContext());
         this.addView(Divider, new LayoutParams(
                 0, Utils.dpToPx(getContext(), 38), getContext().getResources().getDisplayMetrics().widthPixels, Utils.dpToPx(getContext(), 1)));
-        if (!AXEmojiManager.getEmojiViewTheme().shouldShowAlwaysDivider())
+        if (!AXEmojiManager.getEmojiViewTheme().isAlwaysShowDividerEnabled())
             Divider.setVisibility(GONE);
         Divider.setBackgroundColor(AXEmojiManager.getEmojiViewTheme().getDividerColor());
 
@@ -169,7 +170,7 @@ class AXCategoryViews extends AXEmojiLayout {
     }
 
     private void setSelectionPage(AXEmojiLayout icon) {
-        ((LayoutParams) selection.getLayoutParams()).left = ((LayoutParams) icon.getLayoutParams()).left;
+        ((LayoutParams) selection.getLayoutParams()).leftMargin = ((LayoutParams) icon.getLayoutParams()).leftMargin;
         this.requestLayout();
     }
 

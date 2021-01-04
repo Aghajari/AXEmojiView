@@ -163,7 +163,7 @@ public class AXEmojiTheme {
         alwaysShowDivider = value;
     }
 
-    public boolean shouldShowAlwaysDivider() {
+    public boolean isAlwaysShowDividerEnabled() {
         return alwaysShowDivider;
     }
 

@@ -18,18 +18,19 @@
 
 package com.aghajari.emojiview.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.FindVariantListener;
-import com.aghajari.emojiview.shared.VariantEmoji;
 import com.aghajari.emojiview.utils.Utils;
 
+@SuppressLint("ViewConstructor")
 public class AXEmojiRecyclerView extends RecyclerView {
     FindVariantListener variantListener;
 
@@ -38,6 +39,14 @@ public class AXEmojiRecyclerView extends RecyclerView {
         this.variantListener = variantListener;
         GridLayoutManager lm = new GridLayoutManager(context, Utils.getGridCount(context));
         this.setLayoutManager(lm);
+        Utils.forceLTR(this);
+        setOverScrollMode(OVER_SCROLL_NEVER);
+    }
+
+    public AXEmojiRecyclerView(@NonNull Context context,FindVariantListener variantListener,LayoutManager layoutManager) {
+        super(context);
+        this.variantListener = variantListener;
+        this.setLayoutManager(layoutManager);
 
         setOverScrollMode(OVER_SCROLL_NEVER);
     }

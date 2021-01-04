@@ -32,7 +32,6 @@ import android.util.AttributeSet;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.R;
-import com.aghajari.emojiview.utils.Utils;
 
 public class AXEmojiTextView extends AppCompatTextView {
     private float emojiSize;
@@ -75,21 +74,6 @@ public class AXEmojiTextView extends AppCompatTextView {
         } else {
             super.setText(rawText, type);
         }
-    }
-
-    public void setText2(final CharSequence rawText) {
-        if (AXEmojiManager.isInstalled()) {
-            final CharSequence text = rawText == null ? "" : rawText;
-            final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-            final Paint.FontMetrics fontMetrics = getPaint().getFontMetrics();
-            //final float defaultEmojiSize = fontMetrics.descent - fontMetrics.ascent;
-            AXEmojiManager.getInstance().replaceWithImages(getContext(),this, spannableStringBuilder,
-                    emojiSize>0 ? emojiSize : Utils.getDefaultEmojiSize(fontMetrics), fontMetrics);
-            super.setText(spannableStringBuilder);
-        } else {
-            super.setText(rawText);
-        }
-
     }
 
     /**

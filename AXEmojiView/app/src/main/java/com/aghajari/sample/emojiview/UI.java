@@ -38,7 +38,7 @@ public class UI {
     public static boolean mCustomFooter;
     public static boolean mWhiteCategory;
 
-    private static boolean darkMode;
+    public static boolean darkMode;
 
     public static void loadTheme(){
         // release theme
@@ -179,6 +179,7 @@ public class UI {
         AXEmojiLayout.LayoutParams lp = new AXEmojiLayout.LayoutParams(Utils.dp(context,48),Utils.dp(context,48));
         lp.rightMargin = Utils.dp(context,12);
         lp.bottomMargin = Utils.dp(context,12);
+        lp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
         footer.setLayoutParams(lp);
         emojiPager.setCustomFooter(footer,true);
 
