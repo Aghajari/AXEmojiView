@@ -20,6 +20,8 @@
     - [StickerView](#stickerview)
   - [EmojiPager (Use Multiple Pages Together!)](#axemojipager---use-multiple-pages-together)
     - [Create Your Custom Pages](#create-your-custom-pages)
+  - [AXEmojiSearchView](#axemojisearchview)
+  - [Popup Animation](#popup-animation)
   - [Customization](#customization)
     - [Custom Theme](#customization)
     - [Custom Footer](#custom-footer)
@@ -40,11 +42,11 @@
 
 AXEmojiView is available in the JCenter, so you just need to add it as a dependency (Module gradle)
 
-**LastVersion : 1.2.4**
+**LatestVersion : 1.3.0**
 
 Gradle
 ```gradle
-implementation 'com.aghajari.emojiview:AXEmojiView:1.2.4'
+implementation 'com.aghajari.emojiview:AXEmojiView:1.3.0'
 ```
 
 Maven
@@ -52,10 +54,22 @@ Maven
 <dependency>
   <groupId>com.aghajari.emojiview</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.2.4</version>
+  <version>1.3.0</version>
   <type>pom</type>
 </dependency>
 ```
+
+## Changelogs
+
+1.3.0 :
+- [AXEmojiSearchView](#axemojisearchview) added!
+- Emoji Database added for emoji search (has 5800+ words).
+- [Popup Animation](#popup-animation) added to AXEmojiPopupLayout.
+- AXEmojiPopupLayout improved
+- AXEmojiPopup deprecated, use AXEmojiPopupLayout instead. 
+  (AXEmojiPopupLayout is more customizeable, faster and also it has a better performance)
+- Now AXEmojiView is faster and it has better performance ;)
+- Some improvements & Bugs fixed
 
 # Usage
 Let's START! :smiley:
@@ -109,7 +123,7 @@ emojiPopup.isShowing(); // Returns true when Popup is showing.
 ```
 
 And we are done! :smiley:
-Result :
+Output :
 
 <img src="./images/ios.jpg" width=200 title="Screen">
 
@@ -149,7 +163,7 @@ AXSingleEmojiView emojiView = new AXSingleEmojiView(this);
 emojiView.setEditText(edt);
 ```
 
-Result :
+Output :
 
 <img src="./images/SingleEmojiView.png" width=350 title="Screen">
 
@@ -169,7 +183,7 @@ Result :
 
 Also you can create your custom pages in StickerProvider . see example : [`ShopStickers`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emojiview/sticker/ShopStickers.java)
 
-Result :
+Output :
 
 <img src="./images/shop_sticker.png" width=350 title="Screen">
 
@@ -211,7 +225,7 @@ emojiPager.setLeftIcon(R.drawable.ic_ab_search);
         });
 ```
 
-Result :
+Output :
 
 <img src="./images/emojipager.png" width=350 title="Screen">
 
@@ -225,9 +239,43 @@ Example: [`LoadingPage`](./AXEmojiView/app/src/main/java/com/aghajari/sample/emo
 emojiPager.addPage(new LoadingView(this), R.drawable.msg_round_load_m);
 ```
 
-Result :
+Output :
 
 <img src="./images/loading.png" width=350 title="Screen">
+
+## AXEmojiSearchView
+Now you can search for the emoji by text in the default AXEmojiView's database (More than 5800+ words!) or your own db with the AXEmojiSearchView or your own customized view!
+
+Example :
+```java
+popupLayout.setSearchView(new AXEmojiSearchView(this, emojiPager.getPage(0)));
+
+emojiPager.setOnFooterItemClicked(new AXEmojiPager.OnFooterItemClicked() {
+    @Override
+    public void onClick(View view, boolean leftIcon) {
+        if (leftIcon) layout.showSearchView();
+    }
+});
+```
+
+Output :
+
+<img src="./images/search.png" width=350 title="Screen">
+
+## Popup Animation
+an smooth popup animation has been enabled for the AXEmojiPopupLayout.
+
+```java
+popupLayout.setPopupAnimationEnabled(true);
+popupLayout.setPopupAnimationDuration(250);
+
+popupLayout.setSearchViewAnimationEnabled(true);
+popupLayout.setSearchViewAnimationDuration(250);
+```
+
+Output :
+
+<img src="./images/AXEmojiView1.30.gif" width=350 title="Screen">
 
 ## Customization
 Customize theme with AXEmojiTheme.
@@ -247,7 +295,7 @@ AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
 AXEmojiManager.getStickerViewTheme().setBackgroundColor(Color.LTGRAY);
 ```
 
-Result :
+Output :
 
 <img src="./images/theme.png" width=350 title="Screen">
 
@@ -262,7 +310,7 @@ AXEmojiManager.getInstance().setBackspaceCategoryEnabled(false);
 EmojiPager.setCustomFooter(footerView,true);
 ```
 
-Result :
+Output :
 
 <img src="./images/custom_footer_1.png" width=300 title="Screen">     <img src="./images/custom_footer_2.png" width=300 title="Screen">
 
@@ -291,7 +339,7 @@ AXEmojiManager.getStickerViewTheme().setDividerColor(0xFF1B242D);
 AXEmojiManager.getStickerViewTheme().setDefaultColor(0xFF677382);
 ```
 
-Result :
+Output :
 
 <img src="./images/dark1.png" width=350 title="Screen">
 
@@ -320,7 +368,7 @@ AXEmojiManager.getStickerViewTheme().setDefaultColor(0xFF677382);
 AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
 ```
 
-Result :
+Output :
 
 <img src="./images/dark2.png" width=350 title="Screen">
 
@@ -381,7 +429,7 @@ String title = "AXEmojiView " + unicode;
 getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(this, title, 20));
 ```
 
-Result :
+Output :
 
 <img src="./images/actionbar.jpg" width=500 title="Screen">
 
@@ -432,10 +480,10 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
 
-- Version: 1.2.2
-- LastUpdate: 31 August 2020
+- Version: 1.3.0
+- LastUpdate: 4 January 2021
 
-[`Download Apk`](./AXEmojiView1.2.2.apk)
+[`Download Apk`](./AXEmojiView1.3.0.apk)
 
 ## Author 
 - **Amir Hossein Aghajari**
