@@ -381,6 +381,7 @@ Output :
 - AXEmojiView
 - AXSingleEmojiView
 - AXStickerView
+- AXEmojiSearchView
 - AXEmojiEditText
 - AXEmojiMultiAutoCompleteTextView
 - AXEmojiButton
