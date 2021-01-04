@@ -69,7 +69,7 @@ Maven
 - Now you can set the Min/Max PopupLayout height.
 - OnViewHeightChanged (int height) added to PopupListener
 - AXEmojiPopup deprecated, use AXEmojiPopupLayout instead. 
-  (AXEmojiPopupLayout is more customizeable, faster and also it has a better performance)
+  (AXEmojiPopupLayout is more customizable, faster and also it has a better performance)
 - Now AXEmojiView is faster and it has better performance ;)
 - Sample Application Updated.
 - Some improvements & Bugs fixed
