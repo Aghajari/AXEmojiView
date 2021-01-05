@@ -116,8 +116,11 @@ emojiView.setEditText(edt);
 ```
 
 And add this page to AXEmojiPopup :
+
+*Note: AXEmojiPopup deprecated! Use [AXEmojiPopupLayout](#axemojipopuplayout) instead.*
+
 ```java
-AXEmojiPopup emojiPopup = new AXEmojiPopup(emojiView);
+AXEmojiPopup emojiPopup = new AXEmojiPopup(emojiView); 
 
 emojiPopup.toggle(); // Toggles visibility of the Popup.
 emojiPopup.show(); // Shows the Popup.
@@ -130,10 +133,13 @@ Output :
 
 <img src="./images/ios.jpg" width=200 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ### AXEmojiPopupLayout
 
 you can also create an AXEmojiPopupLayout instead of AXEmojiPopup!
-i believe that AXEmojiPopupLayout has a better performance.
+
+i believe that AXEmojiPopupLayout has better performance, more customizable and it's faster.
 
 1. create an AXEmojiPopupLayout in your layout.
 ```xml
@@ -156,7 +162,9 @@ layout.hideAndOpenKeyboard(); // Hides the popup
 layout.isShowing(); // Returns true when Popup is showing.
 ```
 
-Result is just same as AXEmojiPopup result!
+Output is just same as the AXEmojiPopup's output!
+
+[Back to contents](#table-of-contents)
 
 ### Single Emoji View
 SingleEmojiView is a RecyclerView and all emojis will load in one page (Same As Telegram Inc)
@@ -169,6 +177,8 @@ emojiView.setEditText(edt);
 Output :
 
 <img src="./images/SingleEmojiView.png" width=350 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ### StickerView
 StickerView :
@@ -189,6 +199,8 @@ Also you can create your custom pages in StickerProvider . see example : [`ShopS
 Output :
 
 <img src="./images/shop_sticker.png" width=350 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ## AXEmojiPager - Use Multiple Pages Together!
 you can create an AXEmojiPager and add all your pages (EmojiView,StickerView,...) to the EmojiPager
@@ -232,6 +244,8 @@ Output :
 
 <img src="./images/emojipager.png" width=350 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ### Create Your Custom Pages
 Create an AXEmojiBase (ViewGroup) and load your page layout
 And add your CustomPage to emojiPager
@@ -245,6 +259,8 @@ emojiPager.addPage(new LoadingView(this), R.drawable.msg_round_load_m);
 Output :
 
 <img src="./images/loading.png" width=350 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ## AXEmojiSearchView
 Now you can search for the emoji by text in the default AXEmojiView's database (More than 5800+ words!) or your own db with the AXEmojiSearchView or your own customized view!
@@ -265,6 +281,8 @@ Output :
 
 <img src="./images/search.png" width=350 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ## Popup Animation
 an smooth popup animation has been enabled for the AXEmojiPopupLayout.
 
@@ -279,6 +297,8 @@ popupLayout.setSearchViewAnimationDuration(250);
 Output :
 
 <img src="./images/AXEmojiView1.30.gif" width=350 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ## Customization
 Customize theme with AXEmojiTheme.
@@ -302,6 +322,8 @@ Output :
 
 <img src="./images/theme.png" width=350 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ### Custom Footer
 
 ```java
@@ -316,6 +338,8 @@ EmojiPager.setCustomFooter(footerView,true);
 Output :
 
 <img src="./images/custom_footer_1.png" width=300 title="Screen">     <img src="./images/custom_footer_2.png" width=300 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ### DarkMode
 
@@ -375,6 +399,8 @@ Output :
 
 <img src="./images/dark2.png" width=350 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ## Views
 - AXEmojiPopupLayout
 - AXEmojiBase / AXEmojiLayout
@@ -389,6 +415,8 @@ Output :
 - AXEmojiTextView
 - AXEmojiCheckBox
 - AXEmojiRadioButton
+
+[Back to contents](#table-of-contents)
 
 ## Listeners
 onEmojiActions :
@@ -417,6 +445,8 @@ PopupListener :
     void onViewHeightChanged(int height);
 ```
 
+[Back to contents](#table-of-contents)
+
 ## Replace String With Emojis
 first you need to get Unicode of emoji :
 ```java
@@ -438,6 +468,8 @@ Output :
 
 <img src="./images/actionbar.jpg" width=500 title="Screen">
 
+[Back to contents](#table-of-contents)
+
 ## RecentManager And VariantManager
 you can add your custom recentManager for emojis and stickers . implements to RecentEmoji/RecentSticker
 ```java
@@ -450,6 +482,8 @@ Disable RecentManagers :
 AXEmojiManager.getInstance().disableRecentManagers();
 ```
 
+[Back to contents](#table-of-contents)
+
 ## Variant View
 you can also create your own VariantPopupView !
 but you don't need to, the default one is also nice :)
@@ -458,6 +492,7 @@ The Default Variant:
 
 <img src="./images/variants.png" width=350 title="Screen">
 
+[Back to contents](#table-of-contents)
 
 ## Emoji Loader
 you can add an custom EmojiLoader with AXEmojiLoader :
@@ -470,10 +505,14 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 });
 ```
 
-## AnimatedStickers (AXrLottie)
+[Back to contents](#table-of-contents)
+
+## AnimatedStickers [(AXrLottie)](https://github.com/Aghajari/AXrLottie)
 [See AXrLottie](https://github.com/Aghajari/AXrLottie#animatedsticker---axemojiview)
 
 <img src="https://github.com/Aghajari/AXrLottie/blob/master/images/screen.png" width=350 title="Screen">
+
+[Back to contents](#table-of-contents)
 
 ## [AXMemojiView](https://github.com/Aghajari/AXMemojiView)
 [AXMemojiView](https://github.com/Aghajari/AXMemojiView) is a page for AXEmojiView which shows memoji just like stickers
@@ -482,6 +521,8 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
  
 <img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551778-2a3d2480-3298-11eb-915d-a0b7ab9ef763.png"> <img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551817-6f615680-3298-11eb-8f56-c5e8e6adc23c.png"> <img width="180" alt="AXMemojiView" src="https://user-images.githubusercontent.com/30867537/100551853-a172b880-3298-11eb-87a0-7bcbc0bc7687.png">
 
+[Back to contents](#table-of-contents)
+
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
 
@@ -489,6 +530,8 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 - LastUpdate: 4 January 2021
 
 [`Download Apk`](./AXEmojiView1.3.0.apk)
+
+[Back to contents](#table-of-contents)
 
 ## Author 
 - **Amir Hossein Aghajari**
