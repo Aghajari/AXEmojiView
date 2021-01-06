@@ -38,6 +38,21 @@
 - [Author](#author)
 - [License](#license)
 
+## Changelogs
+
+1.3.0 :
+- [AXEmojiSearchView](#axemojisearchview) added!
+- Emoji Database added for emoji search (has 5800+ words).
+- [Popup Animation](#popup-animation) added to AXEmojiPopupLayout.
+- AXEmojiPopupLayout improved
+- Now you can set the Min/Max PopupLayout height.
+- OnViewHeightChanged (int height) added to PopupListener
+- AXEmojiPopup deprecated, use AXEmojiPopupLayout instead. 
+  (AXEmojiPopupLayout is more customizable, faster and also it has a better performance)
+- Now AXEmojiView is faster and it has better performance ;)
+- Sample Application Updated.
+- Some improvements & Bugs fixed
+
 ## Installation
 
 AXEmojiView is available in the JCenter, so you just need to add it as a dependency (Module gradle)
@@ -58,21 +73,6 @@ Maven
   <type>pom</type>
 </dependency>
 ```
-
-## Changelogs
-
-1.3.0 :
-- [AXEmojiSearchView](#axemojisearchview) added!
-- Emoji Database added for emoji search (has 5800+ words).
-- [Popup Animation](#popup-animation) added to AXEmojiPopupLayout.
-- AXEmojiPopupLayout improved
-- Now you can set the Min/Max PopupLayout height.
-- OnViewHeightChanged (int height) added to PopupListener
-- AXEmojiPopup deprecated, use AXEmojiPopupLayout instead. 
-  (AXEmojiPopupLayout is more customizable, faster and also it has a better performance)
-- Now AXEmojiView is faster and it has better performance ;)
-- Sample Application Updated.
-- Some improvements & Bugs fixed
 
 # Usage
 Let's START! :smiley:
