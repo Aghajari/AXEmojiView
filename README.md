@@ -94,7 +94,7 @@ If you wanna display your own Emojis you can create your own implementation of [
 
 Create an [`AXEmojiEditText`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/view/AXEmojiEditText.java) in your layout.
 ```xml
-<com.aghajari.axemojiview.view.AXEmojiEditText
+<com.aghajari.emojiview.view.AXEmojiEditText
             android:id="@+id/edt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
