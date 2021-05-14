@@ -37,8 +37,7 @@ public class AXIOSEmoji extends Emoji {
 
         boolean isVariants = EmojiData.isColoredEmoji(code);
         if (isVariants) {
-            DispatchQueue run = new DispatchQueue("emoji");
-            run.postRunnable(new Runnable() {
+            AXIOSEmojiLoader.globalQueue.postRunnable(new Runnable() {
                 @Override
                 public void run() {
                     AXIOSEmoji[] variants = new AXIOSEmoji[5];
