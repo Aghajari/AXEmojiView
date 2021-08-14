@@ -46,7 +46,7 @@
 
 ## Changelogs
 1.4.0 :
-- Moved from JCenter to mavenCenteral
+- Moved from JCenter to mavenCentral
 - Fixed focus on searchView.
 - iOSProvider now is on a new module
 
@@ -65,7 +65,7 @@
 
 ## Installation
 
-AXEmojiView is available in the `mavenCenteral()`, so you just need to add it as a dependency (Module gradle)
+AXEmojiView is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
 
 **LatestVersion : 1.4.0**
 
