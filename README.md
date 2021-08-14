@@ -48,6 +48,7 @@
 1.4.0 :
 - Moved from JCenter to mavenCenteral
 - Fixed focus on searchView.
+- iOSProvider now is on a new module
 
 1.3.0 :
 - [AXEmojiSearchView](#axemojisearchview) added!
