@@ -2,7 +2,13 @@
   <br><b>AXEmojiView</b> is an advanced Android Library<br>which adds emoji,sticker,... support to your Android application
   <br><a href="https://github.com/Aghajari/AXEmojiView/blob/master/README.md#download-apk">DemoAPK</a> • <a href="https://github.com/Aghajari/AXEmojiView/releases">Releases</a>
   <br><br><img width="40" alt="LCoders | AmirHosseinAghajari" src="https://user-images.githubusercontent.com/30867537/90538314-a0a79200-e193-11ea-8d90-0a3576e28a18.png"><br><img width="420" alt="picker" src="./images/header.png">
+  
+[![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.4.0/aar)
+[![Join the chat at https://gitter.im/Aghajari/community](https://badges.gitter.im/Aghajari/community.svg)](https://gitter.im/Aghajari/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 </div>
+
 
 ## Screenshot
 <img src="./images/main.png" width=300 title="Screen">  <img src="./images/dark.png" width=300 title="Screen">
@@ -39,6 +45,9 @@
 - [License](#license)
 
 ## Changelogs
+1.4.0 :
+- Moved from JCenter to mavenCenteral
+- Fixed focus on searchView.
 
 1.3.0 :
 - [AXEmojiSearchView](#axemojisearchview) added!
@@ -55,21 +64,24 @@
 
 ## Installation
 
-AXEmojiView is available in the JCenter, so you just need to add it as a dependency (Module gradle)
+AXEmojiView is available in the `mavenCenteral()`, so you just need to add it as a dependency (Module gradle)
 
-**LatestVersion : 1.3.0**
+**LatestVersion : 1.4.0**
 
 Gradle
 ```gradle
-implementation 'com.aghajari.emojiview:AXEmojiView:1.3.0'
+implementation 'io.github.aghajari:AXEmojiView:1.4.0'
+
+// Provider
+implementation 'io.github.aghajari:AXEmojiView-iOSProvider:1.4.0'
 ```
 
 Maven
 ```xml
 <dependency>
-  <groupId>com.aghajari.emojiview</groupId>
+  <groupId>io.github.aghajari</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
   <type>pom</type>
 </dependency>
 ```
