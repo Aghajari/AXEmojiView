@@ -16,7 +16,7 @@
  */
 
 
-package com.aghajari.emojiview.emoji.iosprovider;
+package com.aghajari.emojiview.iosprovider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +24,8 @@ import java.util.List;
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.utils.EmojiRange;
 import com.aghajari.emojiview.utils.EmojiReplacer;
-import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader.EmojiSpan;
-import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader.SpanLocation;
+import com.aghajari.emojiview.iosprovider.AXIOSEmojiLoader.EmojiSpan;
+import com.aghajari.emojiview.iosprovider.AXIOSEmojiLoader.SpanLocation;
 import com.aghajari.emojiview.view.AXEmojiEditText;
 
 import android.content.Context;
@@ -89,13 +89,13 @@ public abstract class AXIOSEmojiReplacer implements EmojiReplacer {
                     if (!checkEmojisState(emojis)) {
                         view.postDelayed(this, 20);
                     } else {
-                        if (view instanceof AXEmojiEditText){
+                        if (view instanceof AXEmojiEditText) {
                             try {
                                 int start = ((AXEmojiEditText) view).getSelectionStart();
                                 int end = ((AXEmojiEditText) view).getSelectionEnd();
                                 ((AXEmojiEditText) view).setText(((AXEmojiEditText) view).getText());
-                                ((AXEmojiEditText) view).setSelection(start,end);
-                            }catch (Exception ignore){
+                                ((AXEmojiEditText) view).setSelection(start, end);
+                            } catch (Exception ignore) {
                                 view.invalidate();
                             }
                         } else {

@@ -62,7 +62,7 @@ public class UI {
             AXEmojiManager.getStickerViewTheme().setCategoryColor(Color.WHITE);
             AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
         }
-        AXEmojiManager.getInstance().setBackspaceCategoryEnabled(!mCustomFooter);
+        AXEmojiManager.setBackspaceCategoryEnabled(!mCustomFooter);
     }
 
     public static void loadDarkTheme(){
@@ -100,7 +100,7 @@ public class UI {
             AXEmojiManager.getStickerViewTheme().setCategoryColor(0xFF232D3A);
             AXEmojiManager.getStickerViewTheme().setAlwaysShowDivider(true);
         }
-        AXEmojiManager.getInstance().setBackspaceCategoryEnabled(!mCustomFooter);
+        AXEmojiManager.setBackspaceCategoryEnabled(!mCustomFooter);
     }
 
     public static AXEmojiPager loadView(final Context context, EditText editText){

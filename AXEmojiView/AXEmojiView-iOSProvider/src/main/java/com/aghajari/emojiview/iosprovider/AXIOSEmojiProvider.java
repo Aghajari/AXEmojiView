@@ -16,7 +16,7 @@
  */
 
 
-package com.aghajari.emojiview.emoji.iosprovider;
+package com.aghajari.emojiview.iosprovider;
 
 import android.content.Context;
 

@@ -2,6 +2,7 @@ package com.aghajari.sample.emojiview;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -10,10 +11,10 @@ import android.widget.Switch;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.AXEmojiUtils;
-import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmoji;
-import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiLoader;
+import com.aghajari.emojiview.iosprovider.AXIOSEmoji;
+import com.aghajari.emojiview.iosprovider.AXIOSEmojiLoader;
 import com.aghajari.emojiview.view.AXEmojiButton;
-import com.aghajari.emojiview.emoji.iosprovider.AXIOSEmojiProvider;
+import com.aghajari.emojiview.iosprovider.AXIOSEmojiProvider;
 import com.aghajari.sample.emojiview.activity.DarkActivity;
 import com.aghajari.sample.emojiview.activity.EmojiActivity;
 import com.aghajari.sample.emojiview.activity.EmojiPopupViewActivity;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AXEmojiManager.install(this,new AXIOSEmojiProvider(this));
+        AXEmojiManager.install(this, new AXIOSEmojiProvider(this));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -43,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
                 new AXIOSEmojiLoader.EmojiLoaderListener() {
                     @Override
                     public void onEmojiLoaded(AXIOSEmoji emoji) {
-                        Log.d("emoji",emoji.getUnicode());
+                        Log.d("emoji", emoji.getUnicode());
                         getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(MainActivity.this,
-                                "AXEmojiView "+emoji , 20));
+                                "AXEmojiView " + emoji, 20));
 
-                        btn.setText("Start Emoji Activity "+emoji);
+                        btn.setText("Start Emoji Activity " + emoji);
                     }
                 });
 
@@ -62,17 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 UI.mCustomFooter = mCustomFooterView.isChecked();
                 UI.mWhiteCategory = mWhiteCategory.isChecked();
 
-                if (mDarkTheme.isChecked()){
+                if (mDarkTheme.isChecked()) {
                     UI.loadDarkTheme();
 
                     Intent intent = new Intent(MainActivity.this, DarkActivity.class);
                     MainActivity.this.startActivity(intent);
-                }else {
+                } else {
                     UI.loadTheme();
 
                     Intent intent = new Intent(MainActivity.this,
                             (mPopupView.isChecked() ? EmojiPopupViewActivity.class : EmojiActivity.class));
-                    intent.putExtra("load",true);
+                    intent.putExtra("load", true);
                     MainActivity.this.startActivity(intent);
                 }
             }

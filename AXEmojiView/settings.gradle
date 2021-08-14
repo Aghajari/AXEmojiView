@@ -1,3 +1,4 @@
 include ':AXEmojiView'
 include ':app'
 rootProject.name = "EmojiView"
+include ':AXEmojiView-iOSProvider'

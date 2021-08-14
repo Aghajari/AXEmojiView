@@ -72,7 +72,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Amir Hossein Aghajari
- * @version 1.3.0
+ * @version 1.4.0
  */
 public class AXEmojiManager {
 
@@ -110,7 +110,8 @@ public class AXEmojiManager {
     private static StickerViewCreatorListener stickerViewCreatorListener;
     private static EmojiVariantCreatorListener emojiVariantCreatorListener;
 
-    private AXEmojiManager() {}
+    private AXEmojiManager() {
+    }
 
     private static final Comparator<String> STRING_LENGTH_COMPARATOR = new Comparator<String>() {
         @Override
@@ -183,14 +184,14 @@ public class AXEmojiManager {
      */
     public static void install(Context context, final EmojiProvider provider) {
         AXEmojiManager.context = context.getApplicationContext();
-        if (INSTANCE!=null) destroy();
+        if (INSTANCE != null) destroy();
         INSTANCE = new AXEmojiManager();
-        if (mEmojiTheme==null) mEmojiTheme = new AXEmojiTheme();
-        if (mStickerTheme==null) mStickerTheme = new AXEmojiTheme();
+        if (mEmojiTheme == null) mEmojiTheme = new AXEmojiTheme();
+        if (mStickerTheme == null) mStickerTheme = new AXEmojiTheme();
         /**recentEmoji = null;
-        recentSticker = null;
-        variantEmoji = null;
-        emojiLoader = null;*/
+         recentSticker = null;
+         variantEmoji = null;
+         emojiLoader = null;*/
         INSTANCE.provider = provider;
 
         setMaxRecentSize(48);
@@ -198,9 +199,9 @@ public class AXEmojiManager {
         INSTANCE.categories = provider.getCategories();
         INSTANCE.emojiMap.clear();
         INSTANCE.emojiReplacer = provider instanceof EmojiReplacer ? (EmojiReplacer) provider : DEFAULT_EMOJI_REPLACER;
-        if (inputListener==null) inputListener = defaultInputListener;
-        if (stickerViewCreatorListener==null) stickerViewCreatorListener = defaultStickerCreator;
-        if (emojiVariantCreatorListener==null) enableTouchEmojiVariantPopup();
+        if (inputListener == null) inputListener = defaultInputListener;
+        if (stickerViewCreatorListener == null) stickerViewCreatorListener = defaultStickerCreator;
+        if (emojiVariantCreatorListener == null) enableTouchEmojiVariantPopup();
 
         final List<String> unicodesForPattern = new ArrayList<>(GUESSED_UNICODE_AMOUNT);
 
@@ -252,7 +253,7 @@ public class AXEmojiManager {
     /**
      * Destroys the EmojiManager. This means that all internal data structures are released as well as
      * all data associated with installed Emojis.
-     *
+     * <p>
      * You have to install EmojiManager again (if you wanted to use it)
      */
     public static void destroy() {
@@ -482,12 +483,12 @@ public class AXEmojiManager {
     }
 
     public static RecentEmoji getRecentEmoji() {
-        if (recentEmoji==null) return new RecentEmojiManager(context);
+        if (recentEmoji == null) return new RecentEmojiManager(context);
         return recentEmoji;
     }
 
     public static RecentSticker getRecentSticker(final String defType) {
-        if (recentSticker==null) return new RecentStickerManager(context,defType);
+        if (recentSticker == null) return new RecentStickerManager(context, defType);
         return recentSticker;
     }
 
@@ -496,7 +497,7 @@ public class AXEmojiManager {
     }
 
     public static VariantEmoji getVariantEmoji() {
-        if (variantEmoji==null) return new VariantEmojiManager(context);
+        if (variantEmoji == null) return new VariantEmojiManager(context);
         return variantEmoji;
     }
 
@@ -555,12 +556,12 @@ public class AXEmojiManager {
     }
 
     public EditTextInputListener getEditTextInputListener() {
-        if (inputListener==null) return defaultInputListener;
+        if (inputListener == null) return defaultInputListener;
         return inputListener;
     }
 
     public StickerViewCreatorListener getStickerViewCreatorListener() {
-        if (stickerViewCreatorListener==null) return defaultStickerCreator;
+        if (stickerViewCreatorListener == null) return defaultStickerCreator;
         return stickerViewCreatorListener;
     }
 
@@ -572,7 +573,7 @@ public class AXEmojiManager {
         AXEmojiManager.emojiVariantCreatorListener = listener;
     }
 
-    public static void enableTouchEmojiVariantPopup(){
+    public static void enableTouchEmojiVariantPopup() {
         AXEmojiManager.emojiVariantCreatorListener = new EmojiVariantCreatorListener() {
             @Override
             public AXEmojiVariantPopup create(@NonNull View rootView, @Nullable OnEmojiActions listener) {
@@ -581,7 +582,7 @@ public class AXEmojiManager {
         };
     }
 
-    public static void enableSimpleEmojiVariantPopup(){
+    public static void enableSimpleEmojiVariantPopup() {
         AXEmojiManager.emojiVariantCreatorListener = new EmojiVariantCreatorListener() {
             @Override
             public AXEmojiVariantPopup create(@NonNull View rootView, @Nullable OnEmojiActions listener) {
@@ -591,7 +592,7 @@ public class AXEmojiManager {
     }
 
     public static EmojiVariantCreatorListener getEmojiVariantCreatorListener() {
-        if (emojiVariantCreatorListener==null) enableTouchEmojiVariantPopup();
+        if (emojiVariantCreatorListener == null) enableTouchEmojiVariantPopup();
         return emojiVariantCreatorListener;
     }
 
@@ -610,7 +611,7 @@ public class AXEmojiManager {
     /**
      * disable sticker recent manager
      */
-    public static void disableStickerRecentManager(){
+    public static void disableStickerRecentManager() {
         recentEmoji = new RecentEmoji() {
             @NonNull
             @Override
@@ -640,7 +641,7 @@ public class AXEmojiManager {
     /**
      * disable emoji recent manager
      */
-    public static void disableEmojiRecentManager(){
+    public static void disableEmojiRecentManager() {
         recentSticker = new RecentSticker() {
             @SuppressWarnings("rawtypes")
             @NonNull
@@ -669,11 +670,11 @@ public class AXEmojiManager {
         enableDefaultStickerRecentManager();
     }
 
-    public static void enableDefaultStickerRecentManager(){
+    public static void enableDefaultStickerRecentManager() {
         recentSticker = null;
     }
 
-    public static void enableDefaultEmojiRecentManager(){
+    public static void enableDefaultEmojiRecentManager() {
         recentEmoji = null;
     }
 

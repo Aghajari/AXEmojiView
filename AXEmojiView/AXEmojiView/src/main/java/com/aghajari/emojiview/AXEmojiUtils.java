@@ -94,7 +94,7 @@ public final class AXEmojiUtils {
         final CharSequence text = rawText == null ? "" : rawText;
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         if (AXEmojiManager.isInstalled()) {
-            AXEmojiManager.getInstance().replaceWithImages(context, spannableStringBuilder, Utils.dpToPx(context, emojiSize),null);
+            AXEmojiManager.getInstance().replaceWithImages(context, spannableStringBuilder, Utils.dpToPx(context, emojiSize), null);
         }
         return spannableStringBuilder;
     }
@@ -103,7 +103,7 @@ public final class AXEmojiUtils {
         final CharSequence text = rawText == null ? "" : rawText;
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         if (AXEmojiManager.isInstalled()) {
-            AXEmojiManager.getInstance().replaceWithImages(view.getContext(),view, spannableStringBuilder, emojiSize, fontMetrics);
+            AXEmojiManager.getInstance().replaceWithImages(view.getContext(), view, spannableStringBuilder, emojiSize, fontMetrics);
         }
         return spannableStringBuilder;
     }
@@ -112,7 +112,7 @@ public final class AXEmojiUtils {
         final CharSequence text = rawText == null ? "" : rawText;
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         if (AXEmojiManager.isInstalled()) {
-            AXEmojiManager.getInstance().replaceWithImages(view.getContext(),view, spannableStringBuilder, emojiSize, null);
+            AXEmojiManager.getInstance().replaceWithImages(view.getContext(), view, spannableStringBuilder, emojiSize, null);
         }
         return spannableStringBuilder;
     }
@@ -122,7 +122,7 @@ public final class AXEmojiUtils {
         final CharSequence text = rawText == null ? "" : rawText;
         final SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         if (AXEmojiManager.isInstalled()) {
-            AXEmojiManager.getInstance().replaceWithImages(view.getContext(),view, spannableStringBuilder, Utils.dpToPx(view.getContext(), emojiSize),null);
+            AXEmojiManager.getInstance().replaceWithImages(view.getContext(), view, spannableStringBuilder, Utils.dpToPx(view.getContext(), emojiSize), null);
         }
         return spannableStringBuilder;
     }

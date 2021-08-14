@@ -16,14 +16,12 @@
  */
 
 
-package com.aghajari.emojiview.emoji.iosprovider;
+package com.aghajari.emojiview.iosprovider;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
-import androidx.annotation.NonNull;
 
 import com.aghajari.emojiview.emoji.Emoji;
 import com.aghajari.emojiview.emoji.EmojiData;
@@ -72,13 +70,11 @@ public class AXIOSEmoji extends Emoji {
         super(code, resource, new Emoji[count]);
     }
 
-    @NonNull
     @Override
     public Drawable getDrawable(final View view) {
         return AXIOSEmojiLoader.getEmojiBigDrawable(getUnicode());
     }
 
-    @NonNull
     @Override
     public Drawable getDrawable(final Context context) {
         return AXIOSEmojiLoader.getEmojiBigDrawable(getUnicode());

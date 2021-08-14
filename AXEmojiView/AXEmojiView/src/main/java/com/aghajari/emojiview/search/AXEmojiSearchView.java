@@ -82,7 +82,8 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         setDataAdapter(new AXSimpleEmojiDataAdapter(context));
     }
 
-    public @NonNull AXDataAdapter<Emoji> getDataAdapter() {
+    public @NonNull
+    AXDataAdapter<Emoji> getDataAdapter() {
         return dataAdapter;
     }
 
@@ -106,7 +107,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
     public void setTheme(AXEmojiTheme theme) {
         this.theme = theme;
         this.setBackgroundColor(theme.getCategoryColor());
-        if (editText!=null && editText.getParent()!=null) {
+        if (editText != null && editText.getParent() != null) {
             editText.setTypeface(theme.getTitleTypeface());
             editText.setHintTextColor(theme.getDefaultColor());
             editText.setTextColor(theme.getTitleColor());
@@ -122,7 +123,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
 
     @Override
     public int getSearchViewHeight() {
-        return Utils.dp(getContext(),98);
+        return Utils.dp(getContext(), 98);
     }
 
     @Override
@@ -153,20 +154,20 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         return editText;
     }
 
-    protected void searched (boolean hasResult){
-        if (noResultTextView!=null)
-        noResultTextView.setVisibility(hasResult?GONE:VISIBLE);
+    protected void searched(boolean hasResult) {
+        if (noResultTextView != null)
+            noResultTextView.setVisibility(hasResult ? GONE : VISIBLE);
     }
 
-    protected void init(){
+    protected void init() {
         removeAllViews();
         this.setBackgroundColor(theme.getCategoryColor());
 
         recyclerView = new AXEmojiRecyclerView(getContext(), (FindVariantListener) base,
-                new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-        FrameLayout.LayoutParams lp_rv = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,Utils.dp(getContext(),38));
-        lp_rv.topMargin = Utils.dp(getContext(),8);
-        this.addView(recyclerView,lp_rv);
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        FrameLayout.LayoutParams lp_rv = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, Utils.dp(getContext(), 38));
+        lp_rv.topMargin = Utils.dp(getContext(), 8);
+        this.addView(recyclerView, lp_rv);
         recyclerView.setAdapter(createAdapter());
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -174,11 +175,12 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
                 super.getItemOffsets(outRect, view, parent, state);
                 int position = parent.getChildAdapterPosition(view);
                 if (position == 0) {
-                    outRect.left = Utils.dp(parent.getContext(),16);
+                    outRect.left = Utils.dp(parent.getContext(), 16);
                 } else {
-                    outRect.left = Utils.dp(parent.getContext(),6);
+                    outRect.left = Utils.dp(parent.getContext(), 6);
                 }
-                if (position == parent.getAdapter().getItemCount()-1) outRect.right = Utils.dp(parent.getContext(),16);
+                if (position == parent.getAdapter().getItemCount() - 1)
+                    outRect.right = Utils.dp(parent.getContext(), 16);
             }
         });
 
@@ -190,13 +192,13 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         editText.setTextColor(theme.getTitleColor());
         editText.setSingleLine();
         editText.setBackgroundColor(Color.TRANSPARENT);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1,-1);
-        lp.leftMargin = Utils.dp(getContext(),48);
-        lp.rightMargin = Utils.dp(getContext(),48);
-        lp.bottomMargin = Utils.dp(getContext(),0);
-        lp.topMargin = Utils.dp(getContext(),46);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1, -1);
+        lp.leftMargin = Utils.dp(getContext(), 48);
+        lp.rightMargin = Utils.dp(getContext(), 48);
+        lp.bottomMargin = Utils.dp(getContext(), 0);
+        lp.topMargin = Utils.dp(getContext(), 46);
         lp.gravity = Gravity.BOTTOM;
-        this.addView(editText,lp);
+        this.addView(editText, lp);
 
         final TextWatcher textWatcherSearchListener = new TextWatcher() {
             final android.os.Handler handler = new android.os.Handler();
@@ -218,34 +220,35 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
         };
         editText.addTextChangedListener(textWatcherSearchListener);
 
         noResultTextView = new AppCompatTextView(getContext());
-        this.addView(noResultTextView,lp_rv);
+        this.addView(noResultTextView, lp_rv);
         noResultTextView.setVisibility(GONE);
         noResultTextView.setTextSize(18);
-        noResultTextView.setText("No emoji found");
+        noResultTextView.setText(R.string.no_emoji_found);
         noResultTextView.setTypeface(theme.getTitleTypeface());
         noResultTextView.setGravity(Gravity.CENTER);
         noResultTextView.setTextColor(theme.getDefaultColor());
 
         backButton = new AppCompatImageView(getContext());
-        FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(Utils.dp(getContext(),26),-1);
-        lp2.leftMargin = Utils.dp(getContext(),13);
-        lp2.bottomMargin = Utils.dp(getContext(),8);
-        lp2.topMargin = Utils.dp(getContext(),54);
+        FrameLayout.LayoutParams lp2 = new FrameLayout.LayoutParams(Utils.dp(getContext(), 26), -1);
+        lp2.leftMargin = Utils.dp(getContext(), 13);
+        lp2.bottomMargin = Utils.dp(getContext(), 8);
+        lp2.topMargin = Utils.dp(getContext(), 54);
         lp2.gravity = Gravity.BOTTOM;
-        this.addView(backButton,lp2);
-        Utils.setClickEffect(backButton,true);
+        this.addView(backButton, lp2);
+        Utils.setClickEffect(backButton, true);
 
         backButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText instanceof CustomEditText){
+                if (editText instanceof CustomEditText) {
                     ((CustomEditText) editText).reload();
-                }else{
+                } else {
                     base.getPopupInterface().reload();
                 }
                 base.getPopupInterface().show();
@@ -257,30 +260,30 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         backButton.setImageDrawable(dr);
     }
 
-    protected void searchFor (String value){
+    protected void searchFor(String value) {
         if (recyclerView.getAdapter() == null) return;
         ((AXUISearchAdapter) recyclerView.getAdapter()).searchFor(value);
     }
 
-    protected OnEmojiActions findActions(){
-        if (base instanceof AXEmojiView){
+    protected OnEmojiActions findActions() {
+        if (base instanceof AXEmojiView) {
             return ((AXEmojiView) base).getInnerEmojiActions();
-        } else if (base instanceof AXSingleEmojiView){
+        } else if (base instanceof AXSingleEmojiView) {
             return ((AXSingleEmojiView) base).getInnerEmojiActions();
         }
         return null;
     }
 
-    protected VariantEmoji findVariant(){
-        if (base instanceof AXEmojiView){
+    protected VariantEmoji findVariant() {
+        if (base instanceof AXEmojiView) {
             return ((AXEmojiView) base).getVariantEmoji();
-        } else if (base instanceof AXSingleEmojiView){
+        } else if (base instanceof AXSingleEmojiView) {
             return ((AXSingleEmojiView) base).getVariantEmoji();
         }
         return AXEmojiManager.getVariantEmoji();
     }
 
-    private RecyclerView.Adapter<?> createAdapter(){
+    private RecyclerView.Adapter<?> createAdapter() {
         return new SearchAdapter(this);
     }
 
@@ -289,7 +292,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         AXEmojiSearchView searchView;
         List<Emoji> list;
 
-        public SearchAdapter(AXEmojiSearchView searchView){
+        public SearchAdapter(AXEmojiSearchView searchView) {
             super();
             this.searchView = searchView;
             list = new ArrayList<>();
@@ -301,7 +304,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             FrameLayout frameLayout = new FrameLayout(parent.getContext());
             AXEmojiImageView emojiView = new AXEmojiImageView(parent.getContext());
-            int cw = Utils.dp(parent.getContext(),38);
+            int cw = Utils.dp(parent.getContext(), 38);
             frameLayout.setLayoutParams(new FrameLayout.LayoutParams(cw, cw));
             frameLayout.addView(emojiView);
 
@@ -328,9 +331,9 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         @Override
         public void searchFor(String value) {
             list.clear();
-            if (value.trim().isEmpty()){
+            if (value.trim().isEmpty()) {
                 list.addAll(AXEmojiManager.getRecentEmoji().getRecentEmojis());
-            }else {
+            } else {
                 list.addAll(searchView.getDataAdapter().searchFor(value));
             }
             searchView.searched(!list.isEmpty());
@@ -356,16 +359,30 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             this.clearFocus();
+
+            if (((AXEmojiSearchView) getParent()).base.getEditText() != null)
+                ((AXEmojiSearchView) getParent()).base.getEditText().requestFocus();
+        }
+
+        @Override
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+
+            if (((AXEmojiSearchView) getParent()).base.getEditText() != null)
+                ((AXEmojiSearchView) getParent()).base.getEditText().clearFocus();
         }
 
         @Override
         protected void onFocusChanged(boolean focused, int direction, Rect previouslyFocusedRect) {
             super.onFocusChanged(focused, direction, previouslyFocusedRect);
-            if (focused) req = false;
-            if (!req && !focused && getParent()!=null) reload();
+            if (focused)
+                req = false;
+
+            if (!req && !focused && getParent() != null)
+                reload();
         }
 
-        public void reload(){
+        public void reload() {
             ((AXEmojiSearchView) getParent()).base.getPopupInterface().reload();
             req = true;
         }
@@ -384,7 +401,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
                 return true;
             }
             if (keyCode == KeyEvent.KEYCODE_BACK && req) return true;
-            return super.onKeyPreIme(keyCode,event);
+            return super.onKeyPreIme(keyCode, event);
         }
     }
 

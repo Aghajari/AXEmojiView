@@ -16,7 +16,7 @@
  */
 
 
-package com.aghajari.emojiview.emoji.iosprovider;
+package com.aghajari.emojiview.iosprovider;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -40,9 +40,7 @@ import android.text.Spannable;
 import android.text.Spanned;
 import android.text.style.DynamicDrawableSpan;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aghajari.emojiview.emoji.EmojiData;
