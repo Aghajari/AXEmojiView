@@ -52,13 +52,13 @@ public class AXIOSEmojiLoader {
     private static int drawImgSize;
     private static int bigImgSize;
     private static Paint placeholderPaint;
-    private static int[] emojiCounts = new int[]{1620, 184, 115, 328, 125, 207, 288, 258};
+    static int[] emojiCounts = new int[]{1906, 199, 123, 332, 128, 222, 292, 259};
     private static Bitmap[][] emojiBmp = new Bitmap[8][];
     private static boolean[][] loadingEmoji = new boolean[8][];
 
     private static Context context;
     private static boolean isTablet = false;
-    public static volatile DispatchQueue globalQueue = new DispatchQueue("globalQueue");
+    public static volatile DispatchQueue globalQueue = new DispatchQueue("emojiGlobalQueue");
     private static Handler uiThread;
 
     static void init(Context context) {

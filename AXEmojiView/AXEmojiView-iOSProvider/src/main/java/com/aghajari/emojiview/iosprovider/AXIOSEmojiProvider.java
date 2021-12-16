@@ -82,10 +82,9 @@ public final class AXIOSEmojiProvider extends AXIOSEmojiReplacer implements Emoj
         int icon;
 
         public AXIOSEmojiCategory(int i, int icon) {
-            DATA = new Emoji[EmojiData.releaseData[i].length];
-            for (int j = 0; j < EmojiData.releaseData[i].length; j++) {
-                DATA[j] = new AXIOSEmoji(EmojiData.releaseData[i][j]);
-            }
+            DATA = new Emoji[EmojiData.dataColored[i].length];
+            for (int j = 0; j < EmojiData.dataColored[i].length; j++)
+                DATA[j] = new AXIOSEmoji(EmojiData.dataColored[i][j]);
             title = EmojiData.titles[i];
             this.icon = icon;
         }

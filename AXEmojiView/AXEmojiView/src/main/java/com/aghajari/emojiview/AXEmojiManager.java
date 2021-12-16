@@ -72,13 +72,13 @@ import java.util.regex.Pattern;
 
 /**
  * @author Amir Hossein Aghajari
- * @version 1.4.0
+ * @version 1.4.1
  */
 public class AXEmojiManager {
 
     private static boolean ripple = true;
 
-    private static EditTextInputListener defaultInputListener = new EditTextInputListener() {
+    private static final EditTextInputListener defaultInputListener = new EditTextInputListener() {
         @Override
         public void input(@NonNull final EditText editText, @Nullable final Emoji emoji) {
             if (emoji != null) {
@@ -94,7 +94,7 @@ public class AXEmojiManager {
         }
     };
 
-    private static StickerViewCreatorListener defaultStickerCreator = new StickerViewCreatorListener() {
+    private static final StickerViewCreatorListener defaultStickerCreator = new StickerViewCreatorListener() {
         @Override
         public View onCreateStickerView(@NonNull Context context, @Nullable StickerCategory category, boolean isRecent) {
             return new AppCompatImageView(context);
@@ -119,7 +119,7 @@ public class AXEmojiManager {
             final int firstLength = first.length();
             final int secondLength = second.length();
 
-            return firstLength < secondLength ? 1 : firstLength == secondLength ? 0 : -1;
+            return Integer.compare(secondLength, firstLength);
         }
     };
 
@@ -188,7 +188,7 @@ public class AXEmojiManager {
         INSTANCE = new AXEmojiManager();
         if (mEmojiTheme == null) mEmojiTheme = new AXEmojiTheme();
         if (mStickerTheme == null) mStickerTheme = new AXEmojiTheme();
-        /**recentEmoji = null;
+        /*recentEmoji = null;
          recentSticker = null;
          variantEmoji = null;
          emojiLoader = null;*/
@@ -220,7 +220,6 @@ public class AXEmojiManager {
                 INSTANCE.emojiMap.put(unicode, emoji);
                 unicodesForPattern.add(unicode);
 
-                //noinspection ForLoopReplaceableByForEach
                 for (int k = 0; k < variants.size(); k++) {
                     final Emoji variant = variants.get(k);
                     final String variantUnicode = variant.getUnicode();
