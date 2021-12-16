@@ -5,7 +5,7 @@
   
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.4.0/aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.4.1/aar)
 [![Join the chat at https://gitter.im/Aghajari/community](https://badges.gitter.im/Aghajari/community.svg)](https://gitter.im/Aghajari/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 </div>
 
@@ -45,6 +45,9 @@
 - [License](#license)
 
 ## Changelogs
+1.4.1 :
+- Emoji Updated ([#19](https://github.com/Aghajari/AXEmojiView/issues/19))
+
 1.4.0 :
 - Moved from JCenter to mavenCentral
 - Fixed focus on searchView.
@@ -67,14 +70,14 @@
 
 AXEmojiView is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
 
-**LatestVersion : 1.4.0**
+**LatestVersion : 1.4.1**
 
 Gradle
 ```gradle
-implementation 'io.github.aghajari:AXEmojiView:1.4.0'
+implementation 'io.github.aghajari:AXEmojiView:1.4.1'
 
 // Provider
-implementation 'io.github.aghajari:AXEmojiView-iOSProvider:1.4.0'
+implementation 'io.github.aghajari:AXEmojiView-iOSProvider:1.4.1'
 ```
 
 Maven
@@ -82,7 +85,7 @@ Maven
 <dependency>
   <groupId>io.github.aghajari</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
   <type>pom</type>
 </dependency>
 ```
