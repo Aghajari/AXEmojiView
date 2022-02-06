@@ -201,8 +201,6 @@ public class AXSingleEmojiView extends AXEmojiLayout implements FindVariantListe
             variant = new VariantEmojiManager(getContext());
         }
 
-        variant = new VariantEmojiManager(getContext());
-
         recyclerView = new AXEmojiSingleRecyclerView(getContext(), this);
         recyclerView.setItemAnimator(null);
         this.addView(recyclerView, new LayoutParams(0, 0, -1, -1));
