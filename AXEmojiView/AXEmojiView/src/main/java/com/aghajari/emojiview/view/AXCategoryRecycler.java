@@ -61,18 +61,10 @@ class AXCategoryRecycler extends AXEmojiLayout {
         Utils.forceLTR(icons);
 
         icons.setItemAnimator(null);
-
         icons.setAdapter(new AXCategoryAdapter(pager, provider, recentStickerManager));
-
         icons.setOverScrollMode(View.OVER_SCROLL_NEVER);
-
         this.setBackgroundColor(AXEmojiManager.getStickerViewTheme().getCategoryColor());
-
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        this.setOnClickListener(view -> {
         });
 
 
@@ -85,7 +77,7 @@ class AXCategoryRecycler extends AXEmojiLayout {
     }
 
     public void setPageIndex(int index) {
-        ((AXCategoryAdapter)icons.getAdapter()).update();
+        ((AXCategoryAdapter) icons.getAdapter()).update();
     }
 
 }

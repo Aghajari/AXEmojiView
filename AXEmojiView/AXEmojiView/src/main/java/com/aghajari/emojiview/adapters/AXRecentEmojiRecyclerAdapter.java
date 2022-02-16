@@ -69,10 +69,10 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
         emojiView.setOnEmojiActions(events, true);
 
 
-        if (!AXEmojiManager.getInstance().isRecentVariantEnabled()) {
+        if (!AXEmojiManager.isRecentVariantEnabled()) {
             emojiView.setShowVariants(false);
         } else {
-            emojiView.setShowVariants(AXEmojiManager.getTheme().isVariantDividerEnabled());
+            emojiView.setShowVariants(AXEmojiManager.getEmojiViewTheme().isVariantDividerEnabled());
         }
     }
 
@@ -81,7 +81,7 @@ public class AXRecentEmojiRecyclerAdapter extends RecyclerView.Adapter<AXRecentE
         return recentEmoji.getRecentEmojis().size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

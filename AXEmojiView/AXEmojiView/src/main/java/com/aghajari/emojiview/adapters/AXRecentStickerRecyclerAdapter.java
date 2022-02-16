@@ -65,7 +65,7 @@ public class AXRecentStickerRecyclerAdapter extends RecyclerView.Adapter<AXRecen
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
         final AppCompatImageView stickerView = (AppCompatImageView) frameLayout.getChildAt(0);
-        View ripple = (View) frameLayout.getChildAt(1);
+        View ripple = frameLayout.getChildAt(1);
 
         @SuppressWarnings("rawtypes")
 		final Sticker sticker = (Sticker) recent.getRecentStickers().toArray()[i];
@@ -73,18 +73,12 @@ public class AXRecentStickerRecyclerAdapter extends RecyclerView.Adapter<AXRecen
 
         Utils.setClickEffect(ripple,false);
 
-        ripple.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (events !=null) events.onClick(stickerView,sticker,true);
-            }
+        ripple.setOnClickListener(view -> {
+            if (events !=null) events.onClick(stickerView,sticker,true);
         });
-            ripple.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (events!=null) return events.onLongClick(stickerView,sticker,true);
-                    return false;
-                }
+            ripple.setOnLongClickListener(view -> {
+                if (events!=null) return events.onLongClick(stickerView,sticker,true);
+                return false;
             });
     }
 
@@ -93,7 +87,7 @@ public class AXRecentStickerRecyclerAdapter extends RecyclerView.Adapter<AXRecen
         return recent.getRecentStickers().size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

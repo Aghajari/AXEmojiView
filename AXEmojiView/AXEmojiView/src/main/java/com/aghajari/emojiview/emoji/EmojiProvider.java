@@ -25,4 +25,6 @@ public interface EmojiProvider {
     EmojiCategory[] getCategories();
 
     void destroy();
+
+    EmojiData getEmojiData();
 }

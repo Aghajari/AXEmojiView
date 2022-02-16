@@ -46,8 +46,8 @@ public class AXSingleEmojiPageAdapter extends RecyclerView.Adapter<RecyclerView.
     RecentEmoji recentEmoji;
     VariantEmoji variantEmoji;
     OnEmojiActions events;
-    public List<Integer> titlesPosition = new ArrayList<Integer>();
-    List<Emoji> emojis = new ArrayList<Emoji>();
+    public List<Integer> titlesPosition = new ArrayList<>();
+    List<Emoji> emojis = new ArrayList<>();
 
     public int getLastEmojiCategoryCount() {
         return categories[categories.length - 1].getEmojis().length;
@@ -83,8 +83,8 @@ public class AXSingleEmojiPageAdapter extends RecyclerView.Adapter<RecyclerView.
 
             TextView tv = new TextView(viewGroup.getContext());
             frameLayout.addView(tv, new FrameLayout.LayoutParams(-1, -1));
-            tv.setTextColor(AXEmojiManager.getTheme().getTitleColor());
-            tv.setTypeface(AXEmojiManager.getTheme().getTitleTypeface());
+            tv.setTextColor(AXEmojiManager.getEmojiViewTheme().getTitleColor());
+            tv.setTypeface(AXEmojiManager.getEmojiViewTheme().getTitleTypeface());
             tv.setTextSize(16);
             tv.setPadding(Utils.dpToPx(viewGroup.getContext(), 16), Utils.dpToPx(viewGroup.getContext(), 4),
                     Utils.dpToPx(viewGroup.getContext(), 16), Utils.dpToPx(viewGroup.getContext(), 4));
@@ -143,7 +143,7 @@ public class AXSingleEmojiPageAdapter extends RecyclerView.Adapter<RecyclerView.
         return 0;
     }
 
-    int calItemsCount() {
+    void calItemsCount() {
         emojis.add(null);
         int number = 0;
         Emoji[] recents = new Emoji[recentEmoji.getRecentEmojis().size()];
@@ -154,13 +154,13 @@ public class AXSingleEmojiPageAdapter extends RecyclerView.Adapter<RecyclerView.
             number++;
             titlesPosition.add(number);
             emojis.add(null);
-            number = number + categories[i].getEmojis().length;
-            emojis.addAll(Arrays.asList(categories[i].getEmojis()));
+            List<Emoji> filtered = Utils.filterEmojis(Arrays.asList(categories[i].getEmojis()));
+            number = number + filtered.size();
+            emojis.addAll(filtered);
         }
-        return emojis.size();
     }
 
-    public class TitleHolder extends RecyclerView.ViewHolder {
+    public static class TitleHolder extends RecyclerView.ViewHolder {
         TextView tv;
 
         public TitleHolder(@NonNull View itemView, TextView tv) {
@@ -169,13 +169,13 @@ public class AXSingleEmojiPageAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    public class SpaceHolder extends RecyclerView.ViewHolder {
+    public static class SpaceHolder extends RecyclerView.ViewHolder {
         public SpaceHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    public class EmojiHolder extends RecyclerView.ViewHolder {
+    public static class EmojiHolder extends RecyclerView.ViewHolder {
         AXEmojiImageView imageView;
 
         public EmojiHolder(@NonNull View itemView, AXEmojiImageView imageView) {

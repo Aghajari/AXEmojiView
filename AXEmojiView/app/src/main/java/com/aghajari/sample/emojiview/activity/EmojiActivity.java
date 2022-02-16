@@ -7,7 +7,8 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
-import android.view.View;
+
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 
 import com.aghajari.emojiview.AXEmojiManager;
@@ -19,7 +20,6 @@ import com.aghajari.emojiview.AXEmojiUtils;
 import com.aghajari.emojiview.view.AXEmojiEditText;
 import com.aghajari.emojiview.view.AXEmojiPager;
 import com.aghajari.emojiview.view.AXEmojiTextView;
-import com.aghajari.emojiview.view.AXEmojiView;
 import com.aghajari.sample.emojiview.R;
 import com.aghajari.sample.emojiview.UI;
 
@@ -49,27 +49,16 @@ public class EmojiActivity extends AppCompatActivity {
         // create emoji popup
         final AXEmojiPopup popup = new AXEmojiPopup(emojiPager);
 
-        edt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (popup.isShowing()) popup.toggle();
-            }
+        edt.setOnClickListener(view -> {
+            if (popup.isShowing()) popup.toggle();
         });
 
-        emojiImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popup.toggle();
-            }
-        });
+        emojiImg.setOnClickListener(view -> popup.toggle());
 
-        findViewById(R.id.send_emoji).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (edt.getText().length()>0){
-                    textView.setText(edt.getText().toString());
-                    edt.setText("");
-                }
+        findViewById(R.id.send_emoji).setOnClickListener(view -> {
+            if (!TextUtils.isEmpty(edt.getText())){
+                textView.setText(edt.getText().toString());
+                edt.setText("");
             }
         });
 
@@ -91,11 +80,8 @@ public class EmojiActivity extends AppCompatActivity {
 
         if (AXEmojiManager.isAXEmojiView(emojiPager.getPage(0))) {
             popup.setSearchView(new AXEmojiSearchView(this, emojiPager.getPage(0)));
-            emojiPager.setOnFooterItemClicked(new AXEmojiPager.OnFooterItemClicked() {
-                @Override
-                public void onClick(View view, boolean leftIcon) {
-                    if (leftIcon) popup.showSearchView();
-                }
+            emojiPager.setOnFooterItemClicked((view, leftIcon) -> {
+                if (leftIcon) popup.showSearchView();
             });
         }
 

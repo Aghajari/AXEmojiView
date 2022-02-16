@@ -14,11 +14,9 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.aghajari.emojiview.AXEmojiManager;
-import com.aghajari.emojiview.listener.OnEmojiPagerPageChanged;
 import com.aghajari.emojiview.listener.OnStickerActions;
 import com.aghajari.emojiview.sticker.Sticker;
 import com.aghajari.emojiview.utils.Utils;
-import com.aghajari.emojiview.view.AXEmojiBase;
 import com.aghajari.emojiview.view.AXEmojiLayout;
 import com.aghajari.emojiview.view.AXEmojiPager;
 import com.aghajari.emojiview.view.AXEmojiView;
@@ -107,37 +105,31 @@ public class UI {
         AXEmojiPager emojiPager = new AXEmojiPager(context);
 
         if (mSingleEmojiView) {
-            /**
-             * add single emoji view
-             */
+            // add single emoji view
             AXSingleEmojiView singleEmojiView = new AXSingleEmojiView(context);
             emojiPager.addPage(singleEmojiView, R.drawable.ic_msg_panel_smiles);
         }
 
         if (mEmojiView) {
-            /**
-             * add emoji view (with viewpager)
-             */
+            // add emoji view (with viewpager)
             AXEmojiView emojiView = new AXEmojiView(context);
             emojiPager.addPage(emojiView, R.drawable.ic_msg_panel_smiles);
         }
 
         if (mStickerView) {
-            /**
-             * add Sticker View
-             */
+            // add Sticker View
             AXStickerView stickerView = new AXStickerView(context, "stickers", new WhatsAppProvider());
             emojiPager.addPage(stickerView, R.drawable.ic_msg_panel_stickers);
 
             //add sticker click listener
             stickerView.setOnStickerActionsListener(new OnStickerActions() {
                 @Override
-                public void onClick(View view, Sticker sticker, boolean fromRecent) {
+                public void onClick(View view, Sticker<?> sticker, boolean fromRecent) {
                     Toast.makeText(view.getContext(),sticker.toString()+" clicked!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public boolean onLongClick(View view, Sticker sticker, boolean fromRecent) {
+                public boolean onLongClick(View view, Sticker<?> sticker, boolean fromRecent) {
                     return false;
                 }
             });
@@ -156,11 +148,8 @@ public class UI {
             initCustomFooter(context,emojiPager);
         }else{
             emojiPager.setLeftIcon(R.drawable.ic_ab_search);
-            emojiPager.setOnFooterItemClicked(new AXEmojiPager.OnFooterItemClicked() {
-                @Override
-                public void onClick(View view,boolean leftIcon) {
-                    if (leftIcon) Toast.makeText(context,"Search Clicked", Toast.LENGTH_SHORT).show();
-                }
+            emojiPager.setOnFooterItemClicked((view, leftIcon) -> {
+                if (leftIcon) Toast.makeText(context,"Search Clicked", Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -188,29 +177,21 @@ public class UI {
         lp2.gravity = Gravity.CENTER;
         footer.addView(img,lp2);
 
-        final View.OnClickListener clickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,"Search Clicked", Toast.LENGTH_SHORT).show();
-            }
-        };
+        final View.OnClickListener clickListener = view -> Toast.makeText(context,"Search Clicked", Toast.LENGTH_SHORT).show();
 
-        emojiPager.setOnEmojiPageChangedListener(new OnEmojiPagerPageChanged() {
-            @Override
-            public void onPageChanged(AXEmojiPager emojiPager, AXEmojiBase base, int position) {
-                Drawable drawable;
-                if (AXEmojiManager.isAXEmojiView(base)){
-                    drawable = context.getResources().getDrawable(R.drawable.emoji_backspace);
-                    Utils.enableBackspaceTouch(footer,emojiPager.getEditText());
-                    footer.setOnClickListener(null);
-                }else {
-                    drawable = context.getResources().getDrawable(R.drawable.ic_ab_search);
-                    footer.setOnTouchListener(null);
-                    footer.setOnClickListener(clickListener);
-                }
-                DrawableCompat.setTint(DrawableCompat.wrap(drawable),AXEmojiManager.getEmojiViewTheme().getFooterItemColor());
-                img.setImageDrawable(drawable);
+        emojiPager.setOnEmojiPageChangedListener((emojiPager1, base, position) -> {
+            Drawable drawable1;
+            if (AXEmojiManager.isAXEmojiView(base)){
+                drawable1 = context.getResources().getDrawable(R.drawable.emoji_backspace);
+                Utils.enableBackspaceTouch(footer, emojiPager1.getEditText());
+                footer.setOnClickListener(null);
+            }else {
+                drawable1 = context.getResources().getDrawable(R.drawable.ic_ab_search);
+                footer.setOnTouchListener(null);
+                footer.setOnClickListener(clickListener);
             }
+            DrawableCompat.setTint(DrawableCompat.wrap(drawable1),AXEmojiManager.getEmojiViewTheme().getFooterItemColor());
+            img.setImageDrawable(drawable1);
         });
     }
 }

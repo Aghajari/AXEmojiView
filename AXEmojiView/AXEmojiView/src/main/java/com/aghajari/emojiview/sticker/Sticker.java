@@ -57,7 +57,7 @@ public class Sticker<T> implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Sticker)) return false;
-        return getData().equals(((Sticker) o).getData());
+        return getData().equals(((Sticker<?>) o).getData());
     }
 
     @SuppressWarnings("unchecked")
@@ -81,7 +81,7 @@ public class Sticker<T> implements Serializable {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             objectOutputStream.writeObject(object);
             objectOutputStream.close();
-            encoded = new String(Base64.encodeToString(byteArrayOutputStream.toByteArray(), 0));
+            encoded = Base64.encodeToString(byteArrayOutputStream.toByteArray(), 0);
         } catch (IOException e) {
             e.printStackTrace();
         }

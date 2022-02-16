@@ -26,7 +26,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.aghajari.emojiview.AXEmojiManager;
@@ -72,12 +71,9 @@ public class AXFooterIconsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
         Utils.setClickEffect(icon, true);
 
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (pager.getViewPager().getCurrentItem() != i) {
-                    pager.setPageIndex(i);
-                }
+        icon.setOnClickListener(view -> {
+            if (pager.getViewPager().getCurrentItem() != i) {
+                pager.setPageIndex(i);
             }
         });
     }

@@ -12,11 +12,11 @@
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:orientation="horizontal"/>
+            android:layout_margin="4dp"/>
+
     </androidx.cardview.widget.CardView>
 </FrameLayout>

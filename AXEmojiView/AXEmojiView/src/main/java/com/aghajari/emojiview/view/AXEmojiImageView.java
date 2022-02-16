@@ -28,7 +28,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.emoji.Emoji;
@@ -51,7 +50,7 @@ public final class AXEmojiImageView extends AppCompatImageView {
     private ImageLoadingTask imageLoadingTask;
 
     private boolean hasVariants;
-    private boolean asyncLoad = AXEmojiManager.isAsyncLoadEnabled();
+    private final boolean asyncLoad = AXEmojiManager.isAsyncLoadEnabled();
 
     boolean showVariants = AXEmojiManager.getEmojiViewTheme().isVariantDividerEnabled();
 
@@ -83,20 +82,11 @@ public final class AXEmojiImageView extends AppCompatImageView {
         variantIndicatorPaint.setStyle(Paint.Style.FILL);
         variantIndicatorPaint.setAntiAlias(true);
 
-        setOnClickListener(new View.OnClickListener() {
+        setOnClickListener(view -> sendEmoji(currentEmoji, false));
 
-            @Override
-            public void onClick(View view) {
-                sendEmoji(currentEmoji, false);
-            }
-        });
-
-        setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (actions != null) return actions.onLongClick(view, currentEmoji, fromRecent, false);
-                return false;
-            }
+        setOnLongClickListener(view -> {
+            if (actions != null) return actions.onLongClick(view, currentEmoji, fromRecent, false);
+            return false;
         });
 
         if (AXEmojiManager.isRippleEnabled()) Utils.setClickEffect(this, false);

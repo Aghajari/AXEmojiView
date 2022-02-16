@@ -3,7 +3,7 @@ package com.aghajari.sample.emojiview.activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,40 +63,26 @@ public class EmojiPopupViewActivity extends AppCompatActivity {
         // SearchView
         if (AXEmojiManager.isAXEmojiView(emojiPager.getPage(0))) {
             layout.setSearchView(new AXEmojiSearchView(this, emojiPager.getPage(0)));
-            emojiPager.setOnFooterItemClicked(new AXEmojiPager.OnFooterItemClicked() {
-                @Override
-                public void onClick(View view, boolean leftIcon) {
-                    if (leftIcon) layout.showSearchView();
-                }
+            emojiPager.setOnFooterItemClicked((view, leftIcon) -> {
+                if (leftIcon) layout.showSearchView();
             });
         }
 
         layout.hideAndOpenKeyboard();
-        edt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        edt.setOnClickListener(view -> layout.openKeyboard());
+
+        emojiImg.setOnClickListener(view -> {
+            if (isShowing){
                 layout.openKeyboard();
+            }else{
+                layout.show();
             }
         });
 
-        emojiImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isShowing){
-                    layout.openKeyboard();
-                }else{
-                    layout.show();
-                }
-            }
-        });
-
-        findViewById(R.id.send_emoji).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (edt.getText().length()>0){
-                    textView.setText(edt.getText().toString());
-                    edt.setText("");
-                }
+        findViewById(R.id.send_emoji).setOnClickListener(view -> {
+            if (!TextUtils.isEmpty(edt.getText())){
+                textView.setText(edt.getText().toString());
+                edt.setText("");
             }
         });
 
@@ -124,15 +110,14 @@ public class EmojiPopupViewActivity extends AppCompatActivity {
             private void updateButton(boolean emoji){
                 if (isShowing==emoji) return;
                 isShowing = emoji;
+                Drawable dr;
                 if (emoji){
-                    Drawable dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_kb);
-                    DrawableCompat.setTint(DrawableCompat.wrap(dr), color);
-                    emojiImg.setImageDrawable(dr);
+                    dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_kb);
                 }else {
-                    Drawable dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_smiles);
-                    DrawableCompat.setTint(DrawableCompat.wrap(dr), color);
-                    emojiImg.setImageDrawable(dr);
+                    dr = AppCompatResources.getDrawable(EmojiPopupViewActivity.this, R.drawable.ic_msg_panel_smiles);
                 }
+                DrawableCompat.setTint(DrawableCompat.wrap(dr), color);
+                emojiImg.setImageDrawable(dr);
             }
         });
     }

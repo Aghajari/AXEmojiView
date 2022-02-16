@@ -68,7 +68,7 @@ public class AXEmojiRadioButton extends AppCompatRadioButton {
         if (attrs == null) {
             emojiSize = defaultEmojiSize;
         } else {
-            final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.AXEmojiCheckbox);
+            final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.AXEmojiRadioButton);
 
             try {
                 emojiSize = a.getDimension(R.styleable.AXEmojiRadioButton_emojiSize, defaultEmojiSize);

@@ -24,6 +24,8 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
+import androidx.annotation.NonNull;
+
 import com.aghajari.emojiview.emoji.Emoji;
 
 public final class EmojiSpan extends DynamicDrawableSpan {
@@ -48,7 +50,7 @@ public final class EmojiSpan extends DynamicDrawableSpan {
     }
 
     @Override
-    public int getSize(final Paint paint, final CharSequence text, final int start,
+    public int getSize(@NonNull final Paint paint, final CharSequence text, final int start,
                        final int end, final Paint.FontMetricsInt fontMetrics) {
         if (fontMetrics != null) {
             final Paint.FontMetrics paintFontMetrics = paint.getFontMetrics();

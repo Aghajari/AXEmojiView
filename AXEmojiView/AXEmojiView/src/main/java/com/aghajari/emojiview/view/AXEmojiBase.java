@@ -23,7 +23,6 @@ import android.content.Context;
 import androidx.viewpager.widget.ViewPager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.FrameLayout;

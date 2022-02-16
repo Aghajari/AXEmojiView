@@ -32,15 +32,16 @@ import com.aghajari.emojiview.shared.VariantEmoji;
 import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.view.AXEmojiImageView;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AXEmojiRecyclerAdapter extends RecyclerView.Adapter<AXEmojiRecyclerAdapter.ViewHolder> {
-    Emoji[] emojis;
-    int count;
+    List<Emoji> emojis;
     OnEmojiActions events;
     VariantEmoji variantEmoji;
 
     public AXEmojiRecyclerAdapter(Emoji[] emojis, OnEmojiActions events, VariantEmoji variantEmoji) {
-        this.emojis = emojis;
-        this.count = emojis.length;
+        this.emojis = Utils.filterEmojis(Arrays.asList(emojis));
         this.events = events;
         this.variantEmoji = variantEmoji;
     }
@@ -65,7 +66,7 @@ public class AXEmojiRecyclerAdapter extends RecyclerView.Adapter<AXEmojiRecycler
         FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
         final AXEmojiImageView emojiView = (AXEmojiImageView) frameLayout.getChildAt(0);
 
-        Emoji emoji = emojis[i];
+        Emoji emoji = emojis.get(i);
         emojiView.setEmoji(variantEmoji.getVariant(emoji));
         //ImageLoadingTask currentTask = new ImageLoadingTask(emojiView);
         //currentTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, emoji, null, null);
@@ -75,7 +76,7 @@ public class AXEmojiRecyclerAdapter extends RecyclerView.Adapter<AXEmojiRecycler
 
     @Override
     public int getItemCount() {
-        return count;
+        return emojis.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

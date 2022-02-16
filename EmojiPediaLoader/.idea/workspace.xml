@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0eca818d-4224-4dee-bd2d-bfe2c4924edf" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="24s5Wy75l1NbA6NuICSibX6V5fP" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/samsung_emoji" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/samsung_emoji" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/facebook_emoji" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.Compressor">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.aghajari.Main" />
+      <module name="EmojiPediaLoader" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Compressor" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="EmojiPediaLoader" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Compressor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Compressor" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0eca818d-4224-4dee-bd2d-bfe2c4924edf" name="Default Changelist" comment="" />
+      <created>1644406488615</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644406488615</updated>
+      <workItem from="1644406497387" duration="25818000" />
+      <workItem from="1644452320520" duration="25034000" />
+      <workItem from="1644540866450" duration="60284000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="533" y="141" key="#com.intellij.ide.util.MemberChooser" timestamp="1644697528286">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="533" y="141" key="#com.intellij.ide.util.MemberChooser/0.25.1440.803@0.25.1440.803" timestamp="1644697528286" />
+    <state x="533" y="141" key="#com.intellij.ide.util.MemberChooser/0.25.1440.804@0.25.1440.804" timestamp="1644419226734" />
+    <state x="570" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1644505624387">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="570" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.25.1440.803@0.25.1440.803" timestamp="1644505624386" />
+    <state x="458" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1644442917416">
+      <screen x="0" y="25" width="1440" height="804" />
+    </state>
+    <state x="458" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.25.1440.804@0.25.1440.804" timestamp="1644442917416" />
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1645002463830">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.25.1440.803@0.25.1440.803" timestamp="1645002463830" />
+    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.25.1440.804@0.25.1440.804" timestamp="1644803824887" />
+    <state width="1398" height="204" key="GridCell.Tab.0.bottom/0.25.1440.805@0.25.1440.805" timestamp="1644432293710" />
+    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1645002463817">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="230" key="GridCell.Tab.0.center/0.25.1440.803@0.25.1440.803" timestamp="1645002463817" />
+    <state width="1398" height="230" key="GridCell.Tab.0.center/0.25.1440.804@0.25.1440.804" timestamp="1644803824886" />
+    <state width="1398" height="204" key="GridCell.Tab.0.center/0.25.1440.805@0.25.1440.805" timestamp="1644432293709" />
+    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1645002463798">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="230" key="GridCell.Tab.0.left/0.25.1440.803@0.25.1440.803" timestamp="1645002463798" />
+    <state width="1398" height="230" key="GridCell.Tab.0.left/0.25.1440.804@0.25.1440.804" timestamp="1644803824886" />
+    <state width="1398" height="204" key="GridCell.Tab.0.left/0.25.1440.805@0.25.1440.805" timestamp="1644432293709" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1645002463822">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="230" key="GridCell.Tab.0.right/0.25.1440.803@0.25.1440.803" timestamp="1645002463822" />
+    <state width="1398" height="230" key="GridCell.Tab.0.right/0.25.1440.804@0.25.1440.804" timestamp="1644803824887" />
+    <state width="1398" height="204" key="GridCell.Tab.0.right/0.25.1440.805@0.25.1440.805" timestamp="1644432293710" />
+    <state width="1398" height="253" key="GridCell.Tab.1.bottom" timestamp="1645002463640">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="253" key="GridCell.Tab.1.bottom/0.25.1440.803@0.25.1440.803" timestamp="1645002463640" />
+    <state width="1398" height="253" key="GridCell.Tab.1.center" timestamp="1645002463639">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="253" key="GridCell.Tab.1.center/0.25.1440.803@0.25.1440.803" timestamp="1645002463639" />
+    <state width="1398" height="253" key="GridCell.Tab.1.left" timestamp="1645002463638">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="253" key="GridCell.Tab.1.left/0.25.1440.803@0.25.1440.803" timestamp="1645002463638" />
+    <state width="1398" height="253" key="GridCell.Tab.1.right" timestamp="1645002463639">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state width="1398" height="253" key="GridCell.Tab.1.right/0.25.1440.803@0.25.1440.803" timestamp="1645002463639" />
+    <state x="208" y="25" key="SettingsEditor" timestamp="1644503085485">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="208" y="25" key="SettingsEditor/0.25.1440.803@0.25.1440.803" timestamp="1644503085485" />
+    <state x="208" y="25" key="SettingsEditor/0.25.1440.804@0.25.1440.804" timestamp="1644420123744" />
+    <state x="123" y="25" key="new project wizard" timestamp="1644850789038">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="123" y="25" key="new project wizard/0.25.1440.803@0.25.1440.803" timestamp="1644850789038" />
+    <state x="426" y="46" key="refactoring.ChangeSignatureDialog" timestamp="1644708043039">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="426" y="46" key="refactoring.ChangeSignatureDialog/0.25.1440.803@0.25.1440.803" timestamp="1644708043039" />
+    <state x="385" y="152" width="670" height="676" key="search.everywhere.popup" timestamp="1644710972730">
+      <screen x="0" y="25" width="1440" height="803" />
+    </state>
+    <state x="385" y="152" width="670" height="676" key="search.everywhere.popup/0.25.1440.803@0.25.1440.803" timestamp="1644710972730" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/EmojiPediaLoader$Compressor.coverage" NAME="Compressor Coverage Results" MODIFIED="1644838602342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

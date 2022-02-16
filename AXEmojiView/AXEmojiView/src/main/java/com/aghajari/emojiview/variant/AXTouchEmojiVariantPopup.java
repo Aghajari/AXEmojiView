@@ -36,12 +36,12 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.R;
 import com.aghajari.emojiview.emoji.Emoji;
-import com.aghajari.emojiview.emoji.EmojiData;
 import com.aghajari.emojiview.listener.OnEmojiActions;
 import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.view.AXEmojiImageView;
@@ -74,21 +74,20 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
         mEmojiSize = Utils.dp(rootView.getContext(), 34);
 
         pickerView = new EmojiColorPickerView(rootView.getContext());
-        popupWindow = new EmojiPopupWindow(pickerView, popupWidth = Utils.dp(rootView.getContext(), (34 * 6 + 10 + 4 * 5) + 2), popupHeight = Utils.dp(rootView.getContext(), 58));
+        popupWindow = new EmojiPopupWindow(pickerView,
+                popupWidth = Utils.dp(rootView.getContext(), (34 * 6 + 10 + 4 * 5) + 2),
+                popupHeight = Utils.dp(rootView.getContext(), 54) + Utils.dp(rootView.getContext(), 5));
         popupWindow.setOutsideTouchable(true);
         popupWindow.setClippingEnabled(true);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
         popupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
         popupWindow.getContentView().setFocusableInTouchMode(true);
-        popupWindow.getContentView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0 && event.getAction() == KeyEvent.ACTION_UP && popupWindow != null && popupWindow.isShowing()) {
-                    dismiss();
-                    return true;
-                }
-                return false;
+        popupWindow.getContentView().setOnKeyListener((view, keyCode, event) -> {
+            if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0 && event.getAction() == KeyEvent.ACTION_UP && popupWindow != null && popupWindow.isShowing()) {
+                dismiss();
+                return true;
             }
+            return false;
         });
     }
 
@@ -99,40 +98,46 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
     }
 
     int mEmojiSize;
+    int oldVariantCount = 5;
+
+    boolean isCustomVariant(){
+        return oldVariantCount > 5;
+    }
 
     public void show(@NonNull final AXEmojiImageView clickedImage, @NonNull final Emoji emoji, boolean fromRecent) {
         dismiss();
         this.fromRecent = fromRecent;
-        if (popupWindow == null || pickerView == null) init();
+
+        if (popupWindow == null || pickerView == null)
+            init();
+
+        if (oldVariantCount != emoji.getBase().getVariants().size()) {
+            oldVariantCount = emoji.getBase().getVariants().size();
+            if (isCustomVariant()) {
+                int rows = (int) Math.max(Math.ceil(oldVariantCount / 5.0f) + 1, 1);
+                popupWindow.setHeight(popupHeight = rows
+                        * Utils.dp(clickedImage.getContext(),48)
+                        + Utils.dp(clickedImage.getContext(), 13));
+                popupWindow.setWidth(popupWidth = Utils.dp(rootView.getContext(), (34 * 5 + 10 + 4 * 4) + 2));
+            } else {
+                popupWindow.setHeight(popupHeight = (int) (Math.max(Math.ceil((oldVariantCount + 1) / 6.0f), 1)
+                        * Utils.dp(clickedImage.getContext(),54) + Utils.dp(clickedImage.getContext(), 5)));
+                popupWindow.setWidth(popupWidth = Utils.dp(rootView.getContext(), (34 * 6 + 10 + 4 * 5) + 2));
+            }
+        }
 
         isShowing = true;
         rootImageView = clickedImage;
 
         emojiTouchedX = emojiLastX;
         emojiTouchedY = emojiLastY;
-
-        String color = EmojiData.getEmojiColor(emoji.getUnicode());
-
-        if (color != null) {
-            switch (color) {
-                case "\uD83C\uDFFB":
-                    pickerView.setSelection(1);
-                    break;
-                case "\uD83C\uDFFC":
-                    pickerView.setSelection(2);
-                    break;
-                case "\uD83C\uDFFD":
-                    pickerView.setSelection(3);
-                    break;
-                case "\uD83C\uDFFE":
-                    pickerView.setSelection(4);
-                    break;
-                case "\uD83C\uDFFF":
-                    pickerView.setSelection(5);
-                    break;
-            }
-        } else {
+        if (emoji.getBase().equals(emoji)) {
             pickerView.setSelection(0);
+        } else {
+            for (int i = 0; i < emoji.getBase().getVariants().size(); i++) {
+                if (emoji.equals(emoji.getBase().getVariants().get(i)))
+                    pickerView.setSelection(i + 1);
+            }
         }
         final int[] location = new int[2];
         rootImageView.getLocationOnScreen(location);
@@ -149,7 +154,14 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
 
         } else {
             loc = null;
-            int x = mEmojiSize * pickerView.getSelection() + Utils.dp(rootImageView.getContext(), 4 * pickerView.getSelection() - 1);
+            int selection = pickerView.getSelection();
+            if (isCustomVariant()) {
+                if (selection == 0)
+                    selection = 2;
+                else
+                    selection = (selection - 1) % 5;
+            }
+            int x = mEmojiSize * selection + Utils.dp(rootImageView.getContext(), 4 * selection - 1);
             if (location[0] - x < Utils.dp(rootImageView.getContext(), 5)) {
                 x += (location[0] - x) - Utils.dp(rootImageView.getContext(), 5);
             } else if (location[0] - x + popupWidth > rootImageView.getContext().getResources().getDisplayMetrics().widthPixels - Utils.dp(rootImageView.getContext(), 5)) {
@@ -193,14 +205,13 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
 
     private class EmojiColorPickerView extends View {
 
-        private Drawable backgroundDrawable;
-        private Drawable arrowDrawable;
+        private final Drawable backgroundDrawable;
+        private final Drawable arrowDrawable;
         private Emoji currentEmoji;
         private int arrowX;
         private int selection;
-        private Paint rectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        private RectF rect = new RectF();
-        private boolean loaded = false;
+        private final Paint rectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        private final RectF rect = new RectF();
 
         public void setEmoji(Emoji emoji, int arrowPosition) {
             currentEmoji = emoji;
@@ -228,8 +239,8 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
         public EmojiColorPickerView(Context context) {
             super(context);
 
-            backgroundDrawable = getResources().getDrawable(R.drawable.stickers_back_all);
-            arrowDrawable = getResources().getDrawable(R.drawable.stickers_back_arrow);
+            backgroundDrawable = ResourcesCompat.getDrawable(getResources() ,R.drawable.stickers_back_all, null);
+            arrowDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.stickers_back_arrow, null);
             setDrawableColor(backgroundDrawable, AXEmojiManager.getEmojiViewTheme().getVariantPopupBackgroundColor());
             setDrawableColor(arrowDrawable, AXEmojiManager.getEmojiViewTheme().getVariantPopupBackgroundColor());
         }
@@ -241,27 +252,47 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
 
         @Override
         protected void onDraw(Canvas canvas) {
-            loaded = true;
-            backgroundDrawable.setBounds(0, 0, getMeasuredWidth(), Utils.dp(getContext(), 54));
+            boolean loaded = true;
+            backgroundDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight() - Utils.dp(getContext(), 4));
             backgroundDrawable.draw(canvas);
 
-            arrowDrawable.setBounds(arrowX - Utils.dp(getContext(), 9), Utils.dp(getContext(), 49.5f), arrowX + Utils.dp(getContext(), 9), Utils.dp(getContext(), 47.5f + 8));
+            arrowDrawable.setBounds(arrowX - Utils.dp(getContext(), 9), getMeasuredHeight() - Utils.dp(getContext(), 8.5f), arrowX + Utils.dp(getContext(), 9), getMeasuredHeight() - Utils.dp(getContext(), 0.5f));
             arrowDrawable.draw(canvas);
 
             if (currentEmoji != null) {
-                for (int a = 0; a < 6; a++) {
-                    int x = mEmojiSize * a + Utils.dp(getContext(), 5 + 4 * a);
-                    int y = Utils.dp(getContext(), 9);
-                    if (selection == a) {
+                int len = currentEmoji.getBase().getVariants().size() + 1;
+                int inRow = len % 5;
+                for (int a3 = 0; a3 < len; a3++) {
+                    int a2 = a3;
+                    if (a2 > 0 && len > 6)
+                        a2--;
+
+                    int x, y = Utils.dp(getContext(), 9);
+                    if (len > 6 && a3 == 0)
+                        x = popupWidth / 2 - mEmojiSize / 2;
+                    else if (len > 6){
+                        int a = a2 % 5;
+                        x = mEmojiSize * a + Utils.dp(getContext(), 5 + 4 * a);
+                    } else
+                        x = mEmojiSize * a2 + Utils.dp(getContext(), 5 + 4 * a2);
+
+                    if (len > 6 && inRow != 0 && len <= a2 + inRow) {
+                        int shift = (5 - inRow) / 2;
+                        x +=  shift * mEmojiSize + Utils.dp(getContext(), 4 * shift);
+                    }
+                    if (len > 6 && a3 > 0)
+                        y += ((a2 / 5) + 1) * Utils.dp(getContext(), 48);
+
+                    if (selection == a3) {
                         rect.set(x, y - (int) Utils.dpf2(getContext(), 3.5f), x + mEmojiSize, y + mEmojiSize + Utils.dp(getContext(), 3));
                         canvas.drawRoundRect(rect, Utils.dp(getContext(), 4), Utils.dp(getContext(), 4), rectPaint);
                     }
 
                     Emoji sEmoji;
-                    if (a == 0) {
+                    if (a3 == 0) {
                         sEmoji = currentEmoji.getBase();
                     } else {
-                        sEmoji = currentEmoji.getVariants().get(a - 1);
+                        sEmoji = currentEmoji.getVariants().get(a3 - 1);
                     }
                     Drawable drawable = sEmoji.getDrawable(getContext());
 
@@ -277,12 +308,7 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
             }
 
             if (!loaded) {
-                postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        invalidate();
-                    }
-                }, 10);
+                postDelayed(this::invalidate, 10);
             }
         }
     }
@@ -300,15 +326,12 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
         superListenerField = f;
     }
 
-    private static final ViewTreeObserver.OnScrollChangedListener NOP = new ViewTreeObserver.OnScrollChangedListener() {
-        @Override
-        public void onScrollChanged() {
-            /* do nothing */
-        }
+    private static final ViewTreeObserver.OnScrollChangedListener NOP = () -> {
+        /* do nothing */
     };
 
 
-    private class EmojiPopupWindow extends PopupWindow {
+    private static class EmojiPopupWindow extends PopupWindow {
 
         private ViewTreeObserver.OnScrollChangedListener mSuperScrollListener;
         private ViewTreeObserver mViewTreeObserver;
@@ -420,7 +443,7 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
     float emojiTouchedX, emojiTouchedY;
     float emojiLastX, emojiLastY;
 
-    private int location[] = new int[2];
+    private final int[] location = new int[2];
 
     @Override
     public boolean onTouch(MotionEvent event, RecyclerView recyclerView) {
@@ -453,13 +476,37 @@ public class AXTouchEmojiVariantPopup extends AXEmojiVariantPopup {
                 if (!ignore) {
                     recyclerView.getLocationOnScreen(location);
                     float x = location[0] + event.getX();
+                    float y = location[1] + event.getY();
                     pickerView.getLocationOnScreen(location);
                     x -= location[0] + Utils.dp(rootImageView.getContext(), 3);
-                    int position = (int) (x / (mEmojiSize + Utils.dp(rootImageView.getContext(), 4)));
+                    y -= location[1] + Utils.dp(rootImageView.getContext(), 3);
+                    int row = (int) (y / (Utils.dp(rootImageView.getContext(), isCustomVariant() ? 48 : 54)));
+                    int maxPosition = pickerView.getEmoji().getBase().getVariants().size();
+                    int maxRow = isCustomVariant() ? (int) Math.ceil(maxPosition / 5f) : 0;
+                    if (row < 0) {
+                        row = 0;
+                    } else if (row > maxRow) {
+                        row = maxRow;
+                    }
+                    if (row == maxRow && maxRow != 0) {
+                        int inRow = maxPosition % 5;
+                        if (inRow > 0) {
+                            int shift = (5 - inRow) / 2;
+                            x -= shift * mEmojiSize + Utils.dp(rootImageView.getContext(), 4 * shift);
+                        }
+                    }
+                    int position = (isCustomVariant() && row == 0) ? 0 :
+                            (int) (x / (mEmojiSize + Utils.dp(rootImageView.getContext(), 4)));
+                    int maxRowPosition = isCustomVariant() ? 4 : 5;
                     if (position < 0) {
                         position = 0;
-                    } else if (position > 5) {
-                        position = 5;
+                    } else if (position > maxRowPosition) {
+                        position = maxRowPosition;
+                    }
+                    if (row != 0 && isCustomVariant())
+                        position += (row - 1) * 5 + 1;
+                    if (position > maxPosition) {
+                        position = maxPosition;
                     }
                     pickerView.setSelection(position);
                 }

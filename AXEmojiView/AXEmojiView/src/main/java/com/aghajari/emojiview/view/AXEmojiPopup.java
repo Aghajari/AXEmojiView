@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.view.autofill.AutofillManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -75,13 +74,7 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
 
     final EmojiResultReceiver emojiResultReceiver = new EmojiResultReceiver(new Handler(Looper.getMainLooper()));
 
-    final ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-        @Override
-        @SuppressWarnings("PMD.CyclomaticComplexity")
-        public void onGlobalLayout() {
-            updateKeyboardState();
-        }
-    };
+    final ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = this::updateKeyboardState;
 
     final View.OnAttachStateChangeListener onAttachStateChangeListener = new View.OnAttachStateChangeListener() {
         @Override
@@ -125,11 +118,8 @@ public final class AXEmojiPopup implements EmojiResultReceiver.Receiver, AXPopup
         popupWindow.setContentView(ap);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(context.getResources(), (Bitmap) null)); // To avoid borders and overdraw.
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                if (listener != null) listener.onDismiss();
-            }
+        popupWindow.setOnDismissListener(() -> {
+            if (listener != null) listener.onDismiss();
         });
 
         if (content instanceof AXEmojiPager) {

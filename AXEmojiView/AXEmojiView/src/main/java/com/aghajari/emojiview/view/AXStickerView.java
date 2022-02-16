@@ -78,8 +78,6 @@ public class AXStickerView extends AXEmojiLayout {
 
     /**
      * add sticker click and longClick listener
-     *
-     * @param listener
      */
     public void setOnStickerActionsListener(OnStickerActions listener) {
         stickerActions = listener;
@@ -142,8 +140,8 @@ public class AXStickerView extends AXEmojiLayout {
     RecyclerView.OnScrollListener scrollListener2 = null;
 
     private void init() {
-        if (AXEmojiManager.getInstance().getRecentSticker() != null) {
-            recent = AXEmojiManager.getInstance().getRecentSticker();
+        if (AXEmojiManager.getRecentSticker() != null) {
+            recent = AXEmojiManager.getRecentSticker();
         } else {
             recent = new RecentStickerManager(getContext(), type);
         }

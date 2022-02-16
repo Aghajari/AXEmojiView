@@ -1,6 +1,5 @@
 package com.aghajari.sample.emojiview.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import com.aghajari.sample.emojiview.R;

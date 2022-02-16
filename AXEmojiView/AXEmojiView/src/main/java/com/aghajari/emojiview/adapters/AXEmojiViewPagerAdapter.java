@@ -45,7 +45,7 @@ public class AXEmojiViewPagerAdapter extends PagerAdapter {
     public List<AXEmojiRecyclerView> recyclerViews;
     public int add = 0;
 
-    private Queue<View> destroyedItems = new LinkedList<>();
+    private final Queue<View> destroyedItems = new LinkedList<>();
     FindVariantListener findVariantListener;
 
     public AXEmojiViewPagerAdapter(OnEmojiActions events, RecyclerView.OnScrollListener scrollListener,
@@ -55,13 +55,14 @@ public class AXEmojiViewPagerAdapter extends PagerAdapter {
         this.scrollListener = scrollListener;
         this.recentEmoji = recentEmoji;
         this.variantEmoji = variantEmoji;
-        recyclerViews = new ArrayList<AXEmojiRecyclerView>();
+        recyclerViews = new ArrayList<>();
     }
 
     public RecyclerView.ItemDecoration itemDecoration = null;
 
-    public Object instantiateItem(ViewGroup collection, int position) {
-        AXEmojiRecyclerView recycler = null;
+    @NonNull
+    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
+        AXEmojiRecyclerView recycler;
         try {
             recycler = (AXEmojiRecyclerView) destroyedItems.poll();
         } catch (Exception e) {
@@ -107,12 +108,12 @@ public class AXEmojiViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View arg0, Object arg1) {
+    public boolean isViewFromObject(@NonNull View arg0, @NonNull Object arg1) {
         return arg0 == arg1;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
         recyclerViews.remove(object);
         destroyedItems.add((View) object);

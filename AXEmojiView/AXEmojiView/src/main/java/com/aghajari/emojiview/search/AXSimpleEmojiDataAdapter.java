@@ -129,14 +129,11 @@ public class AXSimpleEmojiDataAdapter extends SQLiteOpenHelper implements AXData
     }
 
     protected void load (String query,String search,List<Emoji> list){
-        Cursor cursor = sqliteDataBase.rawQuery(query, new String[] {search});
-        try {
+        try (Cursor cursor = sqliteDataBase.rawQuery(query, new String[]{search})) {
             while (cursor.moveToNext()) {
                 Emoji em = AXEmojiManager.getInstance().findEmoji(cursor.getString(cursor.getColumnIndex("unicode")));
-                if (em!=null && list.indexOf(em) == -1) list.add(em);
+                if (em != null && !list.contains(em)) list.add(em);
             }
-        } finally {
-            cursor.close();
         }
     }
 
@@ -180,7 +177,7 @@ public class AXSimpleEmojiDataAdapter extends SQLiteOpenHelper implements AXData
         customs = new ArrayList<>();
         for (String e : emoji){
             Emoji em = AXEmojiManager.getInstance().findEmoji(e);
-            if (em!=null && customs.indexOf(em) == -1) customs.add(em);
+            if (em!=null && !customs.contains(em)) customs.add(em);
         }
     }
 }

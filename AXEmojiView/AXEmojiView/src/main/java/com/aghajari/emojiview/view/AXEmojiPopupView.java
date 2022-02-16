@@ -31,8 +31,6 @@ import android.os.ResultReceiver;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.view.autofill.AutofillManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -137,7 +135,7 @@ public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
             needToOpen = false;
             Utils.hideKeyboard(ap);
 
-            /**if (isKeyboardOpen){
+            /*if (isKeyboardOpen){
              //disable anim
              show();
              }else{
@@ -145,7 +143,7 @@ public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
              }*/
             show();
 
-        } else {
+        //} else {
             //disable anim
             //dismiss();
         }
@@ -167,12 +165,12 @@ public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
             listener.onKeyboardClosed();
         }
 
-        /**if (isShowing()) {
+        /*if (isShowing()) {
          dismiss();
          }*/
     }
 
-    int popupWindowHeight = 0;
+    int popupWindowHeight;
     boolean needToOpen = false;
 
     private int animFrom;
@@ -467,13 +465,10 @@ public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         }
 
         valueAnimator = ValueAnimator.ofInt(from,to);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
-                    lp.bottomMargin = (int) valueAnimator.getAnimatedValue();
-                    ap.requestLayout();
-                }
+        valueAnimator.addUpdateListener(valueAnimator -> {
+            if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
+                lp.bottomMargin = (int) valueAnimator.getAnimatedValue();
+                ap.requestLayout();
             }
         });
         valueAnimator.addListener(new AnimatorListenerAdapter() {
@@ -517,14 +512,11 @@ public class AXEmojiPopupView extends FrameLayout implements AXPopupInterface {
         }
 
         searchViewValueAnimator = ValueAnimator.ofInt(from,to);
-        searchViewValueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
-                    lp.topMargin = (int) valueAnimator.getAnimatedValue();
-                    AXEmojiPopupView.this.lp.topMargin = lp.height - lp.topMargin;
-                    ap.requestLayout();
-                }
+        searchViewValueAnimator.addUpdateListener(valueAnimator -> {
+            if (valueAnimator!=null && valueAnimator.getAnimatedValue()!=null) {
+                lp.topMargin = (int) valueAnimator.getAnimatedValue();
+                AXEmojiPopupView.this.lp.topMargin = lp.height - lp.topMargin;
+                ap.requestLayout();
             }
         });
         searchViewValueAnimator.addListener(new AnimatorListenerAdapter() {

@@ -19,9 +19,9 @@ package com.aghajari.emojiview.view;
 
 import android.animation.ObjectAnimator;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.view.View;
@@ -36,7 +36,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     private int mComputeScrollOffset;
     private long Accept;
     private long scrollspeed;
-    int minDy = -1;
+    int minDy;
 
     AXFooterParallax(View Toolbar, int ParalaxSize, int minDy) {
         this.minDy = minDy;
@@ -49,7 +49,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     }
 
     @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         RecyclerView = recyclerView;
         if (menabled) {
@@ -60,7 +60,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     }
 
     @Override
-    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
         this.RecyclerView = recyclerView;
         if (anim.getDuration() == anim.getCurrentPlayTime()) {
@@ -136,11 +136,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
         } else {
             if (RecyclerView.computeVerticalScrollOffset() > mComputeScrollOffset) {
                 if (AnimTime > 0 && AnimTime < anim.getDuration()) {
-                    if (AnimTime < Accept) {
-                        starts2(true);
-                    } else {
-                        starts2(false);
-                    }
+                    starts2(AnimTime < Accept);
                 }
             } else {
                 if (AnimTime > 0 && AnimTime < anim.getDuration()) {
@@ -154,11 +150,7 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     private void IDLE() {
         if (RecyclerView.computeVerticalScrollOffset() > mComputeScrollOffset) {
             if (AnimTime > 0 && AnimTime < anim.getDuration()) {
-                if (AnimTime < Accept) {
-                    starts(true);
-                } else {
-                    starts(false);
-                }
+                starts(AnimTime < Accept);
             }
         } else {
             if (AnimTime > 0 && AnimTime < anim.getDuration()) {
@@ -180,11 +172,10 @@ class AXFooterParallax extends RecyclerView.OnScrollListener {
     private void starts2(boolean e) {
         if (e) {
             AnimTime = 0;
-            anim.setCurrentPlayTime(AnimTime);
         } else {
             AnimTime = anim.getDuration();
-            anim.setCurrentPlayTime(AnimTime);
         }
+        anim.setCurrentPlayTime(AnimTime);
     }
 
     void show() {

@@ -70,7 +70,7 @@ public class Emoji implements Serializable {
         }
     }
 
-    public Emoji(String code, int resource, final Emoji[] variants) {
+    public Emoji(@NonNull String code, int resource, final Emoji[] variants) {
         this.unicode = code;
         this.resource = resource;
         this.variants = variants.length == 0 ? EMPTY_EMOJI_LIST : asList(variants);
@@ -79,7 +79,7 @@ public class Emoji implements Serializable {
         }
     }
 
-    public Emoji(String code, int resource) {
+    public Emoji(@NonNull String code, int resource) {
         this.unicode = code;
         this.resource = resource;
         this.variants = EMPTY_EMOJI_LIST;
@@ -172,6 +172,7 @@ public class Emoji implements Serializable {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return getUnicode();

@@ -96,12 +96,12 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 groupId artifact.groupId
-                artifactId 'AXEmojiView-iOSProvider'
+                artifactId archivesBaseName
                 version artifact.version
                 from components.release
 
                 pom {
-                    name = 'AXEmojiView-iOSProvider'
+                    name = archivesBaseName
                     packaging = 'aar'
                     description = 'an advanced library which adds emoji,sticker,... support to your Android application.'
                     url = artifact.siteUrl

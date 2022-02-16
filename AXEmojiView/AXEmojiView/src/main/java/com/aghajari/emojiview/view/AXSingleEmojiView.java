@@ -32,9 +32,7 @@ import com.aghajari.emojiview.emoji.Emoji;
 import com.aghajari.emojiview.listener.FindVariantListener;
 import com.aghajari.emojiview.listener.OnEmojiActions;
 import com.aghajari.emojiview.shared.RecentEmoji;
-import com.aghajari.emojiview.shared.RecentEmojiManager;
 import com.aghajari.emojiview.shared.VariantEmoji;
-import com.aghajari.emojiview.shared.VariantEmojiManager;
 import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.variant.AXEmojiVariantPopup;
 
@@ -85,8 +83,6 @@ public class AXSingleEmojiView extends AXEmojiLayout implements FindVariantListe
 
     /**
      * add emoji click and longClick listener
-     *
-     * @param listener
      */
     public void setOnEmojiActionsListener(OnEmojiActions listener) {
         emojiActions = listener;
@@ -190,16 +186,8 @@ public class AXSingleEmojiView extends AXEmojiLayout implements FindVariantListe
 
 
     private void init() {
-        if (AXEmojiManager.getRecentEmoji() != null) {
-            recent = AXEmojiManager.getRecentEmoji();
-        } else {
-            recent = new RecentEmojiManager(getContext());
-        }
-        if (AXEmojiManager.getVariantEmoji() != null) {
-            variant = AXEmojiManager.getVariantEmoji();
-        } else {
-            variant = new VariantEmojiManager(getContext());
-        }
+        recent = AXEmojiManager.getRecentEmoji();
+        variant = AXEmojiManager.getVariantEmoji();
 
         recyclerView = new AXEmojiSingleRecyclerView(getContext(), this);
         recyclerView.setItemAnimator(null);
@@ -216,7 +204,7 @@ public class AXSingleEmojiView extends AXEmojiLayout implements FindVariantListe
         scrollListener2.setDuration(Utils.dpToPx(getContext(), 38));
         scrollListener2.setIDLEHideSize(scrollListener2.getDuration() / 2);
         scrollListener2.setMinComputeScrollOffset(Utils.dpToPx(getContext(), 38));
-        scrollListener2.setScrollSpeed((long) 1);
+        scrollListener2.setScrollSpeed(1L);
         scrollListener2.setChangeOnIDLEState(true);
         recyclerView.addOnScrollListener(scrollListener2);
 

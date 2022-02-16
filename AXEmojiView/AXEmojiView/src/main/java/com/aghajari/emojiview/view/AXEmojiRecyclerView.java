@@ -26,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.listener.FindVariantListener;
 import com.aghajari.emojiview.utils.Utils;
 

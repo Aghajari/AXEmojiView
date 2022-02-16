@@ -39,7 +39,7 @@ public class AXStickerRecyclerAdapter extends RecyclerView.Adapter<AXStickerRecy
     int count;
     OnStickerActions events;
     StickerLoader loader;
-    boolean isEmptyLoading = false;
+    boolean isEmptyLoading;
     View empty;
     StickerCategory category;
 
@@ -50,17 +50,13 @@ public class AXStickerRecyclerAdapter extends RecyclerView.Adapter<AXStickerRecy
         this.events = events;
         this.loader = loader;
         this.empty = empty;
-        if (empty != null) {
-            isEmptyLoading = true;
-        } else {
-            isEmptyLoading = false;
-        }
+        isEmptyLoading = empty != null;
     }
 
     RecyclerView rv = null;
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView r) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView r) {
         super.onAttachedToRecyclerView(r);
         rv = r;
     }
@@ -103,25 +99,19 @@ public class AXStickerRecyclerAdapter extends RecyclerView.Adapter<AXStickerRecy
         } else {
             FrameLayout frameLayout = (FrameLayout) viewHolder.itemView;
             final View stickerView = frameLayout.getChildAt(0);
-            View ripple = (View) frameLayout.getChildAt(1);
+            View ripple = frameLayout.getChildAt(1);
 
             final Sticker sticker = stickers[i];
             loader.onLoadSticker(stickerView, sticker);
 
             Utils.setClickEffect(ripple, false);
 
-            ripple.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (events != null) events.onClick(stickerView, sticker, false);
-                }
+            ripple.setOnClickListener(view -> {
+                if (events != null) events.onClick(stickerView, sticker, false);
             });
-            ripple.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (events != null) return events.onLongClick(stickerView, sticker, false);
-                    return false;
-                }
+            ripple.setOnLongClickListener(view -> {
+                if (events != null) return events.onLongClick(stickerView, sticker, false);
+                return false;
             });
         }
     }
@@ -138,7 +128,7 @@ public class AXStickerRecyclerAdapter extends RecyclerView.Adapter<AXStickerRecy
         return super.getItemViewType(position);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

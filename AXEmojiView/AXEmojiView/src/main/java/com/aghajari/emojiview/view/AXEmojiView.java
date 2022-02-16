@@ -34,9 +34,7 @@ import com.aghajari.emojiview.emoji.Emoji;
 import com.aghajari.emojiview.listener.FindVariantListener;
 import com.aghajari.emojiview.listener.OnEmojiActions;
 import com.aghajari.emojiview.shared.RecentEmoji;
-import com.aghajari.emojiview.shared.RecentEmojiManager;
 import com.aghajari.emojiview.shared.VariantEmoji;
-import com.aghajari.emojiview.shared.VariantEmojiManager;
 import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.variant.AXEmojiVariantPopup;
 
@@ -65,7 +63,7 @@ public class AXEmojiView extends AXEmojiLayout implements FindVariantListener {
             if (!fromVariant) recent.addEmoji(emoji);
             if (editText != null) AXEmojiUtils.input(editText, emoji);
 
-            /**if (!fromRecent && ((AXEmojiViewPagerAdapter) vp.getAdapter()).add==1)
+            /*if (!fromRecent && ((AXEmojiViewPagerAdapter) vp.getAdapter()).add==1)
              ((AXEmojiViewPagerAdapter) vp.getAdapter()).recyclerViews.get(0).getAdapter().notifyDataSetChanged();*/
 
             variant.addVariant(emoji);
@@ -96,8 +94,6 @@ public class AXEmojiView extends AXEmojiLayout implements FindVariantListener {
 
     /**
      * add emoji click and longClick listener
-     *
-     * @param listener
      */
     public void setOnEmojiActionsListener(OnEmojiActions listener) {
         emojiActions = listener;
@@ -162,16 +158,8 @@ public class AXEmojiView extends AXEmojiLayout implements FindVariantListener {
     RecyclerView.OnScrollListener scrollListener2 = null;
 
     private void init() {
-        if (AXEmojiManager.getRecentEmoji() != null) {
-            recent = AXEmojiManager.getRecentEmoji();
-        } else {
-            recent = new RecentEmojiManager(getContext());
-        }
-        if (AXEmojiManager.getVariantEmoji() != null) {
-            variant = AXEmojiManager.getVariantEmoji();
-        } else {
-            variant = new VariantEmojiManager(getContext());
-        }
+        recent = AXEmojiManager.getRecentEmoji();
+        variant = AXEmojiManager.getVariantEmoji();
 
         int top = 0;
         if (AXEmojiManager.getEmojiViewTheme().isCategoryEnabled())

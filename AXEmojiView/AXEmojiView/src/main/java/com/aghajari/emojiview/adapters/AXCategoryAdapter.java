@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.R;
@@ -52,7 +51,7 @@ public class AXCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void update() {
-        recent = !recentSticker.isEmpty() && provider.isRecentEnabled();;
+        recent = !recentSticker.isEmpty() && provider.isRecentEnabled();
         notifyDataSetChanged();
     }
 
@@ -84,7 +83,7 @@ public class AXCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         boolean selected = pager.getPageIndex() == i;
         AXEmojiLayout layout = (AXEmojiLayout) viewHolder.itemView;
         View icon = layout.getChildAt(0);
-        View selection = (View) layout.getChildAt(1);
+        View selection = layout.getChildAt(1);
 
         if (selected) selection.setVisibility(View.VISIBLE);
         else selection.setVisibility(View.GONE);
@@ -101,17 +100,12 @@ public class AXCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else {
             int i2 = i;
             if (recent) i2--;
-            provider.getLoader().onLoadStickerCategory(((ImageView) icon), provider.getCategories()[i2], selected);
+            provider.getLoader().onLoadStickerCategory(icon, provider.getCategories()[i2], selected);
         }
 
         Utils.setClickEffect(icon, true);
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pager.setPageIndex(i);
-            }
-        };
+        View.OnClickListener listener = view -> pager.setPageIndex(i);
         icon.setOnClickListener(listener);
         layout.setOnClickListener(listener);
     }

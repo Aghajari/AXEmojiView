@@ -28,38 +28,38 @@ public class ShopStickers implements StickerCategory<Integer> {
         return new ShopSticker[]{
                 new ShopSticker(
                         new Sticker[]{
-                    new Sticker<Integer>(R.drawable.sticker),
-                    new Sticker<Integer>(R.drawable.sticker1),
-                    new Sticker<Integer>(R.drawable.sticker2),
-                    new Sticker<Integer>(R.drawable.sticker3),
-                    new Sticker<Integer>(R.drawable.sticker4)}
+                    new Sticker<>(R.drawable.sticker),
+                    new Sticker<>(R.drawable.sticker1),
+                    new Sticker<>(R.drawable.sticker2),
+                    new Sticker<>(R.drawable.sticker3),
+                    new Sticker<>(R.drawable.sticker4)}
                         ,"Cuppy Pack 1",16),
 
                 new ShopSticker(
                         new Sticker[]{
-                                new Sticker<Integer>(R.drawable.sticker),
-                                new Sticker<Integer>(R.drawable.sticker1),
-                                new Sticker<Integer>(R.drawable.sticker2),
-                                new Sticker<Integer>(R.drawable.sticker3),
-                                new Sticker<Integer>(R.drawable.sticker4)}
+                                new Sticker<>(R.drawable.sticker),
+                                new Sticker<>(R.drawable.sticker1),
+                                new Sticker<>(R.drawable.sticker2),
+                                new Sticker<>(R.drawable.sticker3),
+                                new Sticker<>(R.drawable.sticker4)}
                         ,"Cuppy Pack 2",16),
 
                 new ShopSticker(
                         new Sticker[]{
-                                new Sticker<Integer>(R.drawable.sticker),
-                                new Sticker<Integer>(R.drawable.sticker1),
-                                new Sticker<Integer>(R.drawable.sticker2),
-                                new Sticker<Integer>(R.drawable.sticker3),
-                                new Sticker<Integer>(R.drawable.sticker4)}
+                                new Sticker<>(R.drawable.sticker),
+                                new Sticker<>(R.drawable.sticker1),
+                                new Sticker<>(R.drawable.sticker2),
+                                new Sticker<>(R.drawable.sticker3),
+                                new Sticker<>(R.drawable.sticker4)}
                         ,"Cuppy Pack 3",16),
 
                 new ShopSticker(
                         new Sticker[]{
-                                new Sticker<Integer>(R.drawable.sticker),
-                                new Sticker<Integer>(R.drawable.sticker1),
-                                new Sticker<Integer>(R.drawable.sticker2),
-                                new Sticker<Integer>(R.drawable.sticker3),
-                                new Sticker<Integer>(R.drawable.sticker4)}
+                                new Sticker<>(R.drawable.sticker),
+                                new Sticker<>(R.drawable.sticker1),
+                                new Sticker<>(R.drawable.sticker2),
+                                new Sticker<>(R.drawable.sticker3),
+                                new Sticker<>(R.drawable.sticker4)}
                         ,"Cuppy Pack 4",16),
         };
     }
@@ -93,7 +93,7 @@ public class ShopStickers implements StickerCategory<Integer> {
     }
 
 
-    public class ShopAdapter extends RecyclerView.Adapter<ShopStickers.ShopAdapter.ShopViewHolder>{
+    public static class ShopAdapter extends RecyclerView.Adapter<ShopStickers.ShopAdapter.ShopViewHolder>{
         ShopStickers provider;
         public ShopAdapter (ShopStickers provider){
             this.provider = provider;
@@ -110,23 +110,18 @@ public class ShopStickers implements StickerCategory<Integer> {
             RecyclerView stickers = v.findViewById(R.id.stickers_rv);
             stickers.setLayoutManager(new GridLayoutManager(viewGroup.getContext(),5));
 
-            return new ShopViewHolder(v,title,subtitle,add,stickers);
+            return new ShopViewHolder(v, title, subtitle, add, stickers);
         }
 
         @Override
         public void onBindViewHolder(@NonNull final ShopStickers.ShopAdapter.ShopViewHolder viewHolder, int i) {
             final ShopSticker sticker = provider.getStickers()[i];
             viewHolder.title.setText(sticker.title);
-            viewHolder.subTitle.setText(sticker.count+" Sticker");
+            viewHolder.subTitle.setText(sticker.count + " Sticker");
 
-            viewHolder.add.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(),"Add "+sticker.title, Toast.LENGTH_SHORT).show();
-                }
-            });
+            viewHolder.add.setOnClickListener(view -> Toast.makeText(view.getContext(),"Add "+sticker.title, Toast.LENGTH_SHORT).show());
 
-            viewHolder.stickers.setAdapter(new IconAdapter((Sticker[])sticker.getData()));
+            viewHolder.stickers.setAdapter(new IconAdapter((Sticker<?>[]) sticker.getData()));
         }
 
         @Override
@@ -134,7 +129,7 @@ public class ShopStickers implements StickerCategory<Integer> {
             return provider.getStickers().length;
         }
 
-        public class ShopViewHolder extends RecyclerView.ViewHolder{
+        public static class ShopViewHolder extends RecyclerView.ViewHolder{
             TextView title;
             TextView subTitle;
             Button add;
@@ -153,10 +148,10 @@ public class ShopStickers implements StickerCategory<Integer> {
 
 
 
-    public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>{
-        Sticker[] stickers;
+    public static class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>{
+        Sticker<?>[] stickers;
 
-        public IconAdapter (Sticker[] stickers){
+        public IconAdapter (Sticker<?>[] stickers){
             this.stickers = stickers;
         }
 
@@ -164,7 +159,7 @@ public class ShopStickers implements StickerCategory<Integer> {
         @Override
         public IconViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
             View v = LayoutInflater.from( viewGroup.getContext()).inflate(R.layout.shop_sticker_item, viewGroup, false);
-            return new IconViewHolder(v, (AppCompatImageView) v.findViewById(R.id.sticker_img));
+            return new IconViewHolder(v, v.findViewById(R.id.sticker_img));
         }
 
         @Override
@@ -180,7 +175,7 @@ public class ShopStickers implements StickerCategory<Integer> {
             return stickers.length;
         }
 
-        public class IconViewHolder extends RecyclerView.ViewHolder{
+        public static class IconViewHolder extends RecyclerView.ViewHolder{
             AppCompatImageView imageView;
             public IconViewHolder(@NonNull View itemView, AppCompatImageView imageView) {
                 super(itemView);

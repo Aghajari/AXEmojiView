@@ -117,7 +117,7 @@ public class AXEmojiPager extends AXEmojiLayout {
         });
     }
 
-    List<AXPage> pages = new ArrayList<AXPage>();
+    List<AXPage> pages = new ArrayList<>();
 
     public void addPage(AXEmojiBase parent, @DrawableRes int iconRes) {
         if (vp.getAdapter() != null) return;
@@ -154,7 +154,7 @@ public class AXEmojiPager extends AXEmojiLayout {
     }
 
 
-    private class AXPage {
+    private static class AXPage {
         AXEmojiBase base;
         int icon;
         OnFooterItemBinder binder;
@@ -183,8 +183,6 @@ public class AXEmojiPager extends AXEmojiLayout {
     /**
      * add footer left view
      * NOTE : You should add left icon before call emojiPager.show();
-     *
-     * @param res
      */
     public void setLeftIcon(@DrawableRes int res) {
         Left = res;
@@ -205,7 +203,8 @@ public class AXEmojiPager extends AXEmojiLayout {
         this.addView(vp, new AXEmojiLayout.LayoutParams());
 
         vp.setAdapter(new PagerAdapter() {
-            public Object instantiateItem(ViewGroup collection, int position) {
+            @NonNull
+            public Object instantiateItem(@NonNull ViewGroup collection, int position) {
                 AXEmojiBase base = pages.get(position).base;
                 collection.addView(base);
                 return base;
@@ -222,7 +221,7 @@ public class AXEmojiPager extends AXEmojiLayout {
             }
 
             @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
+            public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
                 container.removeView((View) object);
             }
         });
@@ -345,8 +344,6 @@ public class AXEmojiPager extends AXEmojiLayout {
 
     /**
      * set footer left and right (backspace) view click listener
-     *
-     * @param listener
      */
     public void setOnFooterItemClicked(OnFooterItemClicked listener) {
         this.listener = listener;

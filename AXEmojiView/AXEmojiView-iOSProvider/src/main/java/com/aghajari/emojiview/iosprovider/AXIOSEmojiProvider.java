@@ -15,94 +15,61 @@
  *
  */
 
-
 package com.aghajari.emojiview.iosprovider;
 
 import android.content.Context;
-
-import androidx.annotation.NonNull;
 
 import com.aghajari.emojiview.R;
 import com.aghajari.emojiview.emoji.Emoji;
 import com.aghajari.emojiview.emoji.EmojiCategory;
 import com.aghajari.emojiview.emoji.EmojiData;
-import com.aghajari.emojiview.emoji.EmojiProvider;
+import com.aghajari.emojiview.preset.AXPresetEmoji;
+import com.aghajari.emojiview.preset.AXPresetEmojiCategory;
+import com.aghajari.emojiview.preset.AXPresetEmojiProvider;
 
-public final class AXIOSEmojiProvider extends AXIOSEmojiReplacer implements EmojiProvider {
-
-    public static EmojiCategory[] emojiCategories = null;
+public final class AXIOSEmojiProvider extends AXPresetEmojiProvider {
 
     public AXIOSEmojiProvider(Context context) {
-        AXIOSEmojiLoader.init(context);
-
-        if (emojiCategories == null) {
-            int[] icons = new int[]{
-                    R.drawable.emoji_ios_category_people,
-                    R.drawable.emoji_ios_category_nature,
-                    R.drawable.emoji_ios_category_food,
-                    R.drawable.emoji_ios_category_activity,
-                    R.drawable.emoji_ios_category_travel,
-                    R.drawable.emoji_ios_category_objects,
-                    R.drawable.emoji_ios_category_symbols,
-                    R.drawable.emoji_ios_category_flags
-            };
-
-            emojiCategories = new EmojiCategory[EmojiData.titles.length];
-            for (int c = 0; c < EmojiData.titles.length; c++) {
-                emojiCategories[c] = new AXIOSEmojiCategory(c, icons[c]);
-            }
-        }
+        super(context, new int[]{
+                R.drawable.emoji_ios_category_people,
+                R.drawable.emoji_ios_category_nature,
+                R.drawable.emoji_ios_category_food,
+                R.drawable.emoji_ios_category_activity,
+                R.drawable.emoji_ios_category_travel,
+                R.drawable.emoji_ios_category_objects,
+                R.drawable.emoji_ios_category_symbols,
+                R.drawable.emoji_ios_category_flags
+        });
     }
 
     public AXIOSEmojiProvider(Context context, int[] icons) {
-        AXIOSEmojiLoader.init(context);
-
-        if (emojiCategories == null) {
-            emojiCategories = new EmojiCategory[EmojiData.titles.length];
-            for (int c = 0; c < EmojiData.titles.length; c++) {
-                emojiCategories[c] = new AXIOSEmojiCategory(c, icons[c]);
-            }
-        }
+        super(context, icons);
     }
 
     @Override
-    @NonNull
-    public EmojiCategory[] getCategories() {
-        return emojiCategories;
+    public EmojiData getEmojiData() {
+        return AXIOSEmojiData.instance;
     }
 
     @Override
-    public void destroy() {
-
+    protected EmojiCategory createCategory(int i, int icon) {
+        return new AXIOSEmojiCategory(i, icon, getEmojiData());
     }
 
-    public static class AXIOSEmojiCategory implements EmojiCategory {
-        Emoji[] DATA;
-        String title;
-        int icon;
-
-        public AXIOSEmojiCategory(int i, int icon) {
-            DATA = new Emoji[EmojiData.dataColored[i].length];
-            for (int j = 0; j < EmojiData.dataColored[i].length; j++)
-                DATA[j] = new AXIOSEmoji(EmojiData.dataColored[i][j]);
-            title = EmojiData.titles[i];
-            this.icon = icon;
-        }
-
-        @NonNull
-        @Override
-        public Emoji[] getEmojis() {
-            return DATA;
+    public static class AXIOSEmojiCategory extends AXPresetEmojiCategory {
+        public AXIOSEmojiCategory(int i, int icon, EmojiData emojiData) {
+            super(i, icon, emojiData);
         }
 
         @Override
-        public int getIcon() {
-            return icon;
+        protected Emoji createEmoji(String code, int category, int index, EmojiData emojiData){
+            return new AXIOSEmoji(code, emojiData);
         }
+    }
 
-        @Override
-        public CharSequence getTitle() {
-            return title;
+    public static class AXIOSEmoji extends AXPresetEmoji {
+        public AXIOSEmoji(String code, EmojiData emojiData) {
+            super(code, emojiData);
         }
     }
 }

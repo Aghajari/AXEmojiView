@@ -18,10 +18,10 @@
 
 package com.aghajari.emojiview.adapters;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -44,14 +44,15 @@ public class AXStickerViewPagerAdapter extends PagerAdapter {
     public AXStickerViewPagerAdapter(OnStickerActions events, RecyclerView.OnScrollListener scrollListener, StickerProvider provider, RecentSticker recentStickerManager) {
         this.events = events;
         this.scrollListener = scrollListener;
-        recyclerViews = new ArrayList<View>();
+        recyclerViews = new ArrayList<>();
         this.provider = provider;
         this.recent = recentStickerManager;
     }
 
     public RecyclerView.ItemDecoration itemDecoration = null;
 
-    public Object instantiateItem(ViewGroup collection, int position) {
+    @NonNull
+    public Object instantiateItem(@NonNull ViewGroup collection, int position) {
         if ((position == 0 && add == 1) || !provider.getCategories()[position - add].useCustomView()) {
             AXStickerRecyclerView recycler = new AXStickerRecyclerView(collection.getContext());
             collection.addView(recycler);
@@ -93,17 +94,17 @@ public class AXStickerViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View arg0, Object arg1) {
+    public boolean isViewFromObject(@NonNull View arg0, @NonNull Object arg1) {
         return arg0 == arg1;
     }
 
     @Override
-    public int getItemPosition(Object object) {
+    public int getItemPosition(@NonNull Object object) {
         return POSITION_NONE;
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
         recyclerViews.remove(object);
     }

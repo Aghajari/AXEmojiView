@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -73,12 +72,7 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
     protected void initKeyboardHeightProvider() {
         if (heightProvider == null) heightProvider = new KeyboardHeightProvider(this);
         if (popupView != null) {
-            popupView.post(new Runnable() {
-                @Override
-                public void run() {
-                    heightProvider.start();
-                }
-            });
+            popupView.post(() -> heightProvider.start());
         }
     }
 
@@ -250,14 +244,14 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
         /**
          * The view that is used to calculate the keyboard height
          */
-        private View popupView;
+        private final View popupView;
 
         /**
          * The parent view
          */
-        private View parentView;
+        private final View parentView;
 
-        private AXEmojiPopupLayout layout;
+        private final AXEmojiPopupLayout layout;
 
         /**
          * Construct a new KeyboardHeightProvider
@@ -277,15 +271,7 @@ public class AXEmojiPopupLayout extends FrameLayout implements AXPopupInterface 
             setWidth(0);
             setHeight(WindowManager.LayoutParams.MATCH_PARENT);
 
-            popupView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-                @Override
-                public void onGlobalLayout() {
-                    if (popupView != null) {
-                        handleOnGlobalLayout();
-                    }
-                }
-            });
+            popupView.getViewTreeObserver().addOnGlobalLayoutListener(this::handleOnGlobalLayout);
         }
 
         /**

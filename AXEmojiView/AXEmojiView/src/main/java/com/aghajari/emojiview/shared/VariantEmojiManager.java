@@ -20,6 +20,7 @@ package com.aghajari.emojiview.shared;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -38,8 +39,7 @@ public final class VariantEmojiManager implements VariantEmoji {
 
     @NonNull
     private final Context context;
-    @NonNull
-    private List<Emoji> variantsList = new ArrayList<>(0);
+    private List<Emoji> variantsList = null;
 
     public VariantEmojiManager(@NonNull final Context context) {
         this.context = context.getApplicationContext();
@@ -48,7 +48,7 @@ public final class VariantEmojiManager implements VariantEmoji {
     @NonNull
     @Override
     public Emoji getVariant(final Emoji desiredEmoji) {
-        if (variantsList.isEmpty()) {
+        if (variantsList == null || variantsList.isEmpty()) {
             initFromSharedPreferences();
         }
 
@@ -73,14 +73,11 @@ public final class VariantEmojiManager implements VariantEmoji {
             final Emoji variant = variantsList.get(i);
 
             if (variant.getBase().equals(newVariantBase)) {
-                if (variant.equals(newVariant)) {
-                    return; // Same skin-tone was used.
-                } else {
+                if (!variant.equals(newVariant)) {
                     variantsList.remove(i);
                     variantsList.add(newVariant);
-
-                    return;
                 }
+                return;
             }
         }
 
@@ -89,6 +86,9 @@ public final class VariantEmojiManager implements VariantEmoji {
 
     @Override
     public void persist() {
+        if (variantsList == null)
+            return;
+
         if (variantsList.size() > 0) {
             final StringBuilder stringBuilder = new StringBuilder(variantsList.size() * EMOJI_GUESS_SIZE);
 
@@ -107,7 +107,7 @@ public final class VariantEmojiManager implements VariantEmoji {
     private void initFromSharedPreferences() {
         final String savedRecentVariants = getPreferences().getString(VARIANT_EMOJIS, "");
 
-        if (savedRecentVariants.length() > 0) {
+        if (!TextUtils.isEmpty(savedRecentVariants)) {
             final StringTokenizer stringTokenizer = new StringTokenizer(savedRecentVariants, EMOJI_DELIMITER);
             variantsList = new ArrayList<>(stringTokenizer.countTokens());
 
@@ -119,6 +119,8 @@ public final class VariantEmojiManager implements VariantEmoji {
                     variantsList.add(emoji);
                 }
             }
+        } else {
+            variantsList = new ArrayList<>(0);
         }
     }
 

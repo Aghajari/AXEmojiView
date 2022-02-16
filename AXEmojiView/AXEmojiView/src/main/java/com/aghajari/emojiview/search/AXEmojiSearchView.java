@@ -210,12 +210,7 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
 
             @Override
             public void afterTextChanged(final Editable s) {
-                runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        searchFor(s.toString());
-                    }
-                };
+                runnable = () -> searchFor(s.toString());
                 handler.postDelayed(runnable, 100);
             }
 
@@ -243,16 +238,13 @@ public class AXEmojiSearchView extends FrameLayout implements AXSearchViewInterf
         this.addView(backButton, lp2);
         Utils.setClickEffect(backButton, true);
 
-        backButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (editText instanceof CustomEditText) {
-                    ((CustomEditText) editText).reload();
-                } else {
-                    base.getPopupInterface().reload();
-                }
-                base.getPopupInterface().show();
+        backButton.setOnClickListener(view -> {
+            if (editText instanceof CustomEditText) {
+                ((CustomEditText) editText).reload();
+            } else {
+                base.getPopupInterface().reload();
             }
+            base.getPopupInterface().show();
         });
 
         Drawable dr = AppCompatResources.getDrawable(getContext(), R.drawable.arrow_back);

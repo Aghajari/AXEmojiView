@@ -29,7 +29,6 @@ import com.aghajari.emojiview.emoji.Emoji;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,8 +39,8 @@ public final class RecentEmojiManager implements RecentEmoji {
     public static boolean FILL_DEFAULT_HISTORY = true;
     public static int MAX_RECENT = -1;
 
-    private static HashMap<String, Integer> emojiUseHistory = new HashMap<>();
-    private static ArrayList<Emoji> recentEmoji = new ArrayList<>();
+    private static final HashMap<String, Integer> emojiUseHistory = new HashMap<>();
+    private static final ArrayList<Emoji> recentEmoji = new ArrayList<>();
 
     public static String[] FILL_DEFAULT_RECENT_DATA = new String[]{
             "\uD83D\uDE02", "\uD83D\uDE18", "\u2764", "\uD83D\uDE0D", "\uD83D\uDE0A", "\uD83D\uDE01",
@@ -61,10 +60,7 @@ public final class RecentEmojiManager implements RecentEmoji {
     @Override
     public boolean isEmpty() {
         if (!emojiUseHistory.isEmpty()) return false;
-        if (!AXEmojiManager.isShowingEmptyRecentEnabled()) {
-            return true;
-        }
-        return false;
+        return !AXEmojiManager.isShowingEmptyRecentEnabled();
     }
 
     public RecentEmojiManager(@NonNull final Context context) {
@@ -117,26 +113,25 @@ public final class RecentEmojiManager implements RecentEmoji {
     public void sortEmoji() {
         recentEmoji.clear();
         for (HashMap.Entry<String, Integer> entry : emojiUseHistory.entrySet()) {
-            recentEmoji.add(AXEmojiManager.getInstance().findEmoji(entry.getKey()));
+            Emoji emoji = AXEmojiManager.getInstance().findEmoji(entry.getKey());
+            if (emoji != null)
+                recentEmoji.add(emoji);
         }
-        Collections.sort(recentEmoji, new Comparator<Emoji>() {
-            @Override
-            public int compare(Emoji lhs, Emoji rhs) {
-                Integer count1 = emojiUseHistory.get(lhs.getBase().getUnicode());
-                Integer count2 = emojiUseHistory.get(rhs.getBase().getUnicode());
-                if (count1 == null) {
-                    count1 = 0;
-                }
-                if (count2 == null) {
-                    count2 = 0;
-                }
-                if (count1 > count2) {
-                    return -1;
-                } else if (count1 < count2) {
-                    return 1;
-                }
-                return 0;
+        Collections.sort(recentEmoji, (lhs, rhs) -> {
+            Integer count1 = emojiUseHistory.get(lhs.getBase().getUnicode());
+            Integer count2 = emojiUseHistory.get(rhs.getBase().getUnicode());
+            if (count1 == null) {
+                count1 = 0;
             }
+            if (count2 == null) {
+                count2 = 0;
+            }
+            if (count1 > count2) {
+                return -1;
+            } else if (count1 < count2) {
+                return 1;
+            }
+            return 0;
         });
         if (MAX_RECENT <= 0) MAX_RECENT = 48;
         while (recentEmoji.size() > MAX_RECENT) {
@@ -155,7 +150,7 @@ public final class RecentEmojiManager implements RecentEmoji {
             stringBuilder.append("=");
             stringBuilder.append(entry.getValue());
         }
-        preferences.edit().putString(RECENT_EMOJIS, stringBuilder.toString()).commit();
+        preferences.edit().putString(RECENT_EMOJIS, stringBuilder.toString()).apply();
     }
 
     public void clearRecentEmoji() {

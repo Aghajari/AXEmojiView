@@ -32,8 +32,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.aghajari.emojiview.AXEmojiManager;
@@ -44,12 +44,13 @@ import com.aghajari.emojiview.utils.Utils;
 import com.aghajari.emojiview.view.AXEmojiImageView;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.MeasureSpec.makeMeasureSpec;
 
 public class AXSimpleEmojiVariantPopup extends AXEmojiVariantPopup {
-    private static final int MARGIN = 2;
+    private static final int MARGIN = 1;
 
     @NonNull
     final View rootView;
@@ -84,12 +85,7 @@ public class AXSimpleEmojiVariantPopup extends AXEmojiVariantPopup {
         popupWindow = new PopupWindow(content, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                isShowing = false;
-            }
-        });
+        popupWindow.setOnDismissListener(() -> isShowing = false);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(clickedImage.getContext().getResources(), (Bitmap) null));
 
@@ -116,39 +112,45 @@ public class AXSimpleEmojiVariantPopup extends AXEmojiVariantPopup {
         }
     }
 
-    LinearLayout imageContainer;
+    FrameLayout imageContainer;
 
     private View initView(@NonNull final Context context, @NonNull final Emoji emoji, final int width, final boolean fromRecent) {
         final View result = View.inflate(context, R.layout.emoji_skin_popup, null);
-        imageContainer = (LinearLayout) result.findViewById(R.id.container);
-        CardView cardView = (CardView) result.findViewById(R.id.cardview);
+        imageContainer = result.findViewById(R.id.container);
+        CardView cardView = result.findViewById(R.id.cardview);
         cardView.setCardBackgroundColor(AXEmojiManager.getEmojiViewTheme().getVariantPopupBackgroundColor());
 
-        final List<Emoji> variants = emoji.getBase().getVariants();
+        final List<Emoji> variants = new ArrayList<>(emoji.getBase().getVariants());
         variants.add(0, emoji.getBase());
 
         final LayoutInflater inflater = LayoutInflater.from(context);
 
+        int index = 0;
+        boolean isCustom = variants.size() > 6;
+        final int margin = Utils.dpToPx(context, MARGIN);
         for (final Emoji variant : variants) {
+            int i = isCustom ? (index == 0 ? 0 : (index - 1) % 5) : index;
+
             final ImageView emojiImage = (ImageView) inflater.inflate(R.layout.emoji_item, imageContainer, false);
             final ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) emojiImage.getLayoutParams();
-            final int margin = Utils.dpToPx(context, MARGIN);
 
             // Use the same size for Emojis as in the picker.
             layoutParams.width = width;
-            layoutParams.setMargins(margin, margin, margin, margin);
+            int row = (!isCustom || index == 0) ? 0 : ((index - 1) / 5 + 1);
+            if (isCustom && index == 0)
+                i = 2;
+
+            layoutParams.setMargins((i + 1) * margin + i * width, row * width + (row + 1) * margin, margin, margin);
             emojiImage.setImageDrawable(variant.getDrawable(emojiImage));
 
-            emojiImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    if (listener != null && rootImageView != null) {
-                        rootImageView.updateEmoji(variant);
-                        listener.onClick(rootImageView, variant, fromRecent, true);
-                    }
+            emojiImage.setOnClickListener(view -> {
+                if (listener != null && rootImageView != null) {
+                    rootImageView.updateEmoji(variant);
+                    listener.onClick(rootImageView, variant, fromRecent, true);
                 }
             });
 
+            index++;
             imageContainer.addView(emojiImage);
         }
 

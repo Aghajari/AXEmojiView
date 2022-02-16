@@ -37,7 +37,7 @@ public final class EmojiResultReceiver extends ResultReceiver {
         super(handler);
     }
 
-    public void setReceiver(final Receiver receiver) {
+    public void setReceiver(@Nullable final Receiver receiver) {
         this.receiver = receiver;
     }
 

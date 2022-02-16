@@ -42,8 +42,6 @@ public class AXEmojiSingleRecyclerView extends RecyclerView {
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
-    boolean skipTouch = false;
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (variantListener.findVariant() != null && variantListener.findVariant().onTouch(event, this))

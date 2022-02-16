@@ -131,7 +131,7 @@ public final class AXEmojiUtils {
         return new Emoji(codePoints, -1).getUnicode();
     }
 
-    public static String getEmojiUnicode(@NonNull final int codePoint) {
+    public static String getEmojiUnicode(final int codePoint) {
         return new Emoji(codePoint, -1).getUnicode();
     }
 

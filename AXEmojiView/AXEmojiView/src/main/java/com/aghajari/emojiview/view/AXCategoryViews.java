@@ -41,10 +41,7 @@ class AXCategoryViews extends AXEmojiLayout {
     int index = 0;
 
     void init() {
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
+        this.setOnClickListener(view -> {
         });
 
         icons = new ArrayList<>();
@@ -54,10 +51,11 @@ class AXCategoryViews extends AXEmojiLayout {
         recent = recentEmoji.isEmpty();
         if (!recent) {
             categories.add(0, new EmojiCategory() {
+
                 @NonNull
                 @Override
                 public Emoji[] getEmojis() {
-                    return null;
+                    return new Emoji[0];
                 }
 
                 @Override
@@ -79,7 +77,7 @@ class AXCategoryViews extends AXEmojiLayout {
                 @NonNull
                 @Override
                 public Emoji[] getEmojis() {
-                    return null;
+                    return new Emoji[0];
                 }
 
                 @Override
@@ -107,18 +105,11 @@ class AXCategoryViews extends AXEmojiLayout {
             Drawable dr = AppCompatResources.getDrawable(getContext(), categories.get(i).getIcon());
             icon.setTag(dr);
 
-            if (i == 0) {
-                setIconImage(icon, true);
-            } else {
-                setIconImage(icon, false);
-            }
+            setIconImage(icon, i == 0);
             if (backspace && i == categories.size() - 1) {
-                icon.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (emojiView.getEditText() != null)
-                            AXEmojiUtils.backspace(emojiView.getEditText());
-                    }
+                icon.setOnClickListener(view -> {
+                    if (emojiView.getEditText() != null)
+                        AXEmojiUtils.backspace(emojiView.getEditText());
                 });
             } else {
                 addClick(icon, i);
@@ -175,13 +166,9 @@ class AXCategoryViews extends AXEmojiLayout {
     }
 
     private void addClick(final View icon, final int i) {
-        icon.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                if (index == i) return;
-                emojiView.setPageIndex(i);
-            }
+        icon.setOnClickListener(view -> {
+            if (index == i) return;
+            emojiView.setPageIndex(i);
         });
     }
 }

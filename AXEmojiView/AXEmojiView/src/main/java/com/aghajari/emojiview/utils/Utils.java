@@ -29,7 +29,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,12 +47,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 
+import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.AXEmojiUtils;
 import com.aghajari.emojiview.R;
+import com.aghajari.emojiview.emoji.Emoji;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
@@ -61,7 +65,7 @@ public class Utils {
 
     public static void setClickEffect(View View, boolean Borderless) {
         int[] attrs;
-        if (Borderless) {
+        if (Borderless && SDK_INT >= LOLLIPOP) {
             attrs = new int[]{android.R.attr.selectableItemBackgroundBorderless};
         } else {
             attrs = new int[]{android.R.attr.selectableItemBackground};
@@ -69,26 +73,28 @@ public class Utils {
         TypedArray typedArray = View.getContext().obtainStyledAttributes(attrs);
         int backgroundResource = typedArray.getResourceId(0, 0);
         View.setBackgroundResource(backgroundResource);
+        typedArray.recycle();
     }
 
     public static void setForegroundClickEffect(View View, boolean Borderless) {
-        int[] attrs;
-        if (Borderless) {
-            attrs = new int[]{android.R.attr.selectableItemBackgroundBorderless};
-        } else {
-            attrs = new int[]{android.R.attr.selectableItemBackground};
-        }
-        TypedArray typedArray = View.getContext().obtainStyledAttributes(attrs);
-        int backgroundResource = typedArray.getResourceId(0, 0);
         if (SDK_INT >= Build.VERSION_CODES.M) {
-            View.setForeground(View.getContext().getDrawable(backgroundResource));
+            int[] attrs;
+            if (Borderless){
+                attrs = new int[]{android.R.attr.selectableItemBackgroundBorderless};
+            } else{
+                attrs = new int[]{android.R.attr.selectableItemBackground};
+            }
+            TypedArray typedArray = View.getContext().obtainStyledAttributes(attrs);
+            int backgroundResource = typedArray.getResourceId(0, 0);
+            View.setForeground(AppCompatResources.getDrawable(View.getContext(), backgroundResource));
+            typedArray.recycle();
         }
     }
 
     public static int getGridCount(Context context) {
         int w = context.getResources().getDisplayMetrics().widthPixels;
         int c_w = getColumnWidth(context);
-        return (int) w / c_w;
+        return w / c_w;
     }
 
     public static int getColumnWidth(Context context) {
@@ -98,7 +104,7 @@ public class Utils {
     public static int getStickerGridCount(Context context) {
         int w = context.getResources().getDisplayMetrics().widthPixels;
         int c_w = getStickerColumnWidth(context);
-        return (int) w / c_w;
+        return w / c_w;
     }
 
     public static int getStickerColumnWidth(Context context) {
@@ -142,11 +148,7 @@ public class Utils {
             final Method visibleHeightMethod = inputMethodManagerClass.getDeclaredMethod("getInputMethodWindowVisibleHeight");
             visibleHeightMethod.setAccessible(true);
             return (int) visibleHeightMethod.invoke(imm);
-        } catch (NoSuchMethodException exception) {
-            exception.printStackTrace();
-        } catch (IllegalAccessException exception) {
-            exception.printStackTrace();
-        } catch (InvocationTargetException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 
@@ -164,10 +166,8 @@ public class Utils {
                 stableInsetsField.setAccessible(true);
                 return ((Rect) stableInsetsField.get(attachInfo)).bottom;
             }
-        } catch (NoSuchFieldException noSuchFieldException) {
-            noSuchFieldException.printStackTrace();
-        } catch (IllegalAccessException illegalAccessException) {
-            illegalAccessException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return 0;
     }
@@ -194,7 +194,8 @@ public class Utils {
     }
 
     public static void hideKeyboard(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getApplicationContext().getSystemService("input_method");
+        InputMethodManager imm = (InputMethodManager) v.getContext().getApplicationContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
@@ -228,32 +229,29 @@ public class Utils {
     }
 
     public static void fixPopupLocation(@NonNull final PopupWindow popupWindow, @NonNull final Point desiredLocation) {
-        popupWindow.getContentView().post(new Runnable() {
-            @Override
-            public void run() {
-                final Point actualLocation = locationOnScreen(popupWindow.getContentView());
+        popupWindow.getContentView().post(() -> {
+            final Point actualLocation = locationOnScreen(popupWindow.getContentView());
 
-                if (!(actualLocation.x == desiredLocation.x && actualLocation.y == desiredLocation.y)) {
-                    final int differenceX = actualLocation.x - desiredLocation.x;
-                    final int differenceY = actualLocation.y - desiredLocation.y;
+            if (!(actualLocation.x == desiredLocation.x && actualLocation.y == desiredLocation.y)) {
+                final int differenceX = actualLocation.x - desiredLocation.x;
+                final int differenceY = actualLocation.y - desiredLocation.y;
 
-                    final int fixedOffsetX;
-                    final int fixedOffsetY;
+                final int fixedOffsetX;
+                final int fixedOffsetY;
 
-                    if (actualLocation.x > desiredLocation.x) {
-                        fixedOffsetX = desiredLocation.x - differenceX;
-                    } else {
-                        fixedOffsetX = desiredLocation.x + differenceX;
-                    }
-
-                    if (actualLocation.y > desiredLocation.y) {
-                        fixedOffsetY = desiredLocation.y - differenceY;
-                    } else {
-                        fixedOffsetY = desiredLocation.y + differenceY;
-                    }
-
-                    popupWindow.update(fixedOffsetX, fixedOffsetY, DONT_UPDATE_FLAG, DONT_UPDATE_FLAG);
+                if (actualLocation.x > desiredLocation.x) {
+                    fixedOffsetX = desiredLocation.x - differenceX;
+                } else {
+                    fixedOffsetX = desiredLocation.x + differenceX;
                 }
+
+                if (actualLocation.y > desiredLocation.y) {
+                    fixedOffsetY = desiredLocation.y - differenceY;
+                } else {
+                    fixedOffsetY = desiredLocation.y + differenceY;
+                }
+
+                popupWindow.update(fixedOffsetX, fixedOffsetY, DONT_UPDATE_FLAG, DONT_UPDATE_FLAG);
             }
         });
     }
@@ -306,7 +304,7 @@ public class Utils {
                     displaySize.y = newSize;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignore) {
         }
     }
 
@@ -331,7 +329,7 @@ public class Utils {
                 super.getItemOffsets(outRect, view, parent, state);
                 int position = parent.getChildAdapterPosition(view);
                 int max = parent.getAdapter().getItemCount();
-                int spanCount = 1;
+                int spanCount;
                 if (parent.getLayoutManager() instanceof GridLayoutManager) {
                     spanCount = ((GridLayoutManager) parent.getLayoutManager()).getSpanCount();
 
@@ -366,8 +364,8 @@ public class Utils {
     static class BackspaceTouchListener implements View.OnTouchListener {
         private boolean backspacePressed;
         private boolean backspaceOnce;
-        private View backSpace;
-        private EditText editText;
+        private final View backSpace;
+        private final EditText editText;
 
         BackspaceTouchListener(View backspaceView, EditText editText) {
             this.backSpace = backspaceView;
@@ -391,27 +389,37 @@ public class Utils {
         }
 
         private void postBackspaceRunnable(final int time) {
-            backSpace.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (!backspacePressed) return;
+            backSpace.postDelayed(() -> {
+                if (!backspacePressed) return;
 
-                    AXEmojiUtils.backspace(editText);
-                    backSpace.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                AXEmojiUtils.backspace(editText);
+                backSpace.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
-                    backspaceOnce = true;
-                    postBackspaceRunnable(Math.max(50, time - 100));
-                }
+                backspaceOnce = true;
+                postBackspaceRunnable(Math.max(50, time - 100));
             }, time);
         }
     }
 
-    public static float getDefaultEmojiSize(Paint.FontMetrics fontMetrics){
+    public static float getDefaultEmojiSize(Paint.FontMetrics fontMetrics) {
         return fontMetrics.descent - fontMetrics.ascent;
     }
 
-    public static void forceLTR(View view){
+    public static void forceLTR(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             view.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+    }
+
+    public static List<Emoji> filterEmojis(List<Emoji> src) {
+        if (AXEmojiManager.getFilteredEmojis() != null) {
+            List<String> filter = AXEmojiManager.getFilteredEmojis();
+            List<Emoji> dest = new ArrayList<>(src.size());
+            for (Emoji emoji : src) {
+                if (!filter.contains(emoji.getBase().getUnicode()))
+                    dest.add(emoji);
+            }
+            return dest;
+        }
+        return src;
     }
 }

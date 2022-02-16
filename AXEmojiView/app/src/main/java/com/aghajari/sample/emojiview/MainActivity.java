@@ -1,29 +1,41 @@
 package com.aghajari.sample.emojiview;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
-import android.view.View;
 import android.widget.Switch;
 
 import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.AXEmojiUtils;
-import com.aghajari.emojiview.iosprovider.AXIOSEmoji;
-import com.aghajari.emojiview.iosprovider.AXIOSEmojiLoader;
+
+import com.aghajari.emojiview.preset.AXPresetEmojiLoader;
 import com.aghajari.emojiview.view.AXEmojiButton;
-import com.aghajari.emojiview.iosprovider.AXIOSEmojiProvider;
 import com.aghajari.sample.emojiview.activity.DarkActivity;
 import com.aghajari.sample.emojiview.activity.EmojiActivity;
 import com.aghajari.sample.emojiview.activity.EmojiPopupViewActivity;
 
+import com.aghajari.emojiview.googleprovider.AXGoogleEmojiProvider;
+/*
+import com.aghajari.emojiview.samsungprovider.AXSamsungEmojiProvider;
+import com.aghajari.emojiview.twitterprovider.AXTwitterEmojiProvider;
+import com.aghajari.emojiview.appleprovider.AXAppleEmojiProvider;
+import com.aghajari.emojiview.emojidexprovider.AXEmojidexEmojiProvider;
+import com.aghajari.emojiview.facebookprovider.AXFacebookEmojiProvider;
+import com.aghajari.emojiview.iosprovider.AXIOSEmojiProvider;
+import com.aghajari.emojiview.whatsappprovider.AXWhatsAppEmojiProvider;
+*/
+
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AXEmojiManager.install(this, new AXIOSEmojiProvider(this));
+        AXEmojiManager.install(this, new AXGoogleEmojiProvider(this));
+        //AXEmojiManager.filterEmojis(Arrays.asList("😀", "😃", "😄", "😁"));
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -40,42 +52,35 @@ public class MainActivity extends AppCompatActivity {
 
         final AXEmojiButton btn = findViewById(R.id.start_emoji_activity);
 
-        AXIOSEmojiLoader.preloadEmoji(AXEmojiUtils.getEmojiUnicode(0x1f60d),
-                new AXIOSEmojiLoader.EmojiLoaderListener() {
-                    @Override
-                    public void onEmojiLoaded(AXIOSEmoji emoji) {
-                        Log.d("emoji", emoji.getUnicode());
-                        getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(MainActivity.this,
-                                "AXEmojiView " + emoji, 20));
+        AXPresetEmojiLoader.preloadEmoji(AXEmojiUtils.getEmojiUnicode(0x1f60d),
+                emoji -> {
+                    getSupportActionBar().setTitle(AXEmojiUtils.replaceWithEmojis(MainActivity.this,
+                            "AXEmojiView " + emoji, 20));
 
-                        btn.setText("Start Emoji Activity " + emoji);
-                    }
+                    btn.setText("Start Emoji Activity " + emoji);
                 });
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UI.mEmojiView = mEmojiView.isChecked();
-                UI.mSingleEmojiView = mSingleEmojiView.isChecked();
-                UI.mStickerView = mStickerView.isChecked();
-                UI.mCustomView = mCustomView.isChecked();
-                UI.mFooterView = mFooterView.isChecked();
-                UI.mCustomFooter = mCustomFooterView.isChecked();
-                UI.mWhiteCategory = mWhiteCategory.isChecked();
+        btn.setOnClickListener(view -> {
+            UI.mEmojiView = mEmojiView.isChecked();
+            UI.mSingleEmojiView = mSingleEmojiView.isChecked();
+            UI.mStickerView = mStickerView.isChecked();
+            UI.mCustomView = mCustomView.isChecked();
+            UI.mFooterView = mFooterView.isChecked();
+            UI.mCustomFooter = mCustomFooterView.isChecked();
+            UI.mWhiteCategory = mWhiteCategory.isChecked();
 
-                if (mDarkTheme.isChecked()) {
-                    UI.loadDarkTheme();
+            if (mDarkTheme.isChecked()) {
+                UI.loadDarkTheme();
 
-                    Intent intent = new Intent(MainActivity.this, DarkActivity.class);
-                    MainActivity.this.startActivity(intent);
-                } else {
-                    UI.loadTheme();
+                Intent intent = new Intent(MainActivity.this, DarkActivity.class);
+                MainActivity.this.startActivity(intent);
+            } else {
+                UI.loadTheme();
 
-                    Intent intent = new Intent(MainActivity.this,
-                            (mPopupView.isChecked() ? EmojiPopupViewActivity.class : EmojiActivity.class));
-                    intent.putExtra("load", true);
-                    MainActivity.this.startActivity(intent);
-                }
+                Intent intent = new Intent(MainActivity.this,
+                        (mPopupView.isChecked() ? EmojiPopupViewActivity.class : EmojiActivity.class));
+                intent.putExtra("load", true);
+                MainActivity.this.startActivity(intent);
             }
         });
     }

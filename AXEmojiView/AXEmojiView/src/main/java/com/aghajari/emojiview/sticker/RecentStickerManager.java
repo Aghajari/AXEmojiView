@@ -20,6 +20,7 @@ package com.aghajari.emojiview.sticker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -48,19 +49,15 @@ public final class RecentStickerManager implements RecentSticker {
     public static boolean isEmpty(Context context) {
         final String savedRecentEmojis = context.getApplicationContext()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(RECENT_STICKER, "");
-        if (savedRecentEmojis.length() > 0) return false;
-        return true;
+        return TextUtils.isEmpty(savedRecentEmojis);
     }
 
     @Override
     public boolean isEmpty() {
         final String savedRecentEmojis = context.getApplicationContext()
                 .getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).getString(RECENT_STICKER, "");
-        if (savedRecentEmojis.length() > 0) return false;
-        if (AXEmojiManager.isShowingEmptyRecentEnabled() == false) {
-            return true;
-        }
-        return false;
+        if (!TextUtils.isEmpty(savedRecentEmojis)) return false;
+        return !AXEmojiManager.isShowingEmptyRecentEnabled();
     }
 
     public RecentStickerManager(@NonNull final Context context, final String type) {
@@ -75,7 +72,7 @@ public final class RecentStickerManager implements RecentSticker {
         if (StickersList.size() == 0) {
             final String savedRecentEmojis = getPreferences().getString(RECENT_STICKER, "");
 
-            if (savedRecentEmojis.length() > 0) {
+            if (!TextUtils.isEmpty(savedRecentEmojis)) {
                 final StringTokenizer stringTokenizer = new StringTokenizer(savedRecentEmojis, EMOJI_DELIMITER);
                 StickersList = new StickerList(stringTokenizer.countTokens());
 
@@ -136,8 +133,7 @@ public final class RecentStickerManager implements RecentSticker {
 
             for (int i = 0; i < StickersList.size(); i++) {
                 final Data data = StickersList.get(i);
-                if (data.Sticker.equals(sticker)) {
-                } else {
+                if (!data.Sticker.equals(sticker)) {
                     stringBuilder.append(Sticker.toString(data.Sticker))
                             .append(TIME_DELIMITER)
                             .append(data.timestamp)
@@ -156,12 +152,7 @@ public final class RecentStickerManager implements RecentSticker {
     }
 
     static class StickerList {
-        static final Comparator<Data> COMPARATOR = new Comparator<Data>() {
-            @Override
-            public int compare(final Data lhs, final Data rhs) {
-                return Long.valueOf(rhs.timestamp).compareTo(lhs.timestamp);
-            }
-        };
+        static final Comparator<Data> COMPARATOR = (lhs, rhs) -> Long.compare(rhs.timestamp, lhs.timestamp);
 
         @NonNull
         public final List<Data> Stickers;

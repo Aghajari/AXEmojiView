@@ -18,7 +18,6 @@
 package com.aghajari.emojiview.view;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
@@ -92,12 +91,9 @@ class AXFooterView extends AXEmojiLayout {
         backSpace.setImageDrawable(back);
         Utils.setClickEffect(backSpace, true);
 
-        backSpace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //if (pager.getEditText()!=null) AXEmojiUtils.backspace(pager.getEditText());
-                if (pager.listener != null) pager.listener.onClick(view, false);
-            }
+        backSpace.setOnClickListener(view -> {
+            //if (pager.getEditText()!=null) AXEmojiUtils.backspace(pager.getEditText());
+            if (pager.listener != null) pager.listener.onClick(view, false);
         });
 
         if (Left != -1) {
@@ -109,11 +105,8 @@ class AXFooterView extends AXEmojiLayout {
             leftIcon.setImageDrawable(leftIconDr);
             Utils.setClickEffect(leftIcon, true);
 
-            leftIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (pager.listener != null) pager.listener.onClick(view, true);
-                }
+            leftIcon.setOnClickListener(view -> {
+                if (pager.listener != null) pager.listener.onClick(view, true);
             });
         }
 
@@ -144,12 +137,7 @@ class AXFooterView extends AXEmojiLayout {
             this.setElevation(Utils.dpToPx(getContext(), 2));
         }
 
-        this.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        this.setOnClickListener(view -> {});
     }
 
     public void setPageIndex(int index) {
@@ -157,17 +145,14 @@ class AXFooterView extends AXEmojiLayout {
     }
 
     private void postBackspaceRunnable(final int time) {
-        backSpace.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!backspaceEnabled || !backspacePressed) return;
+        backSpace.postDelayed(() -> {
+            if (!backspaceEnabled || !backspacePressed) return;
 
-                AXEmojiUtils.backspace(editText);
-                backSpace.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+            AXEmojiUtils.backspace(editText);
+            backSpace.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
 
-                backspaceOnce = true;
-                postBackspaceRunnable(Math.max(50, time - 100));
-            }
+            backspaceOnce = true;
+            postBackspaceRunnable(Math.max(50, time - 100));
         }, time);
     }
 }

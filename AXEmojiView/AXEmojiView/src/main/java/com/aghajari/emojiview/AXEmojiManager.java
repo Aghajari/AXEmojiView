@@ -29,16 +29,16 @@ import androidx.appcompat.widget.AppCompatImageView;
 import android.text.Spannable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 
 import com.aghajari.emojiview.emoji.AXEmojiLoader;
 import com.aghajari.emojiview.emoji.Emoji;
 import com.aghajari.emojiview.emoji.EmojiCategory;
+import com.aghajari.emojiview.emoji.EmojiData;
 import com.aghajari.emojiview.emoji.EmojiProvider;
 import com.aghajari.emojiview.listener.EditTextInputListener;
 import com.aghajari.emojiview.listener.EmojiVariantCreatorListener;
-import com.aghajari.emojiview.listener.OnEmojiActions;
 import com.aghajari.emojiview.listener.StickerViewCreatorListener;
+import com.aghajari.emojiview.preset.AXPresetEmojiLoader;
 import com.aghajari.emojiview.shared.RecentEmoji;
 import com.aghajari.emojiview.shared.RecentEmojiManager;
 import com.aghajari.emojiview.shared.VariantEmoji;
@@ -51,7 +51,6 @@ import com.aghajari.emojiview.utils.EmojiRange;
 import com.aghajari.emojiview.utils.EmojiReplacer;
 import com.aghajari.emojiview.utils.EmojiSpan;
 import com.aghajari.emojiview.utils.Utils;
-import com.aghajari.emojiview.variant.AXEmojiVariantPopup;
 import com.aghajari.emojiview.variant.AXSimpleEmojiVariantPopup;
 import com.aghajari.emojiview.variant.AXTouchEmojiVariantPopup;
 import com.aghajari.emojiview.view.AXEmojiBase;
@@ -60,7 +59,6 @@ import com.aghajari.emojiview.view.AXSingleEmojiView;
 import com.aghajari.emojiview.view.AXStickerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -72,31 +70,28 @@ import java.util.regex.Pattern;
 
 /**
  * @author Amir Hossein Aghajari
- * @version 1.4.1
+ * @version 1.5.0
  */
 public class AXEmojiManager {
 
     private static boolean ripple = true;
 
-    private static final EditTextInputListener defaultInputListener = new EditTextInputListener() {
-        @Override
-        public void input(@NonNull final EditText editText, @Nullable final Emoji emoji) {
-            if (emoji != null) {
-                final int start = editText.getSelectionStart();
-                final int end = editText.getSelectionEnd();
+    private static final EditTextInputListener defaultInputListener = (editText, emoji) -> {
+        if (emoji != null) {
+            final int start = editText.getSelectionStart();
+            final int end = editText.getSelectionEnd();
 
-                if (start < 0) {
-                    editText.append(emoji.getUnicode());
-                } else {
-                    editText.getText().replace(Math.min(start, end), Math.max(start, end), emoji.getUnicode(), 0, emoji.getUnicode().length());
-                }
+            if (start < 0) {
+                editText.append(emoji.getUnicode());
+            } else {
+                editText.getText().replace(Math.min(start, end), Math.max(start, end), emoji.getUnicode(), 0, emoji.getUnicode().length());
             }
         }
     };
 
     private static final StickerViewCreatorListener defaultStickerCreator = new StickerViewCreatorListener() {
         @Override
-        public View onCreateStickerView(@NonNull Context context, @Nullable StickerCategory category, boolean isRecent) {
+        public View onCreateStickerView(@NonNull Context context, @Nullable StickerCategory<?> category, boolean isRecent) {
             return new AppCompatImageView(context);
         }
 
@@ -113,46 +108,37 @@ public class AXEmojiManager {
     private AXEmojiManager() {
     }
 
-    private static final Comparator<String> STRING_LENGTH_COMPARATOR = new Comparator<String>() {
-        @Override
-        public int compare(final String first, final String second) {
-            final int firstLength = first.length();
-            final int secondLength = second.length();
+    private static final Comparator<String> STRING_LENGTH_COMPARATOR =
+            (first, second) -> Integer.compare(second.length(), first.length());
 
-            return Integer.compare(secondLength, firstLength);
-        }
-    };
-
-    private static final int GUESSED_UNICODE_AMOUNT = 3000;
+    private static final int GUESSED_UNICODE_AMOUNT = 4000;
     private static final int GUESSED_TOTAL_PATTERN_LENGTH = GUESSED_UNICODE_AMOUNT * 4;
 
 
-    private static final EmojiReplacer DEFAULT_EMOJI_REPLACER = new EmojiReplacer() {
-        @Override
-        public void replaceWithImages(final Context context, final View view, final Spannable text, final float emojiSize, final Paint.FontMetrics fontMetrics) {
-            if (text.length() == 0) return;
-            final AXEmojiManager emojiManager = AXEmojiManager.getInstance();
-            final EmojiSpan[] existingSpans = text.getSpans(0, text.length(), EmojiSpan.class);
-            final List<Integer> existingSpanPositions = new ArrayList<>(existingSpans.length);
+    private static final EmojiReplacer DEFAULT_EMOJI_REPLACER =
+            (context, view, text, emojiSize, fontMetrics) -> {
+                if (text.length() == 0) return;
+                final AXEmojiManager emojiManager = AXEmojiManager.getInstance();
+                final EmojiSpan[] existingSpans = text.getSpans(0, text.length(), EmojiSpan.class);
+                final List<Integer> existingSpanPositions = new ArrayList<>(existingSpans.length);
 
-            final int size = existingSpans.length;
-            //noinspection ForLoopReplaceableByForEach
-            for (int i = 0; i < size; i++) {
-                existingSpanPositions.add(text.getSpanStart(existingSpans[i]));
-            }
-
-            final List<EmojiRange> findAllEmojis = emojiManager.findAllEmojis(text);
-
-            for (int i = 0; i < findAllEmojis.size(); i++) {
-                final EmojiRange location = findAllEmojis.get(i);
-
-                if (!existingSpanPositions.contains(location.start)) {
-                    text.setSpan(new EmojiSpan(context, location.emoji, emojiSize),
-                            location.start, location.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                final int size = existingSpans.length;
+                //noinspection ForLoopReplaceableByForEach
+                for (int i = 0; i < size; i++) {
+                    existingSpanPositions.add(text.getSpanStart(existingSpans[i]));
                 }
-            }
-        }
-    };
+
+                final List<EmojiRange> findAllEmojis = emojiManager.findAllEmojis(text);
+
+                for (int i = 0; i < findAllEmojis.size(); i++) {
+                    final EmojiRange location = findAllEmojis.get(i);
+
+                    if (!existingSpanPositions.contains(location.start)) {
+                        text.setSpan(new EmojiSpan(context, location.emoji, emojiSize),
+                                location.start, location.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                }
+            };
 
     final Map<String, Emoji> emojiMap = new LinkedHashMap<>(GUESSED_UNICODE_AMOUNT);
     private EmojiCategory[] categories;
@@ -176,6 +162,10 @@ public class AXEmojiManager {
 
     private EmojiProvider provider;
 
+    public EmojiData getEmojiData() {
+        return provider.getEmojiData();
+    }
+
 
     /**
      * Installs the given EmojiProvider.
@@ -185,68 +175,72 @@ public class AXEmojiManager {
     public static void install(Context context, final EmojiProvider provider) {
         AXEmojiManager.context = context.getApplicationContext();
         if (INSTANCE != null) destroy();
-        INSTANCE = new AXEmojiManager();
+        INSTANCE = null;
+        final AXEmojiManager INSTANCE2 = new AXEmojiManager();
         if (mEmojiTheme == null) mEmojiTheme = new AXEmojiTheme();
         if (mStickerTheme == null) mStickerTheme = new AXEmojiTheme();
         /*recentEmoji = null;
          recentSticker = null;
          variantEmoji = null;
          emojiLoader = null;*/
-        INSTANCE.provider = provider;
+        INSTANCE2.provider = provider;
 
         setMaxRecentSize(48);
         setMaxStickerRecentSize(Utils.getStickerGridCount(context) * 3);
-        INSTANCE.categories = provider.getCategories();
-        INSTANCE.emojiMap.clear();
-        INSTANCE.emojiReplacer = provider instanceof EmojiReplacer ? (EmojiReplacer) provider : DEFAULT_EMOJI_REPLACER;
+        INSTANCE2.categories = provider.getCategories();
+        INSTANCE2.emojiMap.clear();
+        INSTANCE2.emojiReplacer = provider instanceof EmojiReplacer ? (EmojiReplacer) provider : DEFAULT_EMOJI_REPLACER;
         if (inputListener == null) inputListener = defaultInputListener;
         if (stickerViewCreatorListener == null) stickerViewCreatorListener = defaultStickerCreator;
         if (emojiVariantCreatorListener == null) enableTouchEmojiVariantPopup();
 
-        final List<String> unicodesForPattern = new ArrayList<>(GUESSED_UNICODE_AMOUNT);
+        AXPresetEmojiLoader.globalQueue.postRunnable(() -> {
+            final List<String> unicodesForPattern = new ArrayList<>(GUESSED_UNICODE_AMOUNT);
 
-        final int categoriesSize = INSTANCE.categories.length;
-        //noinspection ForLoopReplaceableByForEach
-        for (int i = 0; i < categoriesSize; i++) {
-            final Emoji[] emojis = INSTANCE.categories[i].getEmojis();
+            final int categoriesSize = INSTANCE2.categories.length;
+            for (int i = 0; i < categoriesSize; i++) {
+                final Emoji[] emojis = INSTANCE2.categories[i].getEmojis();
 
-            final int emojisSize = emojis.length;
-            //noinspection ForLoopReplaceableByForEach
-            for (int j = 0; j < emojisSize; j++) {
-                final Emoji emoji = emojis[j];
-                final String unicode = emoji.getUnicode();
-                final List<Emoji> variants = emoji.getVariants();
+                final int emojisSize = emojis.length;
+                //noinspection ForLoopReplaceableByForEach
+                for (int j = 0; j < emojisSize; j++) {
+                    final Emoji emoji = emojis[j];
+                    final String unicode = emoji.getUnicode();
+                    final List<Emoji> variants = emoji.getVariants();
 
-                INSTANCE.emojiMap.put(unicode, emoji);
-                unicodesForPattern.add(unicode);
+                    INSTANCE2.emojiMap.put(unicode, emoji);
+                    unicodesForPattern.add(unicode);
 
-                for (int k = 0; k < variants.size(); k++) {
-                    final Emoji variant = variants.get(k);
-                    final String variantUnicode = variant.getUnicode();
+                    for (int k = 0; k < variants.size(); k++) {
+                        final Emoji variant = variants.get(k);
+                        final String variantUnicode = variant.getUnicode();
 
-                    INSTANCE.emojiMap.put(variantUnicode, variant);
-                    unicodesForPattern.add(variantUnicode);
+                        INSTANCE2.emojiMap.put(variantUnicode, variant);
+                        unicodesForPattern.add(variantUnicode);
+                    }
                 }
             }
-        }
 
-        if (unicodesForPattern.isEmpty()) {
-            throw new IllegalArgumentException("Your EmojiProvider must at least have one category with at least one emoji.");
-        }
+            if (unicodesForPattern.isEmpty()) {
+                throw new IllegalArgumentException("Your EmojiProvider must at least have one category with at least one emoji.");
+            }
 
-        // We need to sort the unicodes by length so the longest one gets matched first.
-        Collections.sort(unicodesForPattern, STRING_LENGTH_COMPARATOR);
+            // We need to sort the unicodes by length so the longest one gets matched first.
+            Collections.sort(unicodesForPattern, STRING_LENGTH_COMPARATOR);
 
-        final StringBuilder patternBuilder = new StringBuilder(GUESSED_TOTAL_PATTERN_LENGTH);
+            final StringBuilder patternBuilder = new StringBuilder(GUESSED_TOTAL_PATTERN_LENGTH);
 
-        final int unicodesForPatternSize = unicodesForPattern.size();
-        for (int i = 0; i < unicodesForPatternSize; i++) {
-            patternBuilder.append(Pattern.quote(unicodesForPattern.get(i))).append('|');
-        }
+            final int unicodesForPatternSize = unicodesForPattern.size();
+            for (int i = 0; i < unicodesForPatternSize; i++) {
+                patternBuilder.append(Pattern.quote(unicodesForPattern.get(i))).append('|');
+            }
 
-        final String regex = patternBuilder.deleteCharAt(patternBuilder.length() - 1).toString();
-        INSTANCE.emojiPattern = Pattern.compile(regex);
-        INSTANCE.emojiRepetitivePattern = Pattern.compile('(' + regex + ")+");
+            final String regex = patternBuilder.deleteCharAt(patternBuilder.length() - 1).toString();
+            INSTANCE2.emojiPattern = Pattern.compile(regex);
+            INSTANCE2.emojiRepetitivePattern = Pattern.compile('(' + regex + ")+");
+            INSTANCE = INSTANCE2;
+        });
+
     }
 
     /**
@@ -353,8 +347,6 @@ public class AXEmojiManager {
 
     /**
      * AXEmojiPager footer view. backspace will add on footer right icon.
-     *
-     * @param footer
      */
     public static void setFooterEnabled(boolean footer) {
         AXEmojiManager.footer = footer;
@@ -565,33 +557,20 @@ public class AXEmojiManager {
     }
 
     public static void setEmojiVariantCreatorListener(EmojiVariantCreatorListener listener) {
-        if (listener == null) {
-            enableTouchEmojiVariantPopup();
-            return;
-        }
+        if (listener == null)
+            listener = (a, b) -> null;
         AXEmojiManager.emojiVariantCreatorListener = listener;
     }
 
     public static void enableTouchEmojiVariantPopup() {
-        AXEmojiManager.emojiVariantCreatorListener = new EmojiVariantCreatorListener() {
-            @Override
-            public AXEmojiVariantPopup create(@NonNull View rootView, @Nullable OnEmojiActions listener) {
-                return new AXTouchEmojiVariantPopup(rootView, listener);
-            }
-        };
+        AXEmojiManager.emojiVariantCreatorListener = AXTouchEmojiVariantPopup::new;
     }
 
     public static void enableSimpleEmojiVariantPopup() {
-        AXEmojiManager.emojiVariantCreatorListener = new EmojiVariantCreatorListener() {
-            @Override
-            public AXEmojiVariantPopup create(@NonNull View rootView, @Nullable OnEmojiActions listener) {
-                return new AXSimpleEmojiVariantPopup(rootView, listener);
-            }
-        };
+        AXEmojiManager.emojiVariantCreatorListener = AXSimpleEmojiVariantPopup::new;
     }
 
     public static EmojiVariantCreatorListener getEmojiVariantCreatorListener() {
-        if (emojiVariantCreatorListener == null) enableTouchEmojiVariantPopup();
         return emojiVariantCreatorListener;
     }
 
@@ -615,7 +594,7 @@ public class AXEmojiManager {
             @NonNull
             @Override
             public Collection<Emoji> getRecentEmojis() {
-                return Arrays.asList(new Emoji[0]);
+                return Collections.emptyList();
             }
 
             @Override
@@ -646,7 +625,7 @@ public class AXEmojiManager {
             @NonNull
             @Override
             public Collection<Sticker> getRecentStickers() {
-                return Arrays.asList(new Sticker[0]);
+                return Collections.emptyList();
             }
 
             @Override
@@ -708,5 +687,16 @@ public class AXEmojiManager {
     public static void resetTheme() {
         setEmojiViewTheme(new AXEmojiTheme());
         setStickerViewTheme(new AXEmojiTheme());
+    }
+
+    private static List<String> filterEmojisList = null;
+
+    public static void filterEmojis(List<String> filterEmojisList) {
+        AXEmojiManager.filterEmojisList = filterEmojisList;
+    }
+
+    @Nullable
+    public static List<String> getFilteredEmojis(){
+        return filterEmojisList;
     }
 }

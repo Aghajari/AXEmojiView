@@ -18,7 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 public class WhatsAppProvider implements StickerProvider {
     @NonNull
     @Override
-    public StickerCategory[] getCategories() {
+    public StickerCategory<?>[] getCategories() {
         return new StickerCategory[]{
                 new ShopStickers(),
                 new WhatsAppStickers(),
@@ -32,7 +32,7 @@ public class WhatsAppProvider implements StickerProvider {
     public StickerLoader getLoader() {
         return new StickerLoader() {
             @Override
-            public void onLoadSticker(View view, Sticker sticker) {
+            public void onLoadSticker(View view, Sticker<?> sticker) {
                 if (sticker.isInstance(Integer.class)) {
                     Glide.with(view).load((int) sticker.getData()).apply(RequestOptions.fitCenterTransform()).into((AppCompatImageView)view);
                 }
@@ -40,7 +40,7 @@ public class WhatsAppProvider implements StickerProvider {
             }
 
             @Override
-            public void onLoadStickerCategory(View view, StickerCategory stickerCategory, boolean selected) {
+            public void onLoadStickerCategory(View view, StickerCategory<?> stickerCategory, boolean selected) {
               try{
                   if (stickerCategory instanceof ShopStickers) {
                       Drawable dr0 = AppCompatResources.getDrawable(view.getContext(), (Integer) stickerCategory.getCategoryData());
