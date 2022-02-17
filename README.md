@@ -5,7 +5,7 @@
   
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.4.1/aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.5.0/aar)
 [![Join the chat at https://gitter.im/Aghajari/community](https://badges.gitter.im/Aghajari/community.svg)](https://gitter.im/Aghajari/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 </div>
 
@@ -45,39 +45,46 @@
 - [License](#license)
 
 ## Changelogs
-1.4.1 :
-- Emoji Updated ([#19](https://github.com/Aghajari/AXEmojiView/issues/19))
-
-1.4.0 :
-- Moved from JCenter to mavenCentral
-- Fixed focus on searchView.
-- iOSProvider now is on a new module
-
-1.3.0 :
-- [AXEmojiSearchView](#axemojisearchview) added!
-- Emoji Database added for emoji search (has 5800+ words).
-- [Popup Animation](#popup-animation) added to AXEmojiPopupLayout.
-- AXEmojiPopupLayout improved
-- Now you can set the Min/Max PopupLayout height.
-- OnViewHeightChanged (int height) added to PopupListener
-- AXEmojiPopup deprecated, use AXEmojiPopupLayout instead. 
-  (AXEmojiPopupLayout is more customizable, faster and also it has a better performance)
-- Now AXEmojiView is faster and it has better performance ;)
-- Sample Application Updated.
-- Some improvements & Bugs fixed
+1.5.0:
+- [New emoji providers!](#install-emoji-provider)
+  - AppleProvider
+  - iOSProvider
+  - GoogleProvider
+  - SamsungProvider
+  - FacebookProvider
+  - WhatsAppProvider
+  - TwitterProvider
+  - EmojidexProvider
+- EmojiPediaLoader project to auto update emojis from [emojipedia.org](https://emojipedia.org/)
+- [New Variants!](#variant-view)
+- Now you can filter some emojis from EmojiManager
+- Now you can disable variants from EmojiManager
 
 ## Installation
 
 AXEmojiView is available in the `mavenCentral()`, so you just need to add it as a dependency (Module gradle)
 
-**LatestVersion : 1.4.1**
+**LatestVersion : 1.5.0**
 
 Gradle
 ```gradle
-implementation 'io.github.aghajari:AXEmojiView:1.4.1'
+def emojiViewVersion = "1.5.0"
+def emojiViewProvider = "AppleProvider"
 
-// Provider
-implementation 'io.github.aghajari:AXEmojiView-iOSProvider:1.4.1'
+implementation "io.github.aghajari:AXEmojiView:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-$emojiViewProvider:$emojiViewVersion"
+```
+
+List of providers:
+```gradle
+implementation "io.github.aghajari:AXEmojiView-AppleProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-iOSProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-GoogleProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-SamsungProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-FacebookProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-WhatsAppProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-TwitterProvider:$emojiViewVersion"
+implementation "io.github.aghajari:AXEmojiView-EmojidexProvider:$emojiViewVersion"
 ```
 
 Maven
@@ -85,7 +92,7 @@ Maven
 <dependency>
   <groupId>io.github.aghajari</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.4.1</version>
+  <version>1.5.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -98,8 +105,23 @@ Let's START! :smiley:
 First step, you should install EmojiView with your EmojiProvider!
 
 ```java
-AXEmojiManager.install(this,new AXIOSEmojiProvider());
+AXEmojiManager.install(this,new AXIOSEmojiProvider()); // new ProviderClassName
 ```
+
+*Note: iOSProvider is almost the same as AppleProvider but has less variants, It's a provider of Telegram emoji set*
+<br>
+*Note: GoogleProvider includes [Emoji-14](https://emojipedia.org/emoji-14.0/) new emojis*
+
+| AppleProvider | GoogleProvider | SamsungProvider | FacebookProvider |
+| :---: | :---: | :---: | :---: |
+| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/google_light.png" width=200 title="Screen"> | <img src="./images/providers/samsung_light.png" width=200 title="Screen"> | <img src="./images/providers/facebook_light.png" width=200 title="Screen"> |
+| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/google_dark.png" width=200 title="Screen"> | <img src="./images/providers/samsung_dark.png" width=200 title="Screen"> | <img src="./images/providers/facebook_dark.png" width=200 title="Screen"> |
+
+| iOSProvider | WhatsAppProvider | TwitterProvider | EmojidexProvider |
+| :---: | :---: | :---: | :---: |
+| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_light.png" width=200 title="Screen"> | <img src="./images/providers/twitter_light.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_light.png" width=200 title="Screen"> |
+| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_dark.png" width=200 title="Screen"> | <img src="./images/providers/twitter_dark.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_dark.png" width=200 title="Screen"> |
+
 
 ### Custom Emoji Provider
 If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
@@ -508,6 +530,10 @@ The Default Variant:
 
 <img src="./images/variants.png" width=350 title="Screen">
 
+**New Variants!**
+<br><br>
+<img src="./images/variants_new.png" width=350 title="Screen">
+
 [Back to contents](#table-of-contents)
 
 ## Emoji Loader
@@ -551,8 +577,8 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 
 ## Author 
 - **Amir Hossein Aghajari**
-
-*Special thanks to the Telegram! (Using latest telegram emojis update!)*
+- Emojis from [emojipedia.org](https://emojipedia.org/)
+- iOSProvider from Telegram
 
 *TelegramID : @KingAmir272*
 
