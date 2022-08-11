@@ -174,8 +174,10 @@ public class AXEmojiManager {
      */
     public static void install(Context context, final EmojiProvider provider) {
         AXEmojiManager.context = context.getApplicationContext();
-        if (INSTANCE != null) destroy();
+        if (INSTANCE != null)
+            destroy();
         INSTANCE = null;
+
         final AXEmojiManager INSTANCE2 = new AXEmojiManager();
         if (mEmojiTheme == null) mEmojiTheme = new AXEmojiTheme();
         if (mStickerTheme == null) mStickerTheme = new AXEmojiTheme();
@@ -238,9 +240,9 @@ public class AXEmojiManager {
             final String regex = patternBuilder.deleteCharAt(patternBuilder.length() - 1).toString();
             INSTANCE2.emojiPattern = Pattern.compile(regex);
             INSTANCE2.emojiRepetitivePattern = Pattern.compile('(' + regex + ")+");
-            INSTANCE = INSTANCE2;
         });
 
+        INSTANCE = INSTANCE2;
     }
 
     /**
@@ -696,7 +698,7 @@ public class AXEmojiManager {
     }
 
     @Nullable
-    public static List<String> getFilteredEmojis(){
+    public static List<String> getFilteredEmojis() {
         return filterEmojisList;
     }
 }

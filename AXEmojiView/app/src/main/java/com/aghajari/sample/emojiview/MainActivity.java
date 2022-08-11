@@ -6,10 +6,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.widget.Switch;
 
-import com.aghajari.emojiview.AXEmojiManager;
 import com.aghajari.emojiview.AXEmojiUtils;
 
 import com.aghajari.emojiview.preset.AXPresetEmojiLoader;
@@ -18,23 +16,11 @@ import com.aghajari.sample.emojiview.activity.DarkActivity;
 import com.aghajari.sample.emojiview.activity.EmojiActivity;
 import com.aghajari.sample.emojiview.activity.EmojiPopupViewActivity;
 
-import com.aghajari.emojiview.googleprovider.AXGoogleEmojiProvider;
-/*
-import com.aghajari.emojiview.samsungprovider.AXSamsungEmojiProvider;
-import com.aghajari.emojiview.twitterprovider.AXTwitterEmojiProvider;
-import com.aghajari.emojiview.appleprovider.AXAppleEmojiProvider;
-import com.aghajari.emojiview.emojidexprovider.AXEmojidexEmojiProvider;
-import com.aghajari.emojiview.facebookprovider.AXFacebookEmojiProvider;
-import com.aghajari.emojiview.iosprovider.AXIOSEmojiProvider;
-import com.aghajari.emojiview.whatsappprovider.AXWhatsAppEmojiProvider;
-*/
-
 public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AXEmojiManager.install(this, new AXGoogleEmojiProvider(this));
         //AXEmojiManager.filterEmojis(Arrays.asList("😀", "😃", "😄", "😁"));
 
         super.onCreate(savedInstanceState);

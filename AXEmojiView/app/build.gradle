@@ -35,8 +35,9 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     implementation project(":AXEmojiView")
-    implementation project(':AXEmojiView-GoogleProvider')
+    implementation project(':AXEmojiView-Microsoft3DProvider')
     /*
+    implementation project(':AXEmojiView-GoogleProvider')
     implementation project(':AXEmojiView-iOSProvider')
     implementation project(':AXEmojiView-AppleProvider')
     implementation project(':AXEmojiView-FacebookProvider')
