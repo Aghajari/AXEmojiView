@@ -5,7 +5,7 @@
   
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.5.0/aar)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.aghajari/AXEmojiView.svg?label=Maven%20Central)](https://search.maven.org/artifact/io.github.aghajari/AXEmojiView/1.5.2/aar)
 [![Join the chat at https://gitter.im/Aghajari/community](https://badges.gitter.im/Aghajari/community.svg)](https://gitter.im/Aghajari/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 </div>
 
@@ -15,6 +15,7 @@
 
 ## Table of Contents  
 - [Installation](#installation)  
+- [Microsoft Fluent 3D Emoji](#microsoft-fluent-3d-emoji)
 - [Usage](#usage)
   - [Install Emoji Provider](#install-emoji-provider)
     - [Custom Emoji Provider](#custom-emoji-provider)
@@ -45,6 +46,11 @@
 - [License](#license)
 
 ## Changelogs
+1.5.2:
+- [New emoji provider!](#microsoft-fluent-3d-emoji)
+  - Microsoft3DProvider
+- Some bugs fixed
+
 1.5.0:
 - [New emoji providers!](#install-emoji-provider)
   - AppleProvider
@@ -68,7 +74,7 @@ AXEmojiView is available in the `mavenCentral()`, so you just need to add it as 
 
 Gradle
 ```gradle
-def emojiViewVersion = "1.5.0"
+def emojiViewVersion = "1.5.2"
 def emojiViewProvider = "AppleProvider"
 
 implementation "io.github.aghajari:AXEmojiView:$emojiViewVersion"
@@ -77,6 +83,7 @@ implementation "io.github.aghajari:AXEmojiView-$emojiViewProvider:$emojiViewVers
 
 List of providers:
 ```gradle
+implementation "io.github.aghajari:AXEmojiView-Microsoft3DProvider:$emojiViewVersion"
 implementation "io.github.aghajari:AXEmojiView-AppleProvider:$emojiViewVersion"
 implementation "io.github.aghajari:AXEmojiView-iOSProvider:$emojiViewVersion"
 implementation "io.github.aghajari:AXEmojiView-GoogleProvider:$emojiViewVersion"
@@ -92,10 +99,16 @@ Maven
 <dependency>
   <groupId>io.github.aghajari</groupId>
   <artifactId>AXEmojiView</artifactId>
-  <version>1.5.0</version>
+  <version>1.5.2</version>
   <type>pom</type>
 </dependency>
 ```
+
+## Microsoft Fluent 3D Emoji
+Fluent Emoji are a collection of familiar, friendly, and modern emoji from Microsoft. [Reference](https://github.com/microsoft/fluentui-emoji)
+<img src="https://github.com/microsoft/fluentui-emoji/blob/main/art/readme_banner.webp" width=500 title="Fluent Emoji">
+
+*Note: This emoji provider doesn't include flags!* [Why?](https://github.com/microsoft/fluentui-emoji/issues/25)
 
 # Usage
 Let's START! :smiley:
@@ -112,16 +125,20 @@ AXEmojiManager.install(this,new AXIOSEmojiProvider()); // new ProviderClassName
 <br>
 *Note: GoogleProvider includes [Emoji-14](https://emojipedia.org/emoji-14.0/) new emojis*
 
-| AppleProvider | GoogleProvider | SamsungProvider | FacebookProvider |
-| :---: | :---: | :---: | :---: |
-| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/google_light.png" width=200 title="Screen"> | <img src="./images/providers/samsung_light.png" width=200 title="Screen"> | <img src="./images/providers/facebook_light.png" width=200 title="Screen"> |
-| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/google_dark.png" width=200 title="Screen"> | <img src="./images/providers/samsung_dark.png" width=200 title="Screen"> | <img src="./images/providers/facebook_dark.png" width=200 title="Screen"> |
+| AppleProvider | GoogleProvider | Microsoft3DProvider |
+| :---: | :---: | :---: |
+| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/google_light.png" width=200 title="Screen"> | <img src="./images/providers/microsoft3d_light.png" width=200 title="Screen"> |
+| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/google_dark.png" width=200 title="Screen"> | <img src="./images/providers/microsoft3d_dark.png" width=200 title="Screen"> |
 
-| iOSProvider | WhatsAppProvider | TwitterProvider | EmojidexProvider |
-| :---: | :---: | :---: | :---: |
-| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_light.png" width=200 title="Screen"> | <img src="./images/providers/twitter_light.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_light.png" width=200 title="Screen"> |
-| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_dark.png" width=200 title="Screen"> | <img src="./images/providers/twitter_dark.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_dark.png" width=200 title="Screen"> |
+| FacebookProvider | WhatsAppProvider | SamsungProvider |
+| :---: | :---: | :---: |
+| <img src="./images/providers/facebook_light.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_light.png" width=200 title="Screen"> | <img src="./images/providers/samsung_light.png" width=200 title="Screen"> |
+| <img src="./images/providers/facebook_dark.png" width=200 title="Screen"> | <img src="./images/providers/whatsapp_dark.png" width=200 title="Screen"> | <img src="./images/providers/samsung_dark.png" width=200 title="Screen"> |
 
+| iOSProvider | TwitterProvider | EmojidexProvider |
+| :---: | :---: | :---: |
+| <img src="./images/providers/apple_light.png" width=200 title="Screen"> | <img src="./images/providers/twitter_light.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_light.png" width=200 title="Screen"> |
+| <img src="./images/providers/apple_dark.png" width=200 title="Screen"> | <img src="./images/providers/twitter_dark.png" width=200 title="Screen"> | <img src="./images/providers/emojidex_dark.png" width=200 title="Screen"> |
 
 ### Custom Emoji Provider
 If you wanna display your own Emojis you can create your own implementation of [`EmojiProvider`](AXEmojiView/AXEmojiView/src/main/java/com/aghajari/emojiview/emoji/EmojiProvider.java) and pass it to `AXEmojiManager.install`.
@@ -568,10 +585,13 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 ## Download Apk
 <img src="./images/apk.png" width=200 title="Screen">
 
-- Version: 1.3.0
-- LastUpdate: 4 January 2021
+- Version: 1.5.2 (Microsoft3DProvider)<br>
+  LastUpdate: 12 August 2022<br>
+  [`Download Apk`](./AXEmojiView1.5.2-Microsoft3DProvider.apk)
 
-[`Download Apk`](./AXEmojiView1.3.0.apk)
+- Version: 1.3.0 (iOSProvider)<br>
+  LastUpdate: 4 January 2021<br>
+  [`Download Apk`](./AXEmojiView1.3.0.apk)
 
 [Back to contents](#table-of-contents)
 
@@ -579,6 +599,7 @@ AXEmojiManager.setEmojiLoader(new EmojiLoader(){
 - **Amir Hossein Aghajari**
 - Emojis from [emojipedia.org](https://emojipedia.org/)
 - iOSProvider from Telegram
+- [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji)
 
 *TelegramID : @KingAmir272*
 
